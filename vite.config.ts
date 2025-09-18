@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
@@ -43,12 +43,10 @@ export default defineConfig({
       },
     }),
   ],
-  test: {
-    globals: true,
+   test: {
     environment: 'jsdom',
-    setupFiles: './src/setupTests.ts',
-    coverage: {
-      reporter: ['text', 'lcov'],
-    },
+    setupFiles: ['./src/test/setup.ts'],
+    globals: true,
+    css: true,
   },
 });

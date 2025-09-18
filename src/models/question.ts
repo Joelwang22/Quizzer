@@ -6,6 +6,8 @@ export type QuestionType =
   | 'pbq_fill'
   | 'pbq_group';
 
+export type QuestionDifficulty = 1 | 2 | 3 | 4 | 5;
+
 export interface PBQSpec {
   // TODO: Flesh out PBQ schema fields (prompts, inputs, expected outcomes).
   instructions: string;
@@ -21,7 +23,8 @@ export interface Question {
   choices?: Array<{ id: string; text: string }>;
   correctChoiceIds?: string[];
   explanation?: string;
-  difficulty?: 'easy' | 'medium' | 'hard';
+  difficulty?: QuestionDifficulty;
+  difficultyLabel?: 'easy' | 'medium' | 'hard';
   pbqSpec?: PBQSpec;
   createdAt: string;
   updatedAt: string;

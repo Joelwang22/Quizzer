@@ -18,9 +18,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "types": ["vite/client", "@testing-library/jest-dom"]
+    "types": ["vitest/global", "vite/client", "vitest", "@testing-library/jest-dom"]
   },
-  "include": ["src"],
+  "include": ["src", "seed", "service-worker-globals.d.ts"],
   "references": [
     { "path": "./tsconfig.node.json" }
   ]
