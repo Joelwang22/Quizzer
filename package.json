@@ -10,7 +10,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint . --ext ts,tsx --max-warnings=0",
-    "format": "prettier -w ."
+    "format": "prettier -w .",
+    "log:session": "node scripts/log-session.mjs",
+    "state:print": "node scripts/print-state.mjs"
   },
   "dependencies": {
     "dexie": "^4.0.8",

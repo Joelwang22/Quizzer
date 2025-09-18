@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "features": [
+    {
+      "id": "milestone-a-core",
+      "title": "Milestone A — Core flows (builder, grader, runner, persistence)",
+      "status": "done",
+      "notes": "Selection, grading, and Dexie-backed test/session wiring implemented across builder, grader, create-test, and runner UIs."
+    },
+    {
+      "id": "analytics-baseline",
+      "title": "Analytics helpers baseline + tests",
+      "status": "done",
+      "notes": "Overall/topic accuracy helpers hardened with Vitest coverage to support upcoming analytics UI."
+    }
+  ],
+  "todos": [
+    {
+      "id": "crud-editor",
+      "title": "Question Editor CRUD + validation",
+      "status": "todo",
+      "notes": "Build full authoring surface with duplicate detection and PBQ JSON validation."
+    },
+    {
+      "id": "json-import-export",
+      "title": "Import/Export JSON (merge/replace)",
+      "status": "todo",
+      "notes": "Offline data transfer flows with schema validation and user warnings."
+    },
+    {
+      "id": "analytics-ui",
+      "title": "Analytics UI (charts + summaries)",
+      "status": "todo",
+      "notes": "Visualise accuracy, weak topics, and history, including CSV export."
+    },
+    {
+      "id": "runner-enhancements",
+      "title": "Retry missed only, timer, keyboard help modal",
+      "status": "todo",
+      "notes": "Enhance test runner UX once authoring backlog catches up."
+    },
+    {
+      "id": "dexie-v2",
+      "title": "Dexie migration v2 (difficulty + masteryThreshold)",
+      "status": "todo",
+      "notes": "Introduce schema bump for difficulty scale and configurable mastery threshold."
+    }
+  ],
+  "lastUpdated": "2025-09-19T01:16:46+08:00"
+}

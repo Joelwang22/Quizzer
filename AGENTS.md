@@ -94,3 +94,9 @@ Implement `analytics.ts`:
 ## Deployment
 - **GitHub Pages**: Add deploy job after CI that runs `pnpm build`, uploads `dist` via `actions/upload-pages-artifact`, and uses `actions/deploy-pages`. Set `base` in `vite.config.ts` to `/<repo>` when publishing to subdirectory.
 - **Netlify/Vercel**: Configure build command `pnpm build` and publish directory `dist`. Expose `VITE_` prefixed env vars. Enable asset compression and offline caching to leverage the PWA plugin.
+
+## Session protocol
+- On start: read the latest 1–2 entries from `docs/CODEX_LOG.md` and the current `codex_state.json`, then print a 3–5 line state summary for the session.
+- On finish (after code/tests): append a new entry to `docs/CODEX_LOG.md` and update `codex_state.json` (`features`, `todos`, `lastUpdated`).
+- Never rewrite or reorder old log entries; always append to the top of the log.
+- If either file is missing or malformed, recreate it with sensible defaults before proceeding.
