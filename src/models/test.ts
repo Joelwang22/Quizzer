@@ -12,6 +12,7 @@ export interface TestAttemptAnswer {
   chosenChoiceIds?: string[];
   pbqAnswer?: unknown;
   isCorrect?: boolean;
+  submittedAt?: string;
 }
 
 export interface Test {
@@ -22,8 +23,11 @@ export interface Test {
   selectionPolicy: SelectionPolicy;
   questionIds: string[];
   currentIndex: number;
-  answers: TestAttemptAnswer[];
+  answers: Record<string, TestAttemptAnswer>;
   markedForReview: string[];
   timeSpentMs?: number;
   score?: number;
+  createdAt: string;
+  completedAt?: string;
+  timeRemainingMs?: number;
 }

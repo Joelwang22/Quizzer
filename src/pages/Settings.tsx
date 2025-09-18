@@ -183,14 +183,14 @@ const Settings = (): JSX.Element => {
         {statusMessage ? <p className="text-sm text-green-300">{statusMessage}</p> : null}
       </article>
 
-      <article className="space-y-3 rounded-lg border border-slate-800 bg-slate-900/40 p-4">
-        <h2 className="text-xl font-semibold">Mastery threshold</h2>
-        <p className="text-sm text-slate-300">
-          Questions solved correctly at least this many times are considered "mastered". Adjust to calibrate the
-          not-mastered filter.
-        </p>
-        <div className="flex items-center gap-3">
+      <article className="space-y-4 rounded-lg border border-slate-800 bg-slate-900/40 p-4">
+        <h2 className="text-xl font-semibold">Quiz preferences</h2>
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-slate-300" htmlFor="masteryThreshold">
+            Mastery threshold
+          </label>
           <input
+            id="masteryThreshold"
             type="number"
             className="w-24 rounded-md border border-slate-700 bg-slate-900 px-3 py-2"
             min={1}
@@ -200,10 +200,34 @@ const Settings = (): JSX.Element => {
               setConfig((current) => ({
                 id: 'settings',
                 masteryThreshold: Math.max(1, Number(event.target.value)),
-                timerEnabled: current?.timerEnabled,
+                timerEnabled: current?.timerEnabled ?? false,
               }))
             }
           />
+          <p className="text-sm text-slate-400">
+            Questions solved correctly this many times are considered mastered when building new tests.
+          </p>
+        </div>
+        <div className="space-y-2">
+          <label className="flex items-center gap-2 text-sm text-slate-100">
+            <input
+              type="checkbox"
+              checked={Boolean(config?.timerEnabled)}
+              onChange={(event) =>
+                setConfig((current) => ({
+                  id: 'settings',
+                  masteryThreshold: current?.masteryThreshold ?? DEFAULT_MASTERY_THRESHOLD,
+                  timerEnabled: event.target.checked,
+                }))
+              }
+            />
+            Enable 30-minute countdown timer for new tests
+          </label>
+          <p className="text-sm text-slate-400">
+            When enabled, tests start with a shared timer that pauses when you close the tab and resumes on return.
+          </p>
+        </div>
+        <div>
           <button
             type="button"
             className="rounded-md border border-slate-700 px-3 py-2 text-sm hover:bg-slate-800"
@@ -212,10 +236,10 @@ const Settings = (): JSX.Element => {
                 return;
               }
               await db.config.put(config);
-              setStatusMessage('Updated mastery threshold.');
+              setStatusMessage('Preferences saved.');
             }}
           >
-            Save threshold
+            Save preferences
           </button>
         </div>
       </article>

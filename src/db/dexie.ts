@@ -69,9 +69,18 @@ export class CybersecQuizDB extends Dexie {
 
         const existingConfig = await configTable.get('settings');
         if (!existingConfig) {
-          await configTable.put({ id: 'settings', masteryThreshold: DEFAULT_MASTERY_THRESHOLD });
-        } else if (!existingConfig.masteryThreshold) {
-          existingConfig.masteryThreshold = DEFAULT_MASTERY_THRESHOLD;
+          await configTable.put({
+            id: 'settings',
+            masteryThreshold: DEFAULT_MASTERY_THRESHOLD,
+            timerEnabled: false,
+          });
+        } else {
+          if (!existingConfig.masteryThreshold) {
+            existingConfig.masteryThreshold = DEFAULT_MASTERY_THRESHOLD;
+          }
+          if (typeof existingConfig.timerEnabled === 'undefined') {
+            existingConfig.timerEnabled = false;
+          }
           await configTable.put(existingConfig);
         }
       });
@@ -100,7 +109,11 @@ export class CybersecQuizDB extends Dexie {
           })),
         );
         await this.userState.put({ id: 'singleton' });
-        await this.config.put({ id: 'settings', masteryThreshold: DEFAULT_MASTERY_THRESHOLD });
+        await this.config.put({
+          id: 'settings',
+          masteryThreshold: DEFAULT_MASTERY_THRESHOLD,
+          timerEnabled: false,
+        });
       },
     );
   }
