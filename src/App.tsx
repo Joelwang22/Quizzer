@@ -1,4 +1,5 @@
 import { NavLink, Route, Routes } from 'react-router-dom';
+import { DevMenu } from './components';
 import {
   Analytics,
   CreateTest,
@@ -13,7 +14,6 @@ import {
 const navItems = [
   { to: '/', label: 'Home' },
   { to: '/create-test', label: 'Create Test' },
-  { to: '/test-runner', label: 'Test Runner' },
   { to: '/results', label: 'Results' },
   { to: '/question-bank', label: 'Question Bank' },
   { to: '/question-editor', label: 'Question Editor' },
@@ -49,7 +49,7 @@ const App = (): JSX.Element => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create-test" element={<CreateTest />} />
-          <Route path="/test-runner" element={<TestRunner />} />
+          <Route path="/test/:testId" element={<TestRunner />} />
           <Route path="/results" element={<Results />} />
           <Route path="/question-bank" element={<QuestionBank />} />
           <Route path="/question-editor" element={<QuestionEditor />} />
@@ -57,6 +57,7 @@ const App = (): JSX.Element => {
           <Route path="/settings" element={<Settings />} />
         </Routes>
       </main>
+      {import.meta.env.DEV ? <DevMenu /> : null}
     </div>
   );
 };

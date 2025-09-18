@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { db, DEFAULT_MASTERY_THRESHOLD } from '../db';
-import type { AppConfig, Attempt, Question, Subject, Test, Topic } from '../models';
+import type { AppConfig } from '../models';
 import { collectionExportSchema, type CollectionExport } from '../models/schemas';
+import { exportCollection, mergeCollection, replaceCollection } from '../utils/dataTransfer';
 
 interface ImportPreview extends CollectionExport {
   fileName: string;
@@ -36,7 +37,7 @@ const Settings = (): JSX.Element => {
   const handleExport = async (): Promise<void> => {
     setExporting(true);
     try {
-      const payload = await exportData();
+      const payload = await exportCollection();
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -89,9 +90,9 @@ const Settings = (): JSX.Element => {
     setApplyingImport(true);
     try {
       if (importMode === 'replace') {
-        await replaceData(importPreview);
+        await replaceCollection(importPreview);
       } else {
-        await mergeData(importPreview);
+        await mergeCollection(importPreview);
       }
       await loadConfig();
       setStatusMessage(`Import complete (${importMode} mode).`);
@@ -245,64 +246,6 @@ const Settings = (): JSX.Element => {
       </article>
     </section>
   );
-};
-
-const exportData = async (): Promise<CollectionExport> => {
-  const [subjects, topics, questions, tests, attempts] = await Promise.all([
-    db.subjects.toArray(),
-    db.topics.toArray(),
-    db.questions.toArray(),
-    db.tests.toArray(),
-    db.attempts.toArray(),
-  ]);
-
-  return {
-    subjects,
-    topics,
-    questions,
-    tests,
-    attempts,
-  };
-};
-
-const mergeData = async (payload: CollectionExport): Promise<void> => {
-  await db.transaction('rw', db.subjects, db.topics, db.questions, db.tests, db.attempts, async () => {
-    await db.subjects.bulkPut(payload.subjects as Subject[]);
-    await db.topics.bulkPut(payload.topics as Topic[]);
-    await db.questions.bulkPut(normaliseQuestions(payload.questions));
-    await db.tests.bulkPut(payload.tests as Test[]);
-    await db.attempts.bulkPut(payload.attempts as Attempt[]);
-  });
-};
-
-const replaceData = async (payload: CollectionExport): Promise<void> => {
-  await db.transaction('rw', db.subjects, db.topics, db.questions, db.tests, db.attempts, async () => {
-    await Promise.all([
-      db.subjects.clear(),
-      db.topics.clear(),
-      db.questions.clear(),
-      db.tests.clear(),
-      db.attempts.clear(),
-    ]);
-    await db.subjects.bulkAdd(payload.subjects as Subject[]);
-    await db.topics.bulkAdd(payload.topics as Topic[]);
-    await db.questions.bulkAdd(normaliseQuestions(payload.questions));
-    await db.tests.bulkAdd(payload.tests as Test[]);
-    await db.attempts.bulkAdd(payload.attempts as Attempt[]);
-  });
-};
-
-const normaliseQuestions = (questions: CollectionExport['questions']): Question[] =>
-  questions.map((question) => ({
-    ...question,
-    difficulty: clampDifficulty(question.difficulty),
-  } as Question));
-
-const clampDifficulty = (value: number | undefined): number | undefined => {
-  if (value === undefined || Number.isNaN(value)) {
-    return undefined;
-  }
-  return Math.min(5, Math.max(1, Math.round(value)));
 };
 
 export default Settings;
