@@ -1,4 +1,4 @@
-import type { Attempt, Question } from '../models';
+import type { Attempt, Question, Test } from '../models';
 
 export interface OverallAccuracy {
   totalAttempts: number;
@@ -60,4 +60,51 @@ export const findWeakTopics = (topicAccuracies: TopicAccuracy[], minimumAttempts
   }
 
   return candidates.filter((topic) => topic.accuracy === lowestAccuracy);
+};
+
+export interface OverallWindows {
+  lastTest: OverallAccuracy;
+  recentWindow: OverallAccuracy;
+  allTime: OverallAccuracy;
+}
+
+export const calculateOverallWindows = (
+  attempts: Attempt[],
+  tests: Test[],
+  windowDays = 7,
+  referenceDate: Date = new Date(),
+): OverallWindows => {
+  const allTime = calculateOverallAccuracy(attempts);
+
+  const windowMs = windowDays * 24 * 60 * 60 * 1000;
+  const windowStart = referenceDate.getTime() - windowMs;
+  const windowAttempts = attempts.filter((attempt) => new Date(attempt.submittedAt).getTime() >= windowStart);
+  const recentWindow = calculateOverallAccuracy(windowAttempts);
+
+  const completedTests = [...tests]
+    .filter((test) => test.status === 'completed')
+    .sort((a, b) => new Date(b.completedAt ?? b.createdAt).getTime() - new Date(a.completedAt ?? a.createdAt).getTime());
+
+  const lastTestAccuracy = (() => {
+    const latest = completedTests[0];
+    if (!latest) {
+      return { totalAttempts: 0, correct: 0, accuracy: 0 } satisfies OverallAccuracy;
+    }
+    if (typeof latest.score === 'number') {
+      const totalQuestions = latest.questionIds.length;
+      return {
+        totalAttempts: totalQuestions,
+        correct: Math.round((latest.score / 100) * totalQuestions),
+        accuracy: latest.score / 100,
+      } satisfies OverallAccuracy;
+    }
+    const latestAttempts = attempts.filter((attempt) => attempt.testId === latest.id);
+    return calculateOverallAccuracy(latestAttempts);
+  })();
+
+  return {
+    lastTest: lastTestAccuracy,
+    recentWindow,
+    allTime,
+  };
 };

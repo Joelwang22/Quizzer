@@ -3,9 +3,11 @@ import { db } from '../db';
 import type { Attempt, Question, Test, Topic } from '../models';
 import {
   calculateOverallAccuracy,
+  calculateOverallWindows,
   calculateTopicAccuracy,
   findWeakTopics,
   type OverallAccuracy,
+  type OverallWindows,
   type TopicAccuracy,
 } from '../logic/analytics';
 
@@ -50,14 +52,22 @@ const Analytics = (): JSX.Element => {
     [tests],
   );
 
-  const overallWindows = useMemo(() => buildOverallWindows(attempts, testsCompleted), [attempts, testsCompleted]);
+  const overallWindows = useMemo(() => calculateOverallWindows(attempts, testsCompleted, 7), [attempts, testsCompleted]);
+  const windowsForChart = useMemo(
+    () => ({
+      lastTest: overallWindows.lastTest,
+      sevenDays: overallWindows.recentWindow,
+      allTime: overallWindows.allTime,
+    }),
+    [overallWindows],
+  );
 
   const selectedOverallAccuracy =
     overallWindow === 'last'
-      ? overallWindows.lastTest
+      ? windowsForChart.lastTest
       : overallWindow === 'seven'
-      ? overallWindows.sevenDays
-      : overallWindows.allTime;
+      ? windowsForChart.sevenDays
+      : windowsForChart.allTime;
 
   const timelineData = useMemo(() => buildTimelineData(testsCompleted), [testsCompleted]);
 
@@ -97,7 +107,7 @@ const Analytics = (): JSX.Element => {
             <WindowOption label="All time" value="all" current={overallWindow} onChange={setOverallWindow} />
           </div>
         </header>
-        <AccuracyBarChart windows={overallWindows} selected={overallWindow} />
+        <AccuracyBarChart windows={windowsForChart} selected={overallWindow} />
         <p className="text-sm text-slate-300" aria-live="polite">
           Selected window accuracy: {(selectedOverallAccuracy.accuracy * 100).toFixed(1)}% across{' '}
           {selectedOverallAccuracy.totalAttempts} attempts.
@@ -211,7 +221,11 @@ const WindowOption = ({ label, value, current, onChange }: WindowOptionProps): J
 );
 
 interface AccuracyBarChartProps {
-  windows: OverallWindows;
+  windows: {
+    lastTest: OverallAccuracy;
+    sevenDays: OverallAccuracy;
+    allTime: OverallAccuracy;
+  };
   selected: 'last' | 'seven' | 'all';
 }
 
@@ -302,38 +316,6 @@ const TimelineChart = ({ data }: TimelineChartProps): JSX.Element => {
       ))}
     </svg>
   );
-};
-
-interface OverallWindows {
-  lastTest: OverallAccuracy;
-  sevenDays: OverallAccuracy;
-  allTime: OverallAccuracy;
-}
-
-const buildOverallWindows = (attempts: Attempt[], tests: Test[]): OverallWindows => {
-  const allTime = calculateOverallAccuracy(attempts);
-  const now = Date.now();
-  const sevenDaysAgo = now - 7 * 24 * 60 * 60 * 1000;
-  const sevenDayAttempts = attempts.filter((attempt) => new Date(attempt.submittedAt).getTime() >= sevenDaysAgo);
-  const sevenDays = calculateOverallAccuracy(sevenDayAttempts);
-
-  const lastTest = (() => {
-    const mostRecent = [...tests].reverse().find((test) => test.status === 'completed');
-    if (!mostRecent) {
-      return { totalAttempts: 0, correct: 0, accuracy: 0 } satisfies OverallAccuracy;
-    }
-    if (typeof mostRecent.score === 'number') {
-      return {
-        totalAttempts: mostRecent.questionIds.length,
-        correct: Math.round((mostRecent.score / 100) * mostRecent.questionIds.length),
-        accuracy: mostRecent.score / 100,
-      } satisfies OverallAccuracy;
-    }
-    const relevantAttempts = attempts.filter((attempt) => attempt.testId === mostRecent.id);
-    return calculateOverallAccuracy(relevantAttempts);
-  })();
-
-  return { lastTest, sevenDays, allTime };
 };
 
 const buildTimelineData = (tests: Test[]): TimelinePoint[] =>
