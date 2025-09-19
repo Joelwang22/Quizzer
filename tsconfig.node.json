@@ -9,8 +9,9 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "skipLibCheck": false
+    "noEmit": false,
+    "skipLibCheck": true,
+    "types": ["node"]
   },
   "include": ["vite.config.ts", "tailwind.config.ts", "postcss.config.cjs", "service-worker-globals.d.ts"]
 }
