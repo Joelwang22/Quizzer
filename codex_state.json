@@ -12,6 +12,24 @@
       "title": "Analytics helpers baseline + tests",
       "status": "done",
       "notes": "Overall/topic accuracy helpers hardened with Vitest coverage to support upcoming analytics UI."
+    },
+    {
+      "id": "crud-editor-polish",
+      "title": "CRUD editor polish",
+      "status": "done",
+      "notes": "Authoring form now narrows MCQ/PBQ unions, duplicates per discriminant, and seeds use canonical types."
+    },
+    {
+      "id": "authoring-type-safety",
+      "title": "Authoring type safety",
+      "status": "done",
+      "notes": "Centralised question discriminated unions with guards and updated UI consumers to avoid unsafe property access."
+    },
+    {
+      "id": "analytics-windows-alignment",
+      "title": "Analytics windows alignment",
+      "status": "done",
+      "notes": "Overall accuracy windows now expose seven-day key consistently across analytics UI and helpers."
     }
   ],
   "todos": [
@@ -46,5 +64,5 @@
       "notes": "Introduce schema bump for difficulty scale and configurable mastery threshold."
     }
   ],
-  "lastUpdated": "2025-09-19T01:16:46+08:00"
+  "lastUpdated": "2025-09-19T23:49:00+08:00"
 }

@@ -1,3 +1,19 @@
+### 2025-09-19 23:49 (local)
+**Summary:** Normalised question typings into discriminated unions, fixed authoring/editor components, and aligned analytics/test utilities so TypeScript build succeeds alongside vitest and Vite build.
+**Changes:**
+- Introduced canonical MCQ/PBQ union types with guards (`src/models/types.ts`) and refactored authoring flows, grader, and test runner to use safe narrowing.
+- Hardened analytics helpers and fixtures for required attempt fields and updated windows/visuals (`src/logic/analytics.ts`, `src/pages/Analytics.tsx`).
+- Removed manual PWA registration import in favour of plugin auto injection to avoid missing Workbox dependency during build (`src/main.tsx`, `vite.config.ts`).
+**Decisions:**
+- Prefer plugin auto-registration over manual `virtual:pwa-register` to keep build green without bundling extras.
+- Cast question duplication payloads per discriminant rather than weakening types.
+**Follow-ups:**
+- Audit PWA runtime after auto registration swap to ensure offline resume still works.
+- Expand analytics fixtures to cover PBQ attempts once PBQ authoring matures.
+**Commands run:**
+- `pnpm vitest run --pool=threads --maxWorkers=1 --minWorkers=1`
+- `pnpm build`
+
 ### 2025-09-19 01:16 (local)
 **Summary:** Wrapped up Milestone A core flows, implementing builder, grader, and runner wiring across Dexie-backed sessions. Established analytics helpers and updated tooling ahead of the next authoring/analytics UI work.
 **Changes:**

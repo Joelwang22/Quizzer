@@ -1,9 +1,15 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, TdHTMLAttributes } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { db } from '../db';
-import type { Question, Subject, Topic } from '../models';
+import {
+  isMCQ,
+  isPBQ,
+  type Question,
+  type QuestionUpsert,
+  type Subject,
+  type Topic,
+} from '../models';
 import { QuestionForm } from '../components/question-authoring/QuestionForm';
-import type { QuestionUpsert } from '../models/schemas';
 
 const PAGE_SIZE = 10;
 
@@ -100,13 +106,35 @@ const QuestionBank = (): JSX.Element => {
   };
 
   const handleDuplicateQuestion = (question: Question): void => {
-    const duplicateSeed: QuestionUpsert = {
-      ...question,
-      id: undefined,
-      stem: `${question.stem} (Copy)`,
-      createdAt: undefined,
-      updatedAt: undefined,
-    };
+    const duplicateSeed: QuestionUpsert = isMCQ(question)
+      ? {
+          id: undefined,
+          createdAt: undefined,
+          updatedAt: undefined,
+          type: question.type,
+          subjectId: question.subjectId,
+          topicIds: [...question.topicIds],
+          stem: `${question.stem} (Copy)`,
+          explanation: question.explanation,
+          difficulty: question.difficulty,
+          choices: question.choices.map((choice) => ({ ...choice })),
+          correctChoiceIds: [...question.correctChoiceIds],
+        }
+      : {
+          id: undefined,
+          createdAt: undefined,
+          updatedAt: undefined,
+          type: question.type,
+          subjectId: question.subjectId,
+          topicIds: [...question.topicIds],
+          stem: `${question.stem} (Copy)`,
+          explanation: question.explanation,
+          difficulty: question.difficulty,
+          pbqSpec: {
+            instructions: question.pbqSpec.instructions,
+            configuration: JSON.parse(JSON.stringify(question.pbqSpec.configuration)),
+          },
+        };
     setEditingQuestion(undefined);
     setPendingCandidate(duplicateSeed);
     setDuplicateContext(null);
@@ -235,7 +263,10 @@ const QuestionBank = (): JSX.Element => {
           label="Difficulty"
           value={difficultyFilter}
           onChange={setDifficultyFilter}
-          options={[1, 2, 3, 4, 5].map((value) => ({ value: String(value), label: difficultyLabels[value] }))}
+          options={[1, 2, 3, 4, 5].map((value) => ({
+            value: String(value),
+            label: difficultyLabels[value] ?? String(value),
+          }))}
         />
         <div className="space-y-1">
           <label className="text-sm font-medium text-slate-300" htmlFor="search">
@@ -381,8 +412,15 @@ const HeaderCell = ({ children, className = '' }: { children: ReactNode; classNa
   </th>
 );
 
-const TableCell = ({ children, className = '' }: { children: ReactNode; className?: string }) => (
-  <td className={`px-3 py-2 align-top text-sm text-slate-200 ${className}`}>{children}</td>
+type TableCellProps = TdHTMLAttributes<HTMLTableCellElement>;
+
+const TableCell = ({ className = '', children, ...rest }: TableCellProps): JSX.Element => (
+  <td
+    {...rest}
+    className={['px-3 py-2 align-top text-sm text-slate-200', className].filter(Boolean).join(' ')}
+  >
+    {children}
+  </td>
 );
 
 interface FilterSelectProps {
@@ -434,21 +472,25 @@ const Modal = ({ title, children, onClose }: ModalProps): JSX.Element => (
 );
 
 const candidateFingerprint = (candidate: QuestionUpsert): Record<string, unknown> => {
-  if (candidate.type.startsWith('mcq')) {
+  if (isMCQ(candidate)) {
+    const answers = candidate.correctChoiceIds
+      .map((choiceId) =>
+        candidate.choices.find((choice) => choice.id === choiceId)?.text.trim().toLowerCase(),
+      )
+      .filter((value): value is string => Boolean(value))
+      .sort();
+
     return {
       stem: candidate.stem.trim().toLowerCase(),
       subjectId: candidate.subjectId,
-      answers: (candidate.correctChoiceIds ?? [])
-        .map((choiceId) => candidate.choices?.find((choice) => choice.id === choiceId)?.text.trim().toLowerCase())
-        .filter(Boolean)
-        .sort(),
+      answers,
     };
   }
 
   return {
     stem: candidate.stem.trim().toLowerCase(),
     subjectId: candidate.subjectId,
-    configuration: candidate.pbqSpec?.configuration ?? {},
+    configuration: candidate.pbqSpec.configuration,
   };
 };
 
@@ -466,27 +508,32 @@ const findDuplicate = (candidate: QuestionUpsert, existingQuestions: Question[])
     if (question.stem.trim().toLowerCase() !== targetStem) {
       return false;
     }
-    if (candidate.type.startsWith('mcq')) {
-      if (!question.correctChoiceIds || !question.choices) {
+    if (isMCQ(candidate)) {
+      if (!isMCQ(question)) {
         return false;
       }
-      const candidateChoiceTexts = (candidate.correctChoiceIds ?? [])
-        .map((choiceId) => candidate.choices?.find((choice) => choice.id === choiceId)?.text.trim().toLowerCase())
-        .filter(Boolean)
+      const candidateChoiceTexts = candidate.correctChoiceIds
+        .map((choiceId) =>
+          candidate.choices.find((choice) => choice.id === choiceId)?.text.trim().toLowerCase(),
+        )
+        .filter((value): value is string => Boolean(value))
         .sort();
       const existingChoiceTexts = question.correctChoiceIds
-        .map((choiceId) => question.choices?.find((choice) => choice.id === choiceId)?.text.trim().toLowerCase())
-        .filter(Boolean)
+        .map((choiceId) =>
+          question.choices.find((choice) => choice.id === choiceId)?.text.trim().toLowerCase(),
+        )
+        .filter((value): value is string => Boolean(value))
         .sort();
       return candidateChoiceTexts.length > 0 && compareArrays(candidateChoiceTexts, existingChoiceTexts);
     }
 
-    const candidateConfig = candidate.pbqSpec?.configuration;
-    const existingConfig = question.pbqSpec?.configuration;
-    if (!candidateConfig || !existingConfig) {
+    if (!isPBQ(question)) {
       return false;
     }
-    return JSON.stringify(candidateConfig) === JSON.stringify(existingConfig);
+
+    const candidateConfig = JSON.stringify(candidate.pbqSpec.configuration);
+    const existingConfig = JSON.stringify(question.pbqSpec.configuration);
+    return candidateConfig === existingConfig;
   });
 };
 

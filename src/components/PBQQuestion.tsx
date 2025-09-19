@@ -1,13 +1,13 @@
-import type { Question } from '../models';
+import type { PBQQuestion as PBQQuestionModel } from '../models';
 
 export interface PBQQuestionProps {
-  question: Question;
+  question: PBQQuestionModel;
   value: unknown;
   onChange: (value: unknown) => void;
 }
 
 const PBQQuestion = ({ question, value, onChange }: PBQQuestionProps): JSX.Element => {
-  const baseConfig = question.pbqSpec?.configuration ?? {};
+  const baseConfig = question.pbqSpec.configuration;
 
   if (question.type === 'pbq_order') {
     const configOrdering = Array.isArray((baseConfig as { ordering?: unknown }).ordering)

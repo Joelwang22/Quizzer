@@ -81,10 +81,19 @@ describe('analytics helpers', () => {
       Array.from({ length: 20 }, (_, index): Attempt => {
         const baseAttempt =
           sampleAttempts[index % sampleAttempts.length] ?? sampleAttempts[0];
-        return {
+        if (!baseAttempt) {
+          throw new Error('Expected sample attempt for test fixture.');
+        }
+        const attempt: Attempt = {
           ...baseAttempt,
           id: `attempt-${index}`,
+          questionId: baseAttempt.questionId,
+          isCorrect: baseAttempt.isCorrect,
+          submittedAt: baseAttempt.submittedAt,
+          subjectId: baseAttempt.subjectId,
+          topicIds: [...baseAttempt.topicIds],
         };
+        return attempt;
       }),
       sampleQuestions,
     );
@@ -106,6 +115,7 @@ describe('analytics helpers', () => {
         ...baseNetworkAttempt,
         id: `network-${index}`,
         isCorrect: index % 2 === 0,
+        questionId: baseNetworkAttempt.questionId,
       });
     }
     for (let index = 0; index < 12; index += 1) {
@@ -113,6 +123,7 @@ describe('analytics helpers', () => {
         ...baseCloudAttempt,
         id: `cloud-${index}`,
         isCorrect: index % 3 === 0,
+        questionId: baseCloudAttempt.questionId,
       });
     }
     const topics = calculateTopicAccuracy(expandedAttempts, sampleQuestions);
@@ -129,21 +140,41 @@ describe('analytics helpers', () => {
 
   it('computes accuracy windows for last test and rolling periods', () => {
     const referenceDate = new Date('2024-01-10T00:00:00.000Z');
+    const baseRecent = sampleAttempts[0];
+    const baseSecond = sampleAttempts[1] ?? baseRecent;
+    const baseThird = sampleAttempts[2] ?? baseRecent;
+
+    if (!baseRecent || !baseSecond || !baseThird) {
+      throw new Error('Sample attempts must exist for window tests.');
+    }
+
     const attemptsWithDates: Attempt[] = [
       {
-        ...sampleAttempts[0],
+        ...baseRecent,
         id: 'recent-correct',
         submittedAt: '2024-01-09T00:00:00.000Z',
+        questionId: baseRecent.questionId,
+        isCorrect: baseRecent.isCorrect,
+        subjectId: baseRecent.subjectId,
+        topicIds: [...baseRecent.topicIds],
       },
       {
-        ...sampleAttempts[1],
+        ...baseSecond,
         id: 'recent-wrong',
         submittedAt: '2024-01-08T00:00:00.000Z',
+        questionId: baseSecond.questionId,
+        isCorrect: baseSecond.isCorrect,
+        subjectId: baseSecond.subjectId,
+        topicIds: [...baseSecond.topicIds],
       },
       {
-        ...sampleAttempts[2],
+        ...baseThird,
         id: 'older-wrong',
         submittedAt: '2023-12-15T00:00:00.000Z',
+        questionId: baseThird.questionId,
+        isCorrect: baseThird.isCorrect,
+        subjectId: baseThird.subjectId,
+        topicIds: [...baseThird.topicIds],
       },
     ];
 
@@ -155,7 +186,7 @@ describe('analytics helpers', () => {
     const windows = calculateOverallWindows(attemptsWithDates, tests, 7, referenceDate);
 
     expect(windows.lastTest.accuracy).toBeCloseTo(0.8);
-    expect(windows.recentWindow.accuracy).toBeCloseTo(0.5);
+    expect(windows.sevenDays.accuracy).toBeCloseTo(0.5);
     expect(windows.allTime.accuracy).toBeCloseTo(1 / 3);
   });
 });

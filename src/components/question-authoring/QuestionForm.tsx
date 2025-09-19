@@ -1,7 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { z } from 'zod';
-import type { Question, QuestionType, Subject, Topic } from '../../models';
-import { questionTypeValues, questionUpsertSchema, type QuestionUpsert } from '../../models/schemas';
+import {
+  isMCQ,
+  isPBQ,
+  type Choice,
+  type Question,
+  type QuestionType,
+  type QuestionUpsert,
+  type Subject,
+  type Topic,
+} from '../../models';
+import { questionTypeValues, questionUpsertSchema } from '../../models/schemas';
 
 interface QuestionFormProps {
   subjects: Subject[];
@@ -37,20 +46,30 @@ export const QuestionForm = ({
   const [stem, setStem] = useState<string>(initialQuestion?.stem ?? '');
   const [explanation, setExplanation] = useState<string>(initialQuestion?.explanation ?? '');
   const [difficulty, setDifficulty] = useState<number>(initialQuestion?.difficulty ?? 3);
-  const [choices, setChoices] = useState<Array<{ id: string; text: string }>>(
-    initialQuestion?.choices ?? [createChoice('A'), createChoice('B')],
-  );
-  const [correctChoiceIds, setCorrectChoiceIds] = useState<string[]>(
-    initialQuestion?.correctChoiceIds ?? (initialQuestion?.type === 'mcq_multi' ? [] : []),
-  );
-  const [pbqInstructions, setPbqInstructions] = useState<string>(
-    initialQuestion?.pbqSpec?.instructions ?? '',
-  );
-  const [pbqConfigJson, setPbqConfigJson] = useState<string>(
-    initialQuestion?.pbqSpec?.configuration
-      ? JSON.stringify(initialQuestion.pbqSpec.configuration, null, 2)
-      : '{\n  \n}'
-  );
+  const [choices, setChoices] = useState<Choice[]>(() => {
+    if (initialQuestion && isMCQ(initialQuestion)) {
+      return initialQuestion.choices;
+    }
+    return [createChoice('A'), createChoice('B')];
+  });
+  const [correctChoiceIds, setCorrectChoiceIds] = useState<string[]>(() => {
+    if (initialQuestion && isMCQ(initialQuestion)) {
+      return initialQuestion.correctChoiceIds;
+    }
+    return [];
+  });
+  const [pbqInstructions, setPbqInstructions] = useState<string>(() => {
+    if (initialQuestion && isPBQ(initialQuestion)) {
+      return initialQuestion.pbqSpec.instructions;
+    }
+    return '';
+  });
+  const [pbqConfigJson, setPbqConfigJson] = useState<string>(() => {
+    if (initialQuestion && isPBQ(initialQuestion)) {
+      return JSON.stringify(initialQuestion.pbqSpec.configuration ?? {}, null, 2);
+    }
+    return '{\n  \n}';
+  });
   const [errors, setErrors] = useState<FormErrors>({ fieldErrors: {} });
   const [showAllTopics, setShowAllTopics] = useState<boolean>(false);
 
@@ -62,19 +81,21 @@ export const QuestionForm = ({
       setStem(initialQuestion.stem);
       setExplanation(initialQuestion.explanation ?? '');
       setDifficulty(initialQuestion.difficulty ?? 3);
-      if (initialQuestion.choices) {
+      if (isMCQ(initialQuestion)) {
         setChoices(initialQuestion.choices);
-      }
-      if (initialQuestion.correctChoiceIds) {
         setCorrectChoiceIds(initialQuestion.correctChoiceIds);
+      } else {
+        setChoices([createChoice('A'), createChoice('B')]);
+        setCorrectChoiceIds([]);
       }
-      if (initialQuestion.pbqSpec) {
-        setPbqInstructions(initialQuestion.pbqSpec.instructions ?? '');
+      if (isPBQ(initialQuestion)) {
+        setPbqInstructions(initialQuestion.pbqSpec.instructions);
         setPbqConfigJson(
-          initialQuestion.pbqSpec.configuration
-            ? JSON.stringify(initialQuestion.pbqSpec.configuration, null, 2)
-            : '{\n  \n}'
+          JSON.stringify(initialQuestion.pbqSpec.configuration ?? {}, null, 2),
         );
+      } else {
+        setPbqInstructions('');
+        setPbqConfigJson('{\n  \n}');
       }
     }
   }, [initialQuestion]);
@@ -182,7 +203,7 @@ export const QuestionForm = ({
     }
   };
 
-  const toggleChoiceSelection = (choiceId: string) => {
+  const toggleChoiceSelection = (choiceId: string): void => {
     if (type === 'mcq_single') {
       setCorrectChoiceIds([choiceId]);
       return;
@@ -454,7 +475,7 @@ export const QuestionForm = ({
 
 const requiresPBQSpec = (type: QuestionType): boolean => type.startsWith('pbq_');
 
-const createChoice = (label: string) => ({
+const createChoice = (label: string): Choice => ({
   id: `${label.toLowerCase()}-${crypto.randomUUID?.() ?? Math.random().toString(16).slice(2, 8)}`,
   text: '',
 });

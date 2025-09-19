@@ -1,7 +1,7 @@
-import type { Question } from '../models';
+import type { MCQQuestion as MCQQuestionModel } from '../models';
 
 export interface MCQQuestionProps {
-  question: Question;
+  question: MCQQuestionModel;
   selectedChoiceIds: string[];
   onToggleChoice: (choiceId: string) => void;
 }
@@ -18,7 +18,7 @@ const MCQQuestion = ({ question, selectedChoiceIds, onToggleChoice }: MCQQuestio
         ) : null}
       </header>
       <div className="space-y-2" role="group" aria-label="Answer choices">
-        {question.choices?.map((choice, index) => {
+        {question.choices.map((choice, index) => {
           const inputId = `${question.id}-${choice.id}`;
           const checked = selectedChoiceIds.includes(choice.id);
           return (

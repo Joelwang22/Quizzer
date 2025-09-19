@@ -3,7 +3,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MCQQuestion, PBQQuestion, ProgressBar, TimerDisplay } from '../components';
 import { db, DEFAULT_TEST_DURATION_MINUTES } from '../db';
-import type { AppConfig, Attempt, Question, Test, TestAttemptAnswer } from '../models';
+import {
+  isMCQ,
+  type AppConfig,
+  type Attempt,
+  type Question,
+  type Test,
+  type TestAttemptAnswer,
+} from '../models';
 import { gradeQuestion, type UserAnswer } from '../logic/grader';
 
 const TestRunner = (): JSX.Element => {
@@ -116,11 +123,11 @@ useEffect(() => {
     }
 
     const storedAnswer = test.answers[currentQuestion.id];
-    setLocalChoices(storedAnswer?.chosenChoiceIds ?? []);
+    setLocalChoices(isMCQ(currentQuestion) ? storedAnswer?.chosenChoiceIds ?? [] : []);
     if (storedAnswer?.pbqAnswer !== undefined) {
       setLocalPBQAnswer(storedAnswer.pbqAnswer);
     } else if (currentQuestion.type === 'pbq_order') {
-      const config = (currentQuestion.pbqSpec?.configuration ?? {}) as { ordering?: string[] };
+      const config = currentQuestion.pbqSpec.configuration as { ordering?: string[] };
       const baseOrdering = Array.isArray(config.ordering) ? [...config.ordering] : [];
       for (let i = baseOrdering.length - 1; i > 0; i -= 1) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -134,7 +141,7 @@ useEffect(() => {
       }
       setLocalPBQAnswer(baseOrdering);
     } else if (currentQuestion.type === 'pbq_match') {
-      const config = (currentQuestion.pbqSpec?.configuration ?? {}) as {
+      const config = currentQuestion.pbqSpec.configuration as {
         pairs?: Array<{ secure: string; legacy: string }>;
       };
       setLocalPBQAnswer(
@@ -150,38 +157,6 @@ useEffect(() => {
     interactionTimestamp.current = Date.now();
   }, [test, currentQuestion]);
 
-  useEffect(() => {
-    if (!config?.timerEnabled || !test || test.status !== 'in_progress') {
-      return;
-    }
-    if (timeRemainingMs === null) {
-      return;
-    }
-    if (timeRemainingMs <= 0) {
-      void handleComplete();
-      return;
-    }
-
-    const timer = window.setTimeout(() => {
-      setTimeRemainingMs((current) => {
-        if (current === null) {
-          return current;
-        }
-        const next = Math.max(0, current - 1000);
-        timerPersistRef.current += 1000;
-        if (timerPersistRef.current >= 5000 || next === 0) {
-          timerPersistRef.current = 0;
-          void persistTimeRemaining(next);
-        }
-        if (next === 0) {
-          void handleComplete();
-        }
-        return next;
-      });
-    }, 1000);
-
-    return () => window.clearTimeout(timer);
-  }, [config?.timerEnabled, handleComplete, persistTimeRemaining, test, timeRemainingMs]);
 
   const correctCount = useMemo(() => {
     if (!test) {
@@ -212,7 +187,7 @@ useEffect(() => {
   );
 
   const handleToggleChoice = (choiceId: string): void => {
-    if (!currentQuestion) {
+    if (!currentQuestion || !isMCQ(currentQuestion)) {
       return;
     }
 
@@ -369,6 +344,39 @@ useEffect(() => {
     }
   };
 
+  useEffect(() => {
+    if (!config?.timerEnabled || !test || test.status !== 'in_progress') {
+      return;
+    }
+    if (timeRemainingMs === null) {
+      return;
+    }
+    if (timeRemainingMs <= 0) {
+      void handleComplete();
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      setTimeRemainingMs((current) => {
+        if (current === null) {
+          return current;
+        }
+        const next = Math.max(0, current - 1000);
+        timerPersistRef.current += 1000;
+        if (timerPersistRef.current >= 5000 || next === 0) {
+          timerPersistRef.current = 0;
+          void persistTimeRemaining(next);
+        }
+        if (next === 0) {
+          void handleComplete();
+        }
+        return next;
+      });
+    }, 1000);
+
+    return () => window.clearTimeout(timer);
+  }, [config?.timerEnabled, handleComplete, persistTimeRemaining, test, timeRemainingMs]);
+
   const handleNext = async (): Promise<void> => {
     if (!test) {
       return;
@@ -431,9 +439,9 @@ useEffect(() => {
         return;
       }
 
-      if (event.key >= '1' && event.key <= '9') {
+      if (event.key >= '1' && event.key <= '9' && isMCQ(currentQuestion)) {
         const choiceIndex = Number(event.key) - 1;
-        const choice = currentQuestion.choices?.[choiceIndex];
+        const choice = currentQuestion.choices[choiceIndex];
         if (choice) {
           event.preventDefault();
           handleToggleChoice(choice.id);
@@ -501,7 +509,7 @@ useEffect(() => {
         </div>
       </header>
 
-      {currentQuestion.type.startsWith('mcq') ? (
+      {isMCQ(currentQuestion) ? (
         <MCQQuestion
           question={currentQuestion}
           selectedChoiceIds={localChoices}

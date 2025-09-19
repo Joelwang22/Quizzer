@@ -144,12 +144,12 @@ export const gradeQuestion = (question: Question, userAnswer: UserAnswer): Grade
   switch (question.type) {
     case 'mcq_single': {
       const selected = normaliseSingleSelection(selectedChoiceIds);
-      const expected = question.correctChoiceIds?.[0];
+      const expected = question.correctChoiceIds[0];
       const isCorrect = Boolean(selected && expected && selected === expected);
       return { isCorrect, details: { expected: question.correctChoiceIds } };
     }
     case 'mcq_multi': {
-      const expectedChoices = question.correctChoiceIds ?? [];
+      const expectedChoices = question.correctChoiceIds;
       const expectedSet = normaliseMultiSelection(expectedChoices);
       const userSet = normaliseMultiSelection(selectedChoiceIds);
       return {
@@ -158,33 +158,38 @@ export const gradeQuestion = (question: Question, userAnswer: UserAnswer): Grade
       };
     }
     case 'pbq_order': {
-      const config = (question.pbqSpec?.configuration ?? {}) as { ordering?: unknown };
+      const config = question.pbqSpec.configuration as { ordering?: unknown };
       const ordering = Array.isArray(config.ordering) ? config.ordering.map(String) : [];
       return evaluatePBQOrder(ordering, pbqAnswer);
     }
     case 'pbq_match': {
-      const config = (question.pbqSpec?.configuration ?? {}) as {
+      const config = question.pbqSpec.configuration as {
         pairs?: Array<Record<string, string>>;
       };
       const pairs = Array.isArray(config.pairs) ? config.pairs : [];
       return evaluatePBQMatch(pairs, pbqAnswer);
     }
     case 'pbq_fill': {
-      const config = (question.pbqSpec?.configuration ?? {}) as { acceptedAnswers?: unknown };
+      const config = question.pbqSpec.configuration as { acceptedAnswers?: unknown };
       const accepted = Array.isArray(config.acceptedAnswers)
         ? config.acceptedAnswers.map((value) => String(value))
         : [];
       return evaluatePBQFill(accepted, pbqAnswer);
     }
     case 'pbq_group': {
-      const config = (question.pbqSpec?.configuration ?? {}) as {
+      const config = question.pbqSpec.configuration as {
         groups?: Record<string, string[]>;
       };
       const groups = config.groups ?? {};
       return evaluatePBQGroup(groups, pbqAnswer);
     }
-    default:
-      return { isCorrect: false, details: { message: `Unknown question type ${question.type}` } };
+    default: {
+      const exhaustiveCheck: never = question;
+      return {
+        isCorrect: false,
+        details: { message: `Unknown question type ${(exhaustiveCheck as { type?: string }).type ?? 'unknown'}` },
+      };
+    }
   }
 };
 

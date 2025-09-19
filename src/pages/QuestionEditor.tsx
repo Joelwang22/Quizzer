@@ -1,8 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { db } from '../db';
-import type { Question, Subject, Topic } from '../models';
+import {
+  isMCQ,
+  isPBQ,
+  type Question,
+  type QuestionUpsert,
+  type Subject,
+  type Topic,
+} from '../models';
 import { QuestionForm } from '../components/question-authoring/QuestionForm';
-import type { QuestionUpsert } from '../models/schemas';
 
 const QuestionEditor = (): JSX.Element => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
@@ -25,8 +31,9 @@ const QuestionEditor = (): JSX.Element => {
     setSubjects(subjectRows);
     setTopics(topicRows);
     setQuestions(questionRows);
-    if (!selectedQuestionId && questionRows.length > 0) {
-      setSelectedQuestionId(questionRows[0].id);
+    const firstQuestion = questionRows[0];
+    if (!selectedQuestionId && firstQuestion) {
+      setSelectedQuestionId(firstQuestion.id);
     }
   };
 
@@ -130,21 +137,23 @@ const QuestionEditor = (): JSX.Element => {
 };
 
 const candidateFingerprint = (candidate: QuestionUpsert): Record<string, unknown> => {
-  if (candidate.type.startsWith('mcq')) {
+  if (isMCQ(candidate)) {
+    const answers = candidate.correctChoiceIds
+      .map((choiceId) => candidate.choices.find((choice) => choice.id === choiceId)?.text.trim().toLowerCase())
+      .filter((value): value is string => Boolean(value))
+      .sort();
+
     return {
       stem: candidate.stem.trim().toLowerCase(),
       subjectId: candidate.subjectId,
-      answers: (candidate.correctChoiceIds ?? [])
-        .map((choiceId) => candidate.choices?.find((choice) => choice.id === choiceId)?.text.trim().toLowerCase())
-        .filter(Boolean)
-        .sort(),
+      answers,
     };
   }
 
   return {
     stem: candidate.stem.trim().toLowerCase(),
     subjectId: candidate.subjectId,
-    configuration: candidate.pbqSpec?.configuration ?? {},
+    configuration: candidate.pbqSpec.configuration,
   };
 };
 
@@ -160,27 +169,28 @@ const findDuplicate = (candidate: QuestionUpsert, existingQuestions: Question[])
     if (question.stem.trim().toLowerCase() !== targetStem) {
       return false;
     }
-    if (candidate.type.startsWith('mcq')) {
-      if (!question.correctChoiceIds || !question.choices) {
+    if (isMCQ(candidate)) {
+      if (!isMCQ(question)) {
         return false;
       }
-      const candidateChoiceTexts = (candidate.correctChoiceIds ?? [])
-        .map((choiceId) => candidate.choices?.find((choice) => choice.id === choiceId)?.text.trim().toLowerCase())
-        .filter(Boolean)
+      const candidateChoiceTexts = candidate.correctChoiceIds
+        .map((choiceId) => candidate.choices.find((choice) => choice.id === choiceId)?.text.trim().toLowerCase())
+        .filter((value): value is string => Boolean(value))
         .sort();
       const existingChoiceTexts = question.correctChoiceIds
-        .map((choiceId) => question.choices?.find((choice) => choice.id === choiceId)?.text.trim().toLowerCase())
-        .filter(Boolean)
+        .map((choiceId) => question.choices.find((choice) => choice.id === choiceId)?.text.trim().toLowerCase())
+        .filter((value): value is string => Boolean(value))
         .sort();
       return candidateChoiceTexts.length > 0 && compareArrays(candidateChoiceTexts, existingChoiceTexts);
     }
 
-    const candidateConfig = candidate.pbqSpec?.configuration;
-    const existingConfig = question.pbqSpec?.configuration;
-    if (!candidateConfig || !existingConfig) {
+    if (!isPBQ(question)) {
       return false;
     }
-    return JSON.stringify(candidateConfig) === JSON.stringify(existingConfig);
+
+    const candidateConfig = JSON.stringify(candidate.pbqSpec.configuration);
+    const existingConfig = JSON.stringify(question.pbqSpec.configuration);
+    return candidateConfig === existingConfig;
   });
 };
 

@@ -64,7 +64,7 @@ export const findWeakTopics = (topicAccuracies: TopicAccuracy[], minimumAttempts
 
 export interface OverallWindows {
   lastTest: OverallAccuracy;
-  recentWindow: OverallAccuracy;
+  sevenDays: OverallAccuracy;
   allTime: OverallAccuracy;
 }
 
@@ -79,7 +79,7 @@ export const calculateOverallWindows = (
   const windowMs = windowDays * 24 * 60 * 60 * 1000;
   const windowStart = referenceDate.getTime() - windowMs;
   const windowAttempts = attempts.filter((attempt) => new Date(attempt.submittedAt).getTime() >= windowStart);
-  const recentWindow = calculateOverallAccuracy(windowAttempts);
+  const sevenDays = calculateOverallAccuracy(windowAttempts);
 
   const completedTests = [...tests]
     .filter((test) => test.status === 'completed')
@@ -104,7 +104,7 @@ export const calculateOverallWindows = (
 
   return {
     lastTest: lastTestAccuracy,
-    recentWindow,
+    sevenDays,
     allTime,
   };
 };

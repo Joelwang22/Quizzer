@@ -56,7 +56,7 @@ const Analytics = (): JSX.Element => {
   const windowsForChart = useMemo(
     () => ({
       lastTest: overallWindows.lastTest,
-      sevenDays: overallWindows.recentWindow,
+      sevenDays: overallWindows.sevenDays,
       allTime: overallWindows.allTime,
     }),
     [overallWindows],
