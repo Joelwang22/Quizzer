@@ -3,6 +3,7 @@ import { DevMenu } from './components';
 import {
   Analytics,
   CreateTest,
+  Hangman,
   Home,
   QuestionBank,
   QuestionEditor,
@@ -48,6 +49,7 @@ const App = (): JSX.Element => {
       <main className="mx-auto max-w-6xl px-4 py-8">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/hangman" element={<Hangman />} />
           <Route path="/create-test" element={<CreateTest />} />
           <Route path="/test/:testId" element={<TestRunner />} />
           <Route path="/results" element={<Results />} />

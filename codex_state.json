@@ -30,6 +30,12 @@
       "title": "Analytics windows alignment",
       "status": "done",
       "notes": "Overall accuracy windows now expose seven-day key consistently across analytics UI and helpers."
+    },
+    {
+      "id": "hangman-acronyms",
+      "title": "Acronym hangman practice",
+      "status": "done",
+      "notes": "Standalone acronym hangman mode started from Home; acronyms stored in IndexedDB with PDF/text import, plus optional auto-load (and retry) from a local PDF in public/acronyms/security-plus.pdf (PDF parsing handles multi-page + multi-column tables)."
     }
   ],
   "todos": [
@@ -64,5 +70,5 @@
       "notes": "Introduce schema bump for difficulty scale and configurable mastery threshold."
     }
   ],
-  "lastUpdated": "2025-09-19T23:49:00+08:00"
+  "lastUpdated": "2025-12-17T01:26:00+08:00"
 }

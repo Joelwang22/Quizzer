@@ -42,3 +42,7 @@ coverage/
 *.swp
 *.tmp
 
+# Local study materials (copyrighted PDFs)
+docs/*.pdf
+public/acronyms/*.pdf
+

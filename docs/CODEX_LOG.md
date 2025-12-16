@@ -1,3 +1,111 @@
+### 2025-12-17 01:26 (local)
+**Summary:** Fixed Hangman PDF acronym import so multi-page, multi-column tables parse the full Security+ list (resolves the “Parsed 34 acronyms” failure).
+**Changes:**
+- Made the PDF parser page-aware and column-aware (split lines into multiple table segments/columns instead of a single left/right split) (`src/logic/acronymPdfImport.ts`).
+- Added coverage for multi-page + multi-column extraction (`src/logic/__tests__/acronymPdfImport.test.ts`).
+**Commands run:**
+- `pnpm test` (escalated; sandbox blocks esbuild spawn)
+- `pnpm lint`
+- `pnpm build` (escalated; sandbox blocks esbuild spawn)
+
+### 2025-12-16 17:48 (local)
+**Summary:** Fixed the Security+ acronym PDF importer so the full list can be reliably loaded into IndexedDB (and you can retry from the UI when it fails).
+**Changes:**
+- Hardened PDF parsing (support array-like transforms, retry with `disableWorker`, always feed `Uint8Array`) (`src/logic/acronymPdfImport.ts`).
+- Added an explicit “Import now” control + surfaced auto-import failures on Hangman so the full pack can be loaded on demand (`src/pages/Hangman.tsx`).
+**Decisions:**
+- Only auto-import when the DB contains the built-in seed set (49) to avoid overwriting custom acronym lists.
+**Commands run:**
+- `pnpm lint`
+- `pnpm test` (escalated; sandbox blocks esbuild pipes)
+- `pnpm build` (escalated; sandbox blocks esbuild pipes)
+
+### 2025-12-16 17:34 (local)
+**Summary:** Tweaked Hangman auto-import threshold so the PDF loader upgrades partial acronym lists to the full set.
+**Changes:**
+- Raised the minimum entry threshold for skipping auto-import (`src/pages/Hangman.tsx`).
+
+### 2025-12-16 17:33 (local)
+**Summary:** Fixed the bundled PDF URL construction to respect Vite `BASE_URL` without relying on `new URL()` with a relative base.
+**Changes:**
+- Switched the Hangman auto-import PDF path to `${import.meta.env.BASE_URL}acronyms/security-plus.pdf` (`src/pages/Hangman.tsx`).
+**Commands run:**
+- `pnpm lint`
+
+### 2025-12-16 17:30 (local)
+**Summary:** Auto-loaded the full Security+ acronym list into IndexedDB from the local CompTIA PDF, without requiring manual import clicks.
+**Changes:**
+- Added a PDF table parser for acronyms (`src/logic/acronymPdfImport.ts`) with unit coverage (`src/logic/__tests__/acronymPdfImport.test.ts`).
+- Updated Hangman to auto-import from `public/acronyms/security-plus.pdf` when the local acronym table is small, and to use the structured PDF parser for PDF imports (`src/pages/Hangman.tsx`).
+- Ignored local PDF study materials by default (`.gitignore`).
+**Decisions:**
+- Keep the full acronym source as a local PDF asset (ignored by git) and parse it into IndexedDB to avoid committing extracted text.
+**Follow-ups:**
+- If you deploy to a non-root `base` path, keep using `import.meta.env.BASE_URL` for PDF fetches (already done).
+**Commands run:**
+- `pnpm lint`
+- `pnpm test` (escalated; sandbox blocks esbuild pipes)
+- `pnpm build` (escalated; sandbox blocks esbuild pipes)
+
+### 2025-12-16 15:50 (local)
+**Summary:** Fixed acronym import parsing so normal sentences no longer get mis-detected as acronym entries, and verified build/test in the current sandbox.
+**Changes:**
+- Tightened acronym-token heuristics to reduce false positives (`src/logic/acronymImport.ts`).
+**Decisions:**
+- Treat mixed-case tokens as acronyms only when they contain multiple uppercase letters or digits (e.g., `IoT`, `Wi-Fi`, `802.1X`).
+**Follow-ups:**
+- Improve PDF text extraction heuristics for multi-column layouts if the import misses entries.
+**Commands run:**
+- `pnpm lint`
+- `pnpm test` (escalated; sandbox blocks esbuild pipes)
+- `pnpm build` (escalated; sandbox blocks esbuild pipes)
+
+### 2025-12-16 14:51 (local)
+**Summary:** Added a standalone Acronym Hangman practice mode and linked it from the Home page.
+**Changes:**
+- Added acronym dataset + hangman helpers (`src/data/acronyms.ts`, `src/logic/hangman.ts`) with unit tests (`src/logic/__tests__/hangman.test.ts`).
+- Added the Hangman page with local stats persisted in `userState` (`src/pages/Hangman.tsx`, `src/models/userState.ts`).
+- Wired routing + a Home entry button (`src/App.tsx`, `src/pages/Home.tsx`, `src/pages/index.ts`).
+**Decisions:**
+- Keep Hangman separate from quiz tests; use a built-in acronym set and optional stats only.
+**Follow-ups:**
+- Add acronym import / custom lists (JSON) when needed.
+**Commands run:**
+- None
+
+### 2025-12-16 14:39 (local)
+**Summary:** Added an always-visible "Filter topics" toggle on Create Test to reduce clutter while keeping topic selection available.
+**Changes:**
+- Collapsed the topic checkbox list behind a toggle and added a small selection summary (`src/pages/CreateTest.tsx`).
+**Decisions:**
+- Default to collapsed topics to keep Create Test scannable as topic counts grow.
+**Follow-ups:**
+- Add topic search and “clear selected” affordances if needed.
+**Commands run:**
+- None
+
+### 2025-12-16 14:34 (local)
+**Summary:** Tightened Create Test subject/topic behaviour so topics are only shown when a subject is selected, and building a test requires at least one subject.
+**Changes:**
+- Hide topics when no subject is selected, clear stale topic selections, and disable test creation until a subject is picked (`src/pages/CreateTest.tsx`).
+**Decisions:**
+- Treat “no subject selected” as invalid instead of “all subjects” to reduce confusion and UI clutter as more subjects are added.
+**Follow-ups:**
+- Add topic search/collapse once topic counts grow.
+**Commands run:**
+- None
+
+### 2025-12-16 14:27 (local)
+**Summary:** Filtered Create Test topics to only show topics for the selected subject(s), and prevented stale topic selections from carrying across subject changes.
+**Changes:**
+- Scoped Create Test topic list to selected subjects and pruned topic selections when subjects change (`src/pages/CreateTest.tsx`).
+**Decisions:**
+- When no subjects are selected, show all topics (matches the “all subjects” fallback used when building a test).
+**Follow-ups:**
+- Consider adding search/collapse for large topic sets.
+**Commands run:**
+- None
+
 ### 2025-09-19 23:49 (local)
 **Summary:** Normalised question typings into discriminated unions, fixed authoring/editor components, and aligned analytics/test utilities so TypeScript build succeeds alongside vitest and Vite build.
 **Changes:**

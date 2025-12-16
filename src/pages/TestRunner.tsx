@@ -11,7 +11,7 @@ import {
   type Test,
   type TestAttemptAnswer,
 } from '../models';
-import { gradeQuestion, type UserAnswer } from '../logic/grader';
+import { gradeQuestion } from '../logic/grader';
 
 const TestRunner = (): JSX.Element => {
   const { testId } = useParams<{ testId: string }>();
@@ -235,7 +235,7 @@ useEffect(() => {
       if (currentQuestion.type === 'pbq_group' && typeof pbqAnswer === 'string') {
         try {
           pbqAnswer = JSON.parse(pbqAnswer);
-        } catch (parseError) {
+        } catch {
           setStatusMessage('Unable to parse PBQ group answer, please provide valid JSON.');
           setSubmitting(false);
           return;

@@ -1,5 +1,6 @@
 import Dexie, { type Table } from 'dexie';
 import type {
+  Acronym,
   AppConfig,
   Attempt,
   Question,
@@ -9,6 +10,7 @@ import type {
   UserState,
 } from '../models';
 import { securityPlusSeed } from '../../seed/seedSecurityPlus';
+import { securityPlusAcronyms } from '../data/acronyms';
 import type { QuestionDifficulty } from '../models/types';
 
 // --- App defaults ------------------------------------------------------------
@@ -41,6 +43,7 @@ export class CybersecQuizDB extends Dexie {
   questions!: Table<Question, string>;
   tests!: Table<Test, string>;
   attempts!: Table<Attempt, string>;
+  acronyms!: Table<Acronym, string>;
   userState!: Table<UserState, string>;
   config!: Table<AppConfig, string>;
 
@@ -74,21 +77,21 @@ export class CybersecQuizDB extends Dexie {
 
         // Normalize difficulty/difficultyLabel into the new fields
         await questionsTable.toCollection().modify((question) => {
-          // Read whatever might already be there (loose typing for safety)
-          const currentDifficulty = (question as any).difficulty as unknown;
-          const currentLabel = (question as any).difficultyLabel as unknown;
+          const record = question as unknown as Record<string, unknown>;
+          const currentDifficulty = record['difficulty'];
+          const currentLabel = record['difficultyLabel'];
 
           if (typeof currentDifficulty === 'string') {
             const score = mapDifficultyLabelToScore(currentDifficulty);
-            (question as any).difficulty = toDifficulty(score);
-            (question as any).difficultyLabel = currentDifficulty;
+            record['difficulty'] = toDifficulty(score);
+            record['difficultyLabel'] = currentDifficulty;
           } else if (typeof currentDifficulty === 'number') {
-            (question as any).difficulty = toDifficulty(currentDifficulty);
+            record['difficulty'] = toDifficulty(currentDifficulty);
           } else {
             const label = typeof currentLabel === 'string' ? currentLabel : undefined;
-            (question as any).difficultyLabel = label;
+            record['difficultyLabel'] = label;
             const score = label ? mapDifficultyLabelToScore(label) : DEFAULT_DIFFICULTY_NUM;
-            (question as any).difficulty = toDifficulty(score);
+            record['difficulty'] = toDifficulty(score);
           }
         });
 
@@ -111,6 +114,26 @@ export class CybersecQuizDB extends Dexie {
         }
       });
 
+    // v3 adds acronym practice table
+    this.version(3)
+      .stores({
+        subjects: 'id',
+        topics: 'id, subjectId',
+        questions: 'id, subjectId, *topicIds, type, difficulty',
+        tests: 'id, status, [subjectIds+status]',
+        attempts: 'id, questionId, testId, subjectId, *topicIds, isCorrect',
+        userState: 'id',
+        config: 'id',
+        acronyms: 'id, subjectId, acronym',
+      })
+      .upgrade(async (transaction) => {
+        const acronymsTable = transaction.table<Acronym>('acronyms');
+        const existingCount = await acronymsTable.count();
+        if (existingCount === 0) {
+          await acronymsTable.bulkAdd(securityPlusAcronyms);
+        }
+      });
+
     // Initial seed on first create
     this.on('populate', async () => {
       await this.populateFromSeed();
@@ -130,6 +153,10 @@ export class CybersecQuizDB extends Dexie {
           difficulty: q.difficulty ?? DEFAULT_DIFFICULTY,
         })),
       );
+    });
+
+    await this.transaction('rw', this.acronyms, async () => {
+      await this.acronyms.bulkAdd(securityPlusAcronyms);
     });
 
     await this.transaction('rw', this.userState, this.config, async () => {

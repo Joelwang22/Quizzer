@@ -18,7 +18,7 @@ interface AnalyticsState {
   setData: (payload: { attempts: Attempt[]; questions: Question[] }) => void;
 }
 
-export const useAnalyticsStore = create<AnalyticsState>((set, get) => ({
+export const useAnalyticsStore = create<AnalyticsState>((set) => ({
   attempts: [],
   questions: [],
   overall: { totalAttempts: 0, correct: 0, accuracy: 0 },

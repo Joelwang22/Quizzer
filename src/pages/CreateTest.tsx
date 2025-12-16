@@ -22,6 +22,7 @@ const CreateTest = (): JSX.Element => {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [config, setConfig] = useState<AppConfig | null>(null);
+  const [topicsOpen, setTopicsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const load = async (): Promise<void> => {
@@ -44,6 +45,50 @@ const CreateTest = (): JSX.Element => {
 
     void load();
   }, []);
+
+  const visibleTopics = useMemo<Topic[]>(() => {
+    if (subjects.length === 0) {
+      return topics;
+    }
+
+    if (selectedSubjectIds.length === 0) {
+      return [];
+    }
+
+    const selectedSubjects = new Set(selectedSubjectIds);
+    return topics.filter((topic) => selectedSubjects.has(topic.subjectId));
+  }, [selectedSubjectIds, subjects.length, topics]);
+
+  const topicsSummary = useMemo(() => {
+    if (subjects.length > 0 && selectedSubjectIds.length === 0) {
+      return 'Select at least one subject to filter by topics.';
+    }
+
+    if (selectedTopicIds.length === 0) {
+      return 'All topics included.';
+    }
+
+    const count = selectedTopicIds.length;
+    return `${count} topic${count === 1 ? '' : 's'} selected.`;
+  }, [selectedSubjectIds.length, selectedTopicIds.length, subjects.length]);
+
+  useEffect(() => {
+    if (subjects.length === 0) {
+      return;
+    }
+
+    if (selectedSubjectIds.length === 0) {
+      setSelectedTopicIds([]);
+      return;
+    }
+
+    const selectedSubjects = new Set(selectedSubjectIds);
+    const allowedTopicIds = new Set(
+      topics.filter((topic) => selectedSubjects.has(topic.subjectId)).map((topic) => topic.id),
+    );
+
+    setSelectedTopicIds((current) => current.filter((topicId) => allowedTopicIds.has(topicId)));
+  }, [selectedSubjectIds, subjects.length, topics]);
 
   const availableTypes = useMemo<QuestionType[]>(() => {
     const allTypes = new Set<QuestionType>();
@@ -84,11 +129,24 @@ const CreateTest = (): JSX.Element => {
     setError(null);
 
     try {
+      if (subjects.length > 0 && selectedSubjectIds.length === 0) {
+        setDiagnostics([]);
+        setError('Select at least one subject.');
+        return;
+      }
+
       const attempts = await db.attempts.toArray();
       const effectiveTypes = selectedTypes.length > 0 ? selectedTypes : availableTypes;
       const effectiveSubjectIds = selectedSubjectIds.length > 0
         ? selectedSubjectIds
         : Array.from(new Set(questions.map((question) => question.subjectId)));
+
+      const allowedTopicIds = new Set(
+        topics
+          .filter((topic) => effectiveSubjectIds.includes(topic.subjectId))
+          .map((topic) => topic.id),
+      );
+      const effectiveTopicIds = selectedTopicIds.filter((topicId) => allowedTopicIds.has(topicId));
 
       const desiredSize = Number.isFinite(size) && size > 0 ? Math.floor(size) : DEFAULT_SIZE;
 
@@ -96,7 +154,7 @@ const CreateTest = (): JSX.Element => {
         questions,
         attempts,
         subjectIds: effectiveSubjectIds,
-        topicIds: selectedTopicIds,
+        topicIds: effectiveTopicIds,
         selectionPolicy: {
           source,
           types: effectiveTypes,
@@ -122,7 +180,7 @@ const CreateTest = (): JSX.Element => {
           id: testId,
           status: 'in_progress',
           subjectIds: effectiveSubjectIds,
-          topicIds: selectedTopicIds,
+          topicIds: effectiveTopicIds,
           selectionPolicy: {
             source,
             types: effectiveTypes,
@@ -189,23 +247,45 @@ const CreateTest = (): JSX.Element => {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold">Topics</h2>
-          <div className="flex flex-wrap gap-3">
-            {topics.map((topic) => (
-              <label
-                key={topic.id}
-                className="flex items-center gap-2 rounded-md border border-slate-700 px-3 py-2"
-              >
-                <input
-                  type="checkbox"
-                  checked={selectedTopicIds.includes(topic.id)}
-                  onChange={() => handleToggleTopic(topic.id)}
-                />
-                <span>{topic.name}</span>
-              </label>
-            ))}
-            {topics.length === 0 ? <p className="text-slate-400">No topics available.</p> : null}
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div className="space-y-1">
+              <h2 className="text-xl font-semibold">Topics</h2>
+              <p className="text-sm text-slate-400">{topicsSummary}</p>
+            </div>
+            <button
+              type="button"
+              className="rounded-md border border-slate-700 bg-transparent px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800"
+              onClick={() => setTopicsOpen((current) => !current)}
+            >
+              {topicsOpen ? 'Hide topics' : 'Filter topics'}
+            </button>
           </div>
+          {topicsOpen ? (
+            <div className="rounded-lg border border-slate-800 bg-slate-900/30 p-3">
+              <div className="flex flex-wrap gap-3">
+                {visibleTopics.map((topic) => (
+                  <label
+                    key={topic.id}
+                    className="flex items-center gap-2 rounded-md border border-slate-700 px-3 py-2"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedTopicIds.includes(topic.id)}
+                      onChange={() => handleToggleTopic(topic.id)}
+                    />
+                    <span>{topic.name}</span>
+                  </label>
+                ))}
+                {visibleTopics.length === 0 ? (
+                  subjects.length > 0 && selectedSubjectIds.length === 0 ? (
+                    <p className="text-sm text-slate-400">Select at least one subject to see its topics.</p>
+                  ) : (
+                    <p className="text-sm text-slate-400">No topics available for the selected subject(s).</p>
+                  )
+                ) : null}
+              </div>
+            </div>
+          ) : null}
         </section>
 
         <section className="space-y-3">
@@ -259,7 +339,11 @@ const CreateTest = (): JSX.Element => {
           <button
             type="submit"
             className="rounded-md bg-primary px-4 py-2 font-semibold text-white hover:bg-teal-600 disabled:cursor-not-allowed disabled:bg-slate-700"
-            disabled={isSubmitting || questions.length === 0}
+            disabled={
+              isSubmitting ||
+              questions.length === 0 ||
+              (subjects.length > 0 && selectedSubjectIds.length === 0)
+            }
           >
             {isSubmitting ? 'Building test…' : 'Build test'}
           </button>
