@@ -1,0 +1,159 @@
+
+--- Page 1 ---
+1  •   The questions from last week’s lecture that I didn’t have time to answer are answered on Canvas in the Discussions section. If I missed any questions, please feel free to post them there.  (Direct messages sent only to me on Zoom might have been lost).  •   Both exams will be open-book, meaning you may bring one sheet of paper (handwritten or printed, A4 or smaller, double-sided). You won’t have access to the internet or files saved on your laptop.  •   Midterm: Friday, 6 March (Week 7), 2pm-3:30pm, MPSH 1A & 1B, NOT LT11  (I’ll let you know later which venue applies to which of you.)  Relevant materials: Weeks 2-5 lectures and readings (Week 6 will be covered by the final).  We’ll use Examplify (you should bring your own laptop—let me know if you can’t).  You must be physically present at the venue.  •   Reminder: There will be an in-class briefing about how to use Examplify during the Week 6 lecture.  (You might want to install Examplify before the briefing if you haven’t so you can ask questions)  Announcements and reminders
+
+--- Page 2 ---
+What makes an action morally right or wrong?  We’ve so far discussed one approach, consequentialism.  We’ll now discuss other approaches, which we’ll call non-consequentialism,  and see how they differ from consequentialism  with respect to specific examples, trolley cases.  It is   NOT   the case that whether an act is morally right or wrong depends   ONLY   on consequences.  (Some non-consequentialists think consequences are irrelevant while other non-consequentialists think consequences are one of relevant factors)
+
+--- Page 3 ---
+3  Consequentialism  •   Consequentialism: whether an act is morally right or wrong depends   ONLY   on consequences (everything else, such as intention, motive, etc. is irrelevant).  •   There are different kinds of consequentialism, depending on, among other things, what kinds of consequences are relevant.  e.g.) A hypothetical example of consequentialism: a right action is an action that  maximizes the number of cats in the world.  Suppose that there are two actions available to you.  Action A will produce 1 more cat in the world (wrong)  Action B will produce 2 more cats in the world (right)  •   (Classic) utilitarianism is an example of consequentialism.
+
+--- Page 4 ---
+You’ll now see three trolley cases.  (assume that the potential victims are all innocent and not at fault)  Which option do you think is morally right (= permissible)?  (reminder: a required action is also permissible)
+
+--- Page 5 ---
+Morally   wrong  (=impermissible) actions  Morally   right   (=permissible = not wrong) actions  Morally   required   (=obligatory) actions :  actions that are wrong not to perform  <How philosophers usually use these terms>  Morally   supererogatory   actions:  actions that are morally good but not morally required (not wrong not to perform) (going above and beyond one’s moral duties)  The rest? Morally neutral actions  e.g., keeping a promise  e.g., jumping on a grenade  to save others  e .g., taking a philosophy course, eating ice cream for breakfast
+
+--- Page 6 ---
+Morally   wrong  (=impermissible) actions  Morally   right   (=permissible = not wrong) actions  ≈   Morally   required   (=obligatory) actions :  actions that are wrong not to perform  <On classic utilitarianism…>
+
+--- Page 7 ---
+< Case 1. Driver >  Option 1. Continue onto this track  and kill five people  Option 2. Steer onto this side-track  and kill one person
+
+--- Page 8 ---
+< Case 2. Bystander >  Option 2. Throw the switch,  in which case one person will die  Option 1. Do nothing, in which case five people will die  You are this bystander
+
+--- Page 9 ---
+< Case 3. Bridge   or, as it is commonly called, “Fat Man”   >  Option 1. Do nothing, in which case five people will die  You are this person  Option 2. Push the large person off the bridge,  in which case one person will die
+
+--- Page 10 ---
+Option 1 (5 deaths)   Option 2 (1 death)  Driver  Bystander  Bridge  < (What philosophers have taken to be) Common Intuitions >  means morally right (=permissible)  means morally wrong (=impermissible)
+
+--- Page 11 ---
+Option 1 (5 deaths)   Option 2 (1 death)  Driver  Bystander  Bridge  < What utilitarians would say,   assuming no indirect consequences >  That was easy!  Just think about the consequences!
+
+--- Page 12 ---
+Now, both consequentialists and non-consequentialists have some challenge to meet.
+
+--- Page 13 ---
+Option 1 (5 deaths)   Option 2 (1 death)  Driver  Bystander  Bridge  < What utilitarians would say,   assuming no indirect consequences >  •   The common intuitions conflict with utilitarianism, and this poses a problem for utilitarians (at least to some extent).  •   So, utilitarians may want to find some explanations as to why the common intuitions are wrong.
+
+--- Page 14 ---
+Option 1 (5 deaths)   Option 2 (1 death)  Driver  Bystander  Bridge  < (What philosophers have taken to be) Common Intuitions >  •   The common intuitions conflicts with consequentialism, and that supports  non-consequentialism to some extent.  •   But non-consequentialists need to justify the common intuitions, by providing a principled explanation as to why choosing 1 death is permissible in Driver and Bystander but not in Bridge.
+
+--- Page 15 ---
+How non-consequentialists have attempted to explain  the common intuitions.
+
+--- Page 16 ---
+Non-consequentialist Approach 1:  Let’s use Immanuel Kant’s theory!  Immanuel Kant  (1724-1804)  I’m the most famous non-consequentialist.
+
+--- Page 17 ---
+Immanuel Kant  (1724-1804)  It is morally wrong to treat persons merely as a means.
+
+--- Page 18 ---
+An example of treating a person merely as a means
+
+--- Page 19 ---
+Classic utilitarianism is   context sensitive .  19  friends What is the right thing to do?  There are no types of action (e.g., torture, robbery) that are always wrong or right. All that matters is whether the action maximizes total net pleasure, which may depend on the particular context.  Abolish the NUS curve!  Or a bomb will go off on campus  in an hour.
+
+--- Page 20 ---
+20  What is the right thing to do?  It is permissible to torture the friend.  In fact, it is required. It is wrong not to do so.  Immanuel Kant  (1724-1804)  Not true! Don’t listen to them!!
+
+--- Page 21 ---
+Immanuel Kant  (1724-1804)  It is morally wrong to treat persons   merely   as a means.
+
+--- Page 22 ---
+Immanuel Kant  (1724-1804)  It is morally wrong to treat persons   merely   as a means.  It is controversial what exactly distinguishes between treating a person merely as a means and treating a person as a means but not merely as a means, but many philosophers think that consent is a relevant factor.  You’re not expected to know what distinguishes between the two. What you’re expected to know is that Kant doesn’t think that treating a person as a means is always wrong.
+
+--- Page 23 ---
+Now, let’s apply Kant’s idea to trolley cases
+
+--- Page 24 ---
+Immanuel Kant  (1724-1804)  It is morally wrong to treat persons merely as a means.  In which case(s) are you treating a person merely as a means?  In Driver and Bystander, you’re not even treating the person as a means,  so you’re not treating the person merely as a means, either.  Roughly, the person’s involvement is part of the route by which your plan succeeds  (≈ you can’t achieve your goal if the person disappears right before you perform the action)
+
+--- Page 25 ---
+Immanuel Kant  (1724-1804)  It is morally wrong to treat persons merely as a means.  In which case(s) are you treating a person merely as a means?  In Driver and Bystander, you’re not even treating the person as a means,  so you’re not treating the person merely as a means, either.  Roughly, the person’s involvement is part of the route by which your plan succeeds  (≈ you can’t achieve your goal if the person disappears right before you perform the action)
+
+--- Page 26 ---
+Immanuel Kant  (1724-1804)  It is morally wrong to treat persons merely as a means.  In which case(s) are you treating a person merely as a means?  In Driver and Bystander, you’re not even treating the person as a means,  so you’re not treating the person merely as a means, either.  Roughly, the person’s involvement is part of the route by which your plan succeeds  (≈ you can’t achieve your goal if the person disappears right before you perform the action)  In Bridge, you’re treating the person as a means (and probably merely as a means)
+
+--- Page 27 ---
+Immanuel Kant  (1724-1804)  It is morally wrong to treat persons merely as a means.  In which case(s) are you treating a person merely as a means?  In Driver and Bystander, you’re not even treating the person as a means,  so you’re not treating the person merely as a means, either.  Roughly, the person’s involvement is part of the route by which your plan succeeds  (≈ you can’t achieve your goal if the person disappears right before you perform the action)  [Side note] It is unclear what Kant would say about Driver and Bystander  In Bridge, you’re treating the person as a means (and probably merely as a means)      wrong
+
+--- Page 28 ---
+Option 1 (5 deaths)   Option 2 (1 death)  Driver  Bystander  Bridge  < (What philosophers have taken to be) Common Intuitions >  •   The common intuitions conflicts with consequentialism, and that supports  non-consequentialism to some extent.  •   But non-consequentialists need to justify the common intuitions, by provide a principled explanation as to why choosing 1 death is permissible in Driver and Bystander but not in Bridge.
+
+--- Page 29 ---
+So far so good.  But here is a challenging case for this Kantian approach.
+
+--- Page 30 ---
+< Loop >  Option 2. Throw the switch,  in which case one person will die  Option 1. Do nothing, in which case five people will die  Assume that this person is large enough to stop the trolley.  You
+
+--- Page 31 ---
+< Case 2. Bystander >  Option 2. Throw the switch,  in which case one person will die  Option 1. Do nothing, in which case five people will die  You are this bystander
+
+--- Page 32 ---
+< Loop >  Immanuel Kant  (1724-1804)  It is morally wrong to treat persons merely as a means.  Many think that it is permissible to throw the switch in Loop.  But you’re treating the person as a means (and probably merely as a means)
+
+--- Page 33 ---
+< Loop >  Immanuel Kant  (1724-1804)  It is morally wrong to treat persons merely as a means.  Many think that it is permissible to throw the switch in Loop.  But you’re treating the person as a means (and probably merely as a means)
+
+--- Page 34 ---
+Non-consequentialist Approach 2:  Killing is morally worse than letting die.  Philippa Foot  (1920-2010)  This is the approach I came up with!  In our course, roughly, you’re the cause of the death
+
+--- Page 35 ---
+< Case 3. Bridge   or, as it is commonly called, “Fat Man”   >  Option 1. Do nothing, in which case five people will die  You are this person  Option 2. Push the large person off the bridge,  in which case one person will die  Letting die  Killing
+
+--- Page 36 ---
+< Case 1. Driver >  Option 1. Continue onto this track  and kill five people  Option 2. Steer onto this side-track  and kill one person  Killing  Killing
+
+--- Page 37 ---
+VS.  <Bridge>   <Driver>  Philippa Foot  (1920-2010)  Killing is worse than letting die.  Bridge: letting five die vs. killing one      letting five die  Drive: killing five vs. killing one      killing one
+
+--- Page 38 ---
+Challenge for Approach 2:  Unable to explain the common intuition about Bystander
+
+--- Page 39 ---
+Killing five vs.   killing one  VS.  <Bridge>   <Driver>  Letting five die   vs.   killing one
+
+--- Page 40 ---
+< Case 2. Bystander >  Option 2. Throw the switch,  in which case one person will die  Option 1. Do nothing, in which case five people will die  You are this bystander  Letting die  Killing
+
+--- Page 41 ---
+Killing five vs.   killing one  VS.  <Bridge>   <Driver>  Letting five die   vs.   killing one  <Bystander>  Letting five die vs.   killing one
+
+--- Page 42 ---
+Judith Jarvis Thomson, “Turning the Trolley” (2008)  42  Approach 2 (killing is worse than letting die) is the correct approach because, actually, it is morally wrong for the bystander to throw the switch.  J. J. Thomson  (1929-2020)
+
+--- Page 43 ---
+Option 1 (5 deaths)   Option 2 (1 death)  Driver  Bystander  Bridge  < (What philosophers have taken to be) Common Intuitions >  means morally right (=permissible)  means morally wrong (=impermissible)
+
+--- Page 44 ---
+Option 1 (5 deaths)   Option 2 (1 death)  Driver  Bystander  Bridge  means morally right (=permissible)  means morally wrong (=impermissible)  < According to Thomson (2008)>
+
+--- Page 45 ---
+Killing five vs.   killing one  VS.  <Bridge>   <Driver>  Letting five die   vs.   killing one  <Bystander>  Letting five die   vs.   killing one  Problem solved!
+
+--- Page 46 ---
+Thomson’s argument   as to why it is morally wrong  for the bystander to throw the switch.
+
+--- Page 47 ---
+< Bystander’s Three Options >  J. J. Thomson  (1929-2020)  “ I hope you will agree that choosing (ii) would be unacceptable on the bystander’s part. If he can throw the switch to the left and turn the trolley onto himself, how dare he throw the switch to the right and turn the trolley onto the one workman?” (p.364)  “Compare the following possibility. I am asked for a donation to Oxfam. I want to send them some money. I am able to send money of my own, but I don’t feel like it. So I steal some from someone else and send that money to Oxfam. That is pretty bad. But if the bystander proceeds to turn the trolley onto the one on the right-hand track in Bystander’s Three Options, then what he does is markedly worse, because the cost in Bystander’s Three Options isn’t money, it is life” (p.365)
+
+--- Page 48 ---
+< Bystander’s Three Options >  “ On the other hand, morality doesn’t require him to choose option (iii)...  So the bystander in Bystander’s Three Options may choose option (i).” (p.365)  J. J. Thomson  (1929-2020)
+
+--- Page 49 ---
+<Thomson’s argument as to why it is morally wrong to throw the switch  in Bystander’s Two Options (= the original Bystander case)>  Premise 1) It is morally wrong to turn the trolley onto another person in Bystander’s Three Options.  Premise 2) If it is morally wrong to turn the trolley onto another person in Bystander’s Three Options, it is morally wrong to turn the trolley onto one person in Bystander’s Two Options.  Conclusion) Therefore, it is it is morally wrong to turn the trolley onto one person in Bystander’s Two Options.
+
+--- Page 50 ---
+<Thomson’s argument as to why it is morally wrong to throw the switch  in Bystander’s Two Options (= the original Bystander case)>  Premise 1) It is morally wrong to turn the trolley onto another person in Bystander’s Three Options.  Premise 2) If it is morally wrong to turn the trolley onto another person in Bystander’s Three Options, it is morally wrong to turn the trolley onto one person in Bystander’s Two Options.  Conclusion) Therefore, it is it is morally wrong to turn the trolley onto one person in Bystander’s Two Options.  J. J. Thomson  (1929-2020)  “ Since he wouldn’t himself pay the cost of his good deed if he could pay it, there is no way in which he can decently regard himself as entitled to make someone else pay it.” (p.366)  What if he   would   pay the cost if he could? May he, then, throw the switch?  “the altruistic bystander is not entitled to assume that the one workman is equally altruistic, and would therefore consent to the bystander’s choosing option (ii).” (p.367)
+
+--- Page 51 ---
+Why, then, do many people think that it is morally   permissible   for the bystander to throw the switch?  J. J. Thomson  (1929-2020)  It is because the means used in Bystander (i.e., merely turning a trolley or throwing a switch) is not drastic, compared to the means used in Bridge (i.e., pushing a person off the bridge).  But this fact about the means is not morally relevant.
+
+--- Page 52 ---
+Option 1 (5 deaths)   Option 2 (1 death)  Driver  Bystander  Bridge  < What utilitarians would say,   assuming no indirect consequences >  Thomson, you’re totally right about that point  (though not about the killing and letting die distinction.  We don’t like that, but it’s a topic for another day).  Common intuitions about the trolley cases are affected by irrelevant factors and, thus, are unreliable.
+
+--- Page 53 ---
+53  •   There are tutorials this week.  •   Do the reading for next lecture  : Rachels, “The Challenge of Cultural Relativism"  (Readings are posted in the “Files” section on Canvas)  What to do this week

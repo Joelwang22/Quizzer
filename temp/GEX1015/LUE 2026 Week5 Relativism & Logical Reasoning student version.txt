@@ -1,0 +1,324 @@
+
+--- Page 1 ---
+1  •   Unanswered questions from last week’s lecture are answered on Canvas in the Discussions section.  •   Both exams will be open - book , meaning   you may bring one sheet of paper (handwritten or printed, A4 or  smaller, double - sided) . You won’t have access to the internet or files saved on your laptop.  •   Midterm: Friday, 6 March (Week 7), 2pm - 3:30pm, MPSH 1A & 1B,   NOT LT11  (I’ll let you know which venue applies to which of you next week.)  Relevant materials:   Weeks 2 - 5 lectures and readings   (Week 6 will be covered by the final).  Some exam questions may require knowledge from the readings that isn’t covered in class.  We’ll use   Examplify   (you should bring your own laptop — let me know if you can’t).  You must be physically present at the venue.  Fully   charge your laptop before the   exam , if possible   (the   number   of   charging   stations   is   limited)  If   you   think   you’ll   need   a   charger,   bring   your own   charger .  •   Reminder: There will be an in - class briefing about how to use   Examplify   during   next week’s   lecture .  Announcements and reminders
+
+--- Page 2 ---
+
+
+--- Page 3 ---
+There were two things that I postponed discussing.  3
+
+--- Page 4 ---
+Singer’s   argument   as to why we ought to donate  a significant amount of our money to international aid agencies.  4  Roughly put, reason why we should accept a certain claim  ( a more precise definition will be provided later )
+
+--- Page 5 ---
+What makes an action   morally right   or   wrong ?  Are there objective truths about morality?
+
+--- Page 6 ---
+We’ll talk about these two things today.  First, arguments.  More specifically,   what a good argument is .  This content will probably be the most difficult  (and possibly the most important) thing you’ll learn in this course.  It is perfectly normal to find this difficult.  6
+
+--- Page 7 ---
+E.g.)   series of statements where the last statement  All humans are mortal.  Socrates is a human.  Therefore, Socrates is mortal.  This argument provides a reason why we should accept that Socrates is  mortal.   then   the last statement (conclusion) follows from the other  statements (premises).  That is, if you accept the premises, you must accept the conclusion.  7  Conclusion  Premises  The idea is that (assuming that the argument is well constructed)  if you accept the premises, you must, rationally speaking, accept  the conclusion as well.
+
+--- Page 8 ---
+What is an argument (in philosophy)?  A series of statements where the last statement ( conclusion )  is supposedly supported by the other statements ( premises ).  E.g.)  All humans are mortal.  Socrates is a human.  Therefore, Socrates is mortal.  8  Conclusion  Premises   Premise1  Premise2
+
+--- Page 9 ---
+An argument = premises + a conclusion  9  support  This support comes in degrees, depending on the type of argument.  When it comes to some types of arguments, the premises are supposed to make  the truth of the conclusion   likely   without   guaranteeing   its truth.  E.g.) P1. The sun has risen every single day until now.  C. The sun will rise tomorrow.
+
+--- Page 10 ---
+An argument = premises + a conclusion  10  support  This support comes in degrees, depending on the type of argument.  When it comes to another type of arguments called deduction,  the premises are supposed to   guarantee   the truth of the conclusion.  E.g.) P1. All humans are mortal.  P2. Socrates is a human.  C. Therefore, Socrates is mortal.  From now on, we’ll talk about deductive arguments only.
+
+--- Page 11 ---
+Nothing super important so far.  What we’ll discuss next is very important.  11
+
+--- Page 12 ---
+What is a good deductive argument?  What is required for a deductive argument to be successful?  12
+
+--- Page 13 ---
+I’m not sure if my crush is interested in me…  They are interested in you! Here’s an argument.  P1. Your crush blushes when they see you.  P2. If your crush blushes when they see you, they are interested in you.  C. Therefore, they are interested in you.
+
+--- Page 14 ---
+I’m not sure if my crush is interested in me…  They are interested in you! Here’s an argument.  P1. Your crush blushes when they see you.  P2. If your crush blushes when they see you, they are interested in you.  C. Therefore, they are interested in you.  Is this argument good? That is, should you accept the conclusion based on this argument? To answer  this, you need to think about two things.  1.   Premises themselves: Is each of the premises true?  But meeting this condition is not enough.  E.g.,) P1. Your crush is taking Life, the Universe, and Everything. (True)  P2. Peter Singer is a utilitarian. (True)  C. Therefore, your crush is interested in you.
+
+--- Page 15 ---
+I’m not sure if my crush is interested in me…  They are interested in you! Here’s an argument.  P1. Your crush blushes when they see you.  P2. If your crush blushes when they see you, they are interested in you.  C. Therefore, they are interested in you.  Is this argument good? That is, should you accept the conclusion based on this argument? To answer  this, you need to think about two things.  1.   Premises themselves: Is each of the premises true?  2.   The relation between the premises and the conclusion: Are the premises and the conclusion  related to each other in the right way, which means that the premises,   if true , guarantee the truth  of the conclusion?  If Condition 2 is met, the argument is   valid .  If both conditions are met, the argument is   sound.
+
+--- Page 16 ---
+16  •   A   sound   argument is a   valid   argument whose   premises are all true.  Soundness = (1) validity + (2) all premises being true.  Both conditions need to be met for an argument to be sound.  •   A   valid   argument :  Its premises and conclusion are connected in such a way that…  if   the premises are all true, the conclusion must be true as well .  In other words, the conclusion follows from the premises.  The premises, if all true, 100% guarantee the truth of the conclusion.  (It doesn’t matter whether the premises are   actually true .)  How to check whether an argument is valid :  Assume   that all the premises are true and think about whether it is possible for the conclusion to be false.  If yes, invalid. If no, valid.  E.g.) P1. All philosophers are men.  P2. Jungkook is a philosopher.   Valid or invalid?  C. Jungkook is a man.
+
+--- Page 17 ---
+17  •   A   sound   argument is a   valid   argument whose   premises are all true.  Soundness = (1) validity + (2) all premises being true.  Both conditions need to be met for an argument to be sound.  •   A   valid   argument :  Its premises and conclusion are connected in such a way that…  if   the premises are all true, the conclusion must be true as well .  In other words, the conclusion follows from the premises.  The premises, if all true, 100% guarantee the truth of the conclusion.  (It doesn’t matter whether the premises are   actually true .)  How to check whether an argument is valid :  Assume   that all the premises are true and think about whether it is possible for the conclusion to be false.  If yes, invalid. If no, valid.  E.g.) P1. All philosophers are men.  P2. Jungkook is a philosopher.   Valid or invalid?  C. Jungkook is a man.  Valid
+
+--- Page 18 ---
+18  •   A   sound   argument is a   valid   argument whose   premises are all true.  Soundness = (1) validity + (2) all premises being true.  Both conditions need to be met for an argument to be sound.  •   A   valid   argument :  Its premises and conclusion are connected in such a way that…  if   the premises are all true, the conclusion must be true as well .  In other words, the conclusion follows from the premises.  The premises, if all true, 100% guarantee the truth of the conclusion.  (It doesn’t matter whether the premises are   actually true .)  How to check whether an argument is valid :  Assume   that all the premises are true and think about whether it is possible for the conclusion to be false.  If yes, invalid. If no, valid.  E.g.) P1. All philosophers are men.  P2. Jungkook is a philosopher.   Sound or unsound?  C. Jungkook is a man.
+
+--- Page 19 ---
+19  •   A   sound   argument is a   valid   argument whose   premises are all true.  Soundness = (1) validity + (2) all premises being true.  Both conditions need to be met for an argument to be sound.  •   A   valid   argument :  Its premises and conclusion are connected in such a way that…  if   the premises are all true, the conclusion must be true as well .  In other words, the conclusion follows from the premises.  The premises, if all true, 100% guarantee the truth of the conclusion.  (It doesn’t matter whether the premises are   actually true .)  How to check whether an argument is valid :  Assume   that all the premises are true and think about whether it is possible for the conclusion to be false.  If yes, invalid. If no, valid.  E.g.) P1. All philosophers are men.  P2. Jungkook is a philosopher.   Sound or unsound?  C. Jungkook is a man.  Unsound
+
+--- Page 20 ---
+20  A sound argument is a good argument because..  if an argument is sound, its conclusion must be true.
+
+--- Page 21 ---
+Is there an easy way to tell whether an argument is valid or not?  21
+
+--- Page 22 ---
+Four common valid and invalid argument forms  22
+
+--- Page 23 ---
+First, two common   valid   argument forms  23
+
+--- Page 24 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   A  C.   B  24  Always valid argument form 1  P1. If   I have the cold , then   I am sick .  P2.   I have the cold .  C.   I am sick .  It doesn’t matter for validity which premise is P1 and which premise is P2
+
+--- Page 25 ---
+P1. If   A , then   B   (=   B , if   A )  P2. A  C. B  25  Always valid argument form 1  P1. If   I have the cold , then   I am sick .  P2. I have the cold.  C. I am sick.  A   (having the cold )  B   (being sick)
+
+--- Page 26 ---
+P1. If A, then B (= B, if A)  P2.   A  C. B  26  Always valid argument form 1  P1. If I have the cold, then I am sick.  P2.   I have the cold .  C. I am sick.  A   (having the cold )  B   (being sick)
+
+--- Page 27 ---
+P1. If A, then B (= B, if A)  P2. A  C.   B  27  Always valid argument form 1  P1. If I have the cold, then I am sick.  P2. I have the cold.  C.   I am sick .  A   (having the cold )  B   (being sick)
+
+--- Page 28 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   A  C.   B  28  Always valid argument form 1  P1. If   I have the cold , then   I am sick .  P2.   I have the cold .  C.   I am sick .  A   (having the cold )  B   (being sick)  P1. If   your crush blushes when they see you ,   they are interested in you .  P2.   Your crush blushes when they see you .  C. Therefore,   they are interested in you .  Valid!  If   the premises are true, it must be the case that  my crush is interested in me!
+
+--- Page 29 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   A  C.   B  29  Always valid argument form 1  P1. If   I have the cold , then   I am sick .  P2.   I have the cold .  C.   I am sick .  A   (having the cold )  B   (being sick)  P1. If   we ought to save the drowning child ,   Taylor Swift is a philosopher .  P2.   We ought to save the drowning child.  C. Therefore,   Taylor Swift is a philosopher .  Valid or invalid?
+
+--- Page 30 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   A  C.   B  30  Always valid argument form 1  P1. If   I have the cold , then   I am sick .  P2.   I have the cold .  C.   I am sick .  A   (having the cold )  B   (being sick)  P1. If   we ought to save the drowning child ,   Taylor Swift is a philosopher .  P2.   We ought to save the drowning child.  C. Therefore,   Taylor Swift is a philosopher .  Valid or invalid?  Valid
+
+--- Page 31 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   Not   B  C.   Not   A  31  Always valid argument form 2  P1. If   I have the cold , then   I am sick .  P2.   I am   not   sick .  C.   I do   not   have the cold .
+
+--- Page 32 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   Not B  C.   Not A  32  Always valid argument form 2  P1. If   I have the cold , then   I am sick .  P2. I am   not   sick.  C. I do   not   have the cold.  A   (having the cold )  B   (being sick)
+
+--- Page 33 ---
+P1. If A, then B (= B, if A)  P2.   Not   B  C.   Not A  33  Always valid argument form 2  P1. If I have the cold, then I am sick.  P2.   I am   not   sick .  C. I do   not   have the cold.  A   (having the cold )  B   (being sick)
+
+--- Page 34 ---
+P1. If A, then B (= B, if A)  P2.   Not B  C.   Not   A  34  Always valid argument form 2  P1. If I have the cold, then I am sick.  P2. I am   not   sick.  C.   I do   not   have the cold .  A   (having the cold )  B   (being sick)
+
+--- Page 35 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   Not   B  C.   Not   A  35  Always valid argument form 2  P1. If   I have the cold , then   I am sick .  P2.   I am   not   sick .  C.   I do   not   have the cold .  A   (having the cold )  B   (being sick)  P1.If   alien life existed , then   we would   have encountered it.  P2 .   We   have   not   encountered it.  C.   A lien life does   not   exist .
+
+--- Page 36 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   Not   B  C.   Not   A  36  Always valid argument form 2  P1. If   I have the cold , then   I am sick .  P2.   I am   not   sick .  C.   I do   not   have the cold .  A   (having the cold )  B   (being sick)  P1. If   throwing the switch is permissible in Bystander ,   durian is delicious .  P2.   Durian is   not   delicious .  C.   Throwing the switch is   not   permissible in Bystander.  Valid or invalid?
+
+--- Page 37 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   Not   B  C.   Not   A  37  Always valid argument form 2  P1. If   I have the cold , then   I am sick .  P2.   I am   not   sick .  C.   I do   not   have the cold .  A   (having the cold )  B   (being sick)  Valid  P1. If   throwing the switch is permissible in Bystander ,   durian is delicious .  P2.   Durian is   not   delicious .  C.   Throwing the switch is   not   permissible in Bystander.  Valid or invalid?
+
+--- Page 38 ---
+Next, two common   invalid   argument forms  38
+
+--- Page 39 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   Not   A  C.   Not   B  39  Always invalid argument form 1  P1. If   I have the cold , then   I am sick .  P2.   I do   not   have the cold  C.   I am   not   sick .
+
+--- Page 40 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   Not A  C.   Not B  40  Always invalid argument form 1  P1. If   I have the cold , then   I am sick .  P2. I do   not   have the cold  C. I am   not   sick.  A   (having the cold )  B   (being sick)
+
+--- Page 41 ---
+P1. If A, then B (= B, if A)  P2.   Not   A  C.   Not B  41  Always invalid argument form 1  P1. If I have the cold, then I am sick.  P2.   I do   not   have the cold  C. I am   not   sick.  A   (having the cold )  B   (being sick)
+
+--- Page 42 ---
+P1. If A, then B (= B, if A)  P2.   Not A  C.   Not   B  42  Always invalid argument form 1  P1. If I have the cold, then I am sick.  P2. I do   not   have the cold  C.   I am   not   sick .  A   (having the cold )  B   (being sick)
+
+--- Page 43 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   Not   A  C.   Not   B  43  Always invalid argument form 1  P1. If   I have the cold , then   I am sick .  P2.   I do   not   have the cold  C.   I am   not   sick .  A   (having the cold )  B   (being sick)
+
+--- Page 44 ---
+44  •   A   sound   argument is a   valid   argument whose   premises are all true.  Soundness = (1) validity + (2) all premises being true.  Both conditions need to be met for an argument to be sound.  •   A   valid   argument :  Its premises and conclusion are connected in such a way that…  if   the premises are all true, the conclusion must be true as well .  In other words, the conclusion follows from the premises.  The premises, if all true, 100% guarantee the truth of the conclusion.  (It doesn’t matter whether the premises are   actually true .)  How to check whether an argument is valid :  Assume   that all the premises are true and think about whether it is possible for the conclusion to be false.  If yes, invalid. If no, valid.  E.g.) P1. All philosophers are men.  P2. Jungkook is a philosopher.   Sound or unsound?  C. Jungkook is a man.  Unsound
+
+--- Page 45 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   Not   A  C.   Not   B  45  Always invalid argument form 1  P1. If   I have the cold , then   I am sick .  P2.   I do   not   have the cold  C.   I am   not   sick .  A   (having the cold )  B   (being sick)  P1. If Edward Cullen were a   human , he would be   mortal.   (True)  P2. Edward Cullen is   not   a human .   (True)  C. Edward Cullen is   not   mortal .   (True)  Valid or invalid?
+
+--- Page 46 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   Not   A  C.   Not   B  46  Always invalid argument form 1  P1. If   I have the cold , then   I am sick .  P2.   I do   not   have the cold  C.   I am   not   sick .  A   (having the cold )  B   (being sick)  P1. If Edward Cullen were a   human , he would be   mortal.   (True)  P2. Edward Cullen is   not   a human .   (True)  C. Edward Cullen is   not   mortal .   (True)  Valid or invalid?  Invalid
+
+--- Page 47 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   B  C.   A  47  Always invalid argument form 2  P1. If   I have the cold , then   I am sick .  P2.   I am sick .  C.   I have the cold .
+
+--- Page 48 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   B  C.   A  48  Always invalid argument form 2  P1. If   I have the cold , then   I am sick .  P2. I am sick.  C. I have the cold.  A   (having the cold )  B   (being sick)
+
+--- Page 49 ---
+P1. If A, then B (= B, if A)  P2.   B  C.   A  49  Always invalid argument form 2  P1. If I have the cold, then I am sick.  P2.   I am sick .  C. I have the cold.  A   (having the cold )  B   (being sick)
+
+--- Page 50 ---
+P1. If A, then B (= B, if A)  P2.   B  C.   A  50  Always invalid argument form 2  P1. If I have the cold, then I am sick.  P2. I am sick.  C.   I have the cold .  A   (having the cold )  B   (being sick)
+
+--- Page 51 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   B  C.   A  51  Always invalid argument form 2  A   (having the cold )  B   (being sick)  P1. If   I have the cold , then   I am sick .  P2.   I am sick .  C.   I have the cold .
+
+--- Page 52 ---
+52  •   A   sound   argument is a   valid   argument whose   premises are all true.  Soundness = (1) validity + (2) all premises being true.  Both conditions need to be met for an argument to be sound.  •   A   valid   argument :  Its premises and conclusion are connected in such a way that…  if   the premises are all true, the conclusion must be true as well .  In other words, the conclusion follows from the premises.  The premises, if all true, 100% guarantee the truth of the conclusion.  (It doesn’t matter whether the premises are   actually true .)  How to check whether an argument is valid :  Assume   that all the premises are true and think about whether it is possible for the conclusion to be false.  If yes, invalid. If no, valid.  E.g.) P1. All philosophers are men.  P2. Jungkook is a philosopher.   Sound or unsound?  C. Jungkook is a man.  Unsound
+
+--- Page 53 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   B  C.   A  53  Always invalid argument form 2  A   (having the cold )  B   (being sick)  P1. If   I have the cold , then   I am sick .  P2.   I am sick .  C.   I have the cold .  P1. If Edward Cullen is a   vampire , he is   immortal.  P2. Edward Cullen is   immortal .  C. Edward Cullen is a   vampire .  Valid or invalid?
+
+--- Page 54 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   B  C.   A  54  Always invalid argument form 2  A   (having the cold )  B   (being sick)  P1. If   I have the cold , then   I am sick .  P2.   I am sick .  C.   I have the cold .  P1. If Edward Cullen is a   vampire , he is   immortal.   True  P2. Edward Cullen is   immortal .   True  C. Edward Cullen is a   vampire .   True  Valid or invalid?  Invalid
+
+--- Page 55 ---
+(1)   Always valid  If   A , then   B   (≈ All As are B).  A .  Therefore,   B .  55  (4)   Always invalid  If   A , then   B   (≈ All As are B).  B .  Therefore,   A .  (3)   Always invalid  If   A , then   B   (≈ All As are B).  Not   A .  Therefore, Not   B .  (2)   Always valid  If   A , then   B   (≈ All As are B).  Not   B .  Therefore, Not   A .  No need to memorise the grey parts  Modus Ponens  (affirming the antecedent)  Modus Tollens  (denying the consequent)  If A, then B  A: antecedent  B: consequent
+
+--- Page 56 ---
+Let’s practice!  56
+
+--- Page 57 ---
+P1. If the death penalty deters crime, it is justified.  P2. The death penalty does not deter crime.  C. Therefore, the death penalty is not justified.  Valid or invalid?  57
+
+--- Page 58 ---
+P1. If the death penalty deters crime, it is justified.  P2. The death penalty does not deter crime.  C. Therefore, the death penalty is not justified.  invalid  58
+
+--- Page 59 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   Not   A  C.   Not   B  59  Always invalid   argument form 1  P1. If   I have the cold , then   I am sick .  P2.   I do   not   have the cold  C.   I am   not   sick .  A   (having the cold )  B   (being sick)
+
+--- Page 60 ---
+P1. If my crush is interested in me, they will text me.  P2. My crush just texted me.  C. My crush is interested in me.  Valid or invalid?  60
+
+--- Page 61 ---
+P1. If my crush is interested in me, they will text me.  P2. My crush just texted me.  C. My crush is interested in me.  Invalid  61
+
+--- Page 62 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   B  C.   A  62  Always invalid   argument form 2  A   (having the cold )  B   (being sick)  P1. If   I have the cold , then   I am sick .  P2.   I am sick .  C.   I have the cold .
+
+--- Page 63 ---
+P1. If my crush is interested in me, they will text me.  P2. My crush just texted me.  C. My crush is interested in me.  Invalid  63  Does this mean that the conclusion is false?  No. It just means this   particular argument   fails to show that the  conclusion is true.  There might be other, good arguments that show that the conclusion is  true.
+
+--- Page 64 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   A  C.   B  64  Always valid argument form 1  P1. If   I have the cold , then   I am sick .  P2.   I have the cold .  C.   I am sick .  A   (having the cold )  B   (being sick)  P1. If   your crush blushes when they see you ,   they are interested in you .  P2.   Your crush blushes when they see you .  C. Therefore,   they are interested in you .  Valid!  If   the premises are true, it must be the case that  my crush is interested in me!
+
+--- Page 65 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   B  C.   A  65  Always invalid argument form 2  A   (having the cold )  B   (being sick)  P1. If   I have the cold , then   I am sick .  P2.   I am sick .  C.   I have the cold .  P1. If Edward Cullen is a   vampire , he is   immortal.   True  P2. Edward Cullen is   immortal .   True  C. Edward Cullen is a   vampire .   True  Valid or invalid?  Invalid
+
+--- Page 66 ---
+P1. If my crush is interested in me, they will text me.  P2. My crush never texts me.  C. My crush is not interested in me.  Valid or invalid?  66
+
+--- Page 67 ---
+P1. If my crush is interested in me, they will text me.  P2. My crush never texts me.  C. My crush is not interested in me.  Valid  67
+
+--- Page 68 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   Not   B  C.   Not   A  68  Always valid   argument form 2  P1. If   I have the cold , then   I am sick .  P2.   I am   not   sick .  C.   I do   not   have the cold .  A   (having the cold )  B   (being sick)
+
+--- Page 69 ---
+P1. If my crush is interested in me, they will text me.  P2. My crush never texts me.  C. My crush is not interested in me.  Valid  69  No, because the argument might not be sound.  For example, P1 might be false.  Does this mean that I must accept that the conclusion  (that is, the conclusion is true)?
+
+--- Page 70 ---
+P1. If   A , then   B   (=   B , if   A )  P2.   A  C.   B  70  Always valid argument form 1  P1. If   I have the cold , then   I am sick .  P2.   I have the cold .  C.   I am sick .  A   (having the cold )  B   (being sick)  P1. If   we ought to save the drowning child ,   Taylor Swift is a philosopher .  P2.   We ought to save the drowning child.  C. Therefore ,   Taylor Swift is a philosopher .  Valid or invalid?  Valid
+
+--- Page 71 ---
+P1. If my crush is interested in me, they will text me.  P2. My crush never texts me.  C. My crush is not interested in me.  Valid  71  No, because the argument might not be sound.  For example,   P1 might be false.  Does this mean that I must accept that the conclusion  (that is, the conclusion is true)?
+
+--- Page 72 ---
+How do we know whether “ if A, then B ”   is true or false?  “ if A, then B ” means, roughly, that whenever A is true, B is always true.  So,   if it is possible that A is   true   but B is false, “ if A, then B ” is false .  72  A  B
+
+--- Page 73 ---
+Why are we learning these things?  73
+
+--- Page 74 ---
+These things can help you when you evaluate or construct an argument  74
+
+--- Page 75 ---
+James Rachels, “The Challenge of Cultural Relativism” (1986)  75  Cultural relativism is false!  James Rachels  (1941 - 2003)
+
+--- Page 76 ---
+What makes an action   morally right   or   wrong ?  Are there objective truths about morality?
+
+--- Page 77 ---
+77  •   Cultural relativism:  The truth of moral judgments is relative to a culture or society.  The moral code of a society determines what is right or wrong within that society.  “It says, in effect, that   there is no such thing as universal truth in ethics ; there are only the vari ous cultural codes,  and nothing more. Moreover, our own code has no special status; it is merely one among many.” (p.14)  •   According to cultural relativism, moral judgments such as “You should not kill your baby” are   similar to  judgements like “You should drive on the left side of the road” or “India is to the west” . These are true in  Singapore but false in some other places, and there is no objective or universal truth about whether you  should drive on the left side of the road or whether India is to the west.  Cultural relativism  Roughly, the moral rules that members of the society follow and   believe   to be true
+
+--- Page 78 ---
+78  Different cultures have different moral codes . For example…  •   “ Callatians   (a tribe of Indians) customarily ate the bodies of their dead fathers. The Greeks, of course, did not  do that   – the Greeks practiced cremation” (p.12)  •   “Eskimo customs turned out to be very different from our own. The men often had more than one wife, and  they would share their wives with guests, lending them for the night as a sign of hospi tality.” (p. 13)  •   The Eskimos also seemed to have less regard for human life. Infanticide, for example, was common….Female  babies…were especially liable to be destroyed, and this was permitted simply at the parents' discretion, with  no social stigma attached to it. Old people also, when they became too feeble to con tribute to the family, were  left out in the snow to die.” (p. 13)  •   Which animals to eat, polygamy, etc.  Why accept cultural relativism?
+
+--- Page 79 ---
+79  Still, cultural relativism is false!  James Rachels  (1941 - 2003)
+
+--- Page 80 ---
+80  •   Rachels first criticizes a common argument for cultural relativism, which goes as follows.  P1 . Different cultures have different moral codes  C. Cultural relativism is true.  (That is, “there is no objective "truth" in morality. Right and wrong are only matters of  opinion, and opinions vary from culture to culture.”) (p.16)  Why cultural relativism is false, according to Rachels  James Rachels  (1941 - 2003)  “ It is not sound. The trouble is that the conclusion does not really follow from the  premise -   that is, even if the premise is true, the conclusion still might be false .   The  premise concerns   what people   believe : in some societies, people believe one thing; in other  societies, people believe differently. The conclusion, however, con cerns   what really is the  case . The trouble is that this sort of conclusion does not follow logically from this sort of  premise… for it   could   be that the practice [of eating the dead] was objectively right (or  wrong) and that one or the other of them was simply mistaken” (p.16)
+
+--- Page 81 ---
+81  •   A   sound   argument is a   valid   argument whose   premises are all true.  Soundness = (1) validity + (2) all premises being true.  Both conditions need to be met for an argument to be sound.  •   A   valid   argument :  Its premises and conclusion are connected in such a way that…  if   the premises are all true, the conclusion must be true as well .  In other words,   the conclusion follows from the premises.  The premises, if all true, 100% guarantee the truth of the conclusion.  (It doesn’t matter whether the premises are   actually true .)  How to check whether an argument is valid :  Assume   that all the premises are true and think about whether it is possible for the conclusion to be false.  If yes, invalid. If no, valid.  E.g.) P1. All philosophers are men.  P2. Jungkook is a philosopher.   Sound or unsound?  C. Jungkook is a man.  Unsound
+
+--- Page 82 ---
+82  •   Rachels first criticizes a common argument for cultural relativism, which goes as follows.  P1 . Different cultures have different moral codes  C. Cultural relativism is true.  (That is, “there is no objective "truth" in morality. Right and wrong are only matters of  opinion, and opinions vary from culture to culture.”) (p.16)  Why cultural relativism is false, according to Rachels  James Rachels  (1941 - 2003)  “To make the point clearer, consider a very different matter. In some societies, people believe the  earth is flat. In other societies, such as our own, people believe the earth is (roughly) spherical.  Does it follow,   from the mere fact that they disagree,   that there is no "objective truth" in  geography? Of course not; we would never draw such a conclusion because we realize that, in  their beliefs about the world,   the members of some societies might simply be wrong. There is no  reason to think that if the world is round every   one must know it. Similarly, there is no reason to  think that if there is moral truth, everyone must know it. ” (p. 16)  The existence of   G od , life after death, etc.   migh t   be better examples.
+
+--- Page 83 ---
+So far, Rachels has only shown that one   particular argument   for cultural  relativism is unsuccessful.  This falls short of showing that cultural relativism is false.  So, he goes on to offer arguments that cultural relativism is false ,  which all use the always valid argument form 2 discussed earlier.  83
+
+--- Page 84 ---
+P1. If my crush is interested in me, they will text me.  P2. My crush just texted me.  C. My crush is interested in me.  Invalid  84  Does this mean that the conclusion is false?  No. It just means this   particular argument   fails to show that the  conclusion is true.  There might be other, good arguments that show that the conclusion is  true.
+
+--- Page 85 ---
+Here goes my argument!  Your argument is unsound!
+
+--- Page 86 ---
+So far, Rachels has only shown that one   particular argument   for cultural  relativism is unsuccessful.  This falls short of showing that cultural relativism is false.  So, he goes on to offer arguments that cultural relativism is false,  which all use the always valid argument form 2 discussed earlier.  86
+
+--- Page 87 ---
+(1)   Always valid  If   A , then   B   (≈ All As are B).  A .  Therefore,   B .  87  (4)   Always invalid  If   A , then   B   (≈ All As are B).  B .  Therefore,   A .  (3)   Always invalid  If   A , then   B   (≈ All As are B).  Not   A .  Therefore, Not   B .  (2)   Always valid  If   A , then   B   (≈ All As are B).  Not   B .  Therefore, Not   A .
+
+--- Page 88 ---
+88  •   Rachels’ arguments that cultural relativism is false have the following structure.  P1. If cultural relativism is true,   [insert a counterintuitive implication of cultural relativism] .  P2. It is   not the case   that   [ ] .  C. Therefore, cultural relativism is   not   true.  •   He mentions three such implications/consequences.  1.   The customs of other societies are never morally inferior to our own.  Why cultural relativism is false, according to Rachels  James Rachels  (1941 - 2003)  “This, of course, is one of the main points stressed by Cultural Relativism. We would have  to stop condemning other societies merely because they are "different."   So long as we con -  centrate on certain examples, such as the funerary practices of the Greeks and   Callatians ,  this may seem to be a sophisticated, enlight ened attitude ” (p.17)
+
+--- Page 89 ---
+89  •   Rachels’ arguments that cultural relativism is false have the following structure.  P1. If cultural relativism is true,   [insert a counterintuitive implication of cultural relativism] .  P2. It is   not the case   that   [ ] .  C. Therefore, cultural relativism is   not   true.  •   He mentions three such implications/consequences.  1.   The customs of other societies are never morally inferior to our own.  Why cultural relativism is false, according to Rachels  James Rachels  (1941 - 2003)  “However, we would also be stopped from criticizing other, less benign practices. Suppose a  society waged war on its neighbors for the purpose of   taking slaves . Or suppose a society was  violently anti - Semitic and its leaders set out to   destroy the Jews .   Cultural Relativism would  preclude us from saying that either of these prac tices was wrong .   We would not even be able to  say that a society tolerant of Jews is   better   than the anti - Semitic society, for that would imply  some sort of transcultural standard of comparison .” (p.17)
+
+--- Page 90 ---
+90  •   Rachels’ arguments that cultural relativism is false have the following structure.  P1. If cultural relativism is true,   [insert a counterintuitive implication of cultural relativism] .  P2. It is   not the case   that   [ ] .  C. Therefore, cultural relativism is   not   true.  •   He mentions three such implications/consequences.  2.   We could decide whether actions are right or wrong just by consulting the standards of our society.  Why cultural relativism is false, according to Rachels  James Rachels  (1941 - 2003)  “Cultural Relativism suggests a simple test for determining what is right and what is wrong: all  one   has to   do is ask whether the action is in accordance with the code of one’s society. Suppose a  resident of South Africa is wondering whether his country's policy of   apartheid -   rigid racial  segregation   -   is morally correct. All he has to do is ask whether this policy conforms to his  society's moral code.” (p.18)
+
+--- Page 91 ---
+91  •   Rachels’ arguments that cultural relativism is false have the following structure.  P1. If cultural relativism is true,   [insert a counterintuitive implication of cultural relativism] .  P2. It is   not the case   that   [ ] .  C. Therefore, cultural relativism is   not   true.  •   He mentions three such implications/consequences.  2.   We could decide whether actions are right or wrong just by consulting the standards of our society.  Why cultural relativism is false, according to Rachels  James Rachels  (1941 - 2003)  “This implication of Cultural Relativism is disturbing because   few of us think that our  society's code is perfect - we can think of ways it might be improved. Yet Cultural Relativism  would not only forbid us from criticizing the codes of other societies;   it would stop us from  criticizing our own .” (p.18)
+
+--- Page 92 ---
+92  •   Rachels’ arguments that cultural relativism is false have the following structure.  P1. If cultural relativism is true,   [insert a counterintuitive implication of cultural relativism] .  P2. It is   not the case   that   [ ] .  C. Therefore, cultural relativism is   not   true.  •   He mentions three such implications/consequences.  3.   Moral progress is impossible.  Why cultural relativism is false, according to Rachels  James Rachels  (1941 - 2003)  “ Usually, we think that at least some changes in our society have been for the better …Consider this  example: Throughout most of Western history the place of women in society was very narrowly  circumscribed. They could not own property; they could not vote or hold political office; with a few  exceptions, they were not permitted to have   paying   jobs; and   generally   they were under the almost  absolute control of their hus bands. Recently much of this has changed, and most people think of it  as progress.” (p.18)
+
+--- Page 93 ---
+93  •   Rachels’ arguments that cultural relativism is false have the following structure.  P1. If cultural relativism is true,   [insert a counterintuitive implication of cultural relativism] .  P2. It is   not the case   that   [ ] .  C. Therefore, cultural relativism is   not   true.  •   He mentions three such implications/consequences.  3.   Moral progress is impossible.  Why cultural relativism is false, according to Rachels  James Rachels  (1941 - 2003)  “But by what standard do we judge the new ways as bet ter? If the old ways were in accordance  with the social standards of their time, then   Cultural Relativism would say it is a mistake to judge  them by the standards of a different time . Eighteenth - century society was, in effect, a different  society from the one we have now. To say that we have made progress implies a judgment that  present - day society is better, and that is just the sort of transcultural judgment that, according to  Cultural Relativism, is impermissible” (p.18)
+
+--- Page 94 ---
+94  •   Rachels’ arguments that cultural relativism is false have the following structure.  P1. If cultural relativism is true,   [insert a counterintuitive implication of cultural relativism] .  P2. It is   not the case   that   [ ] .  C. Therefore, cultural relativism is   not   true.  •   He mentions three such implications/consequences.  1.   The customs of other societies are never morally inferior to our own.  2.   We could decide whether actions are right or wrong just by consulting the standards of our society.  3.   Moral progress is impossible.  •   (Rachels doesn’t directly mention this but) another interesting consequence of cultural relativism:  It   may not be true (at least in some cultures) that we ought to be tolerant of other cultures.  Why cultural relativism is false, according to Rachels
+
+--- Page 95 ---
+What could cultural relativists say in response to Rachels’ arguments?  Rachels’ argument is valid  (and if it is also sound, cultural relativists must accept the conclusion).  So, cultural relativists only have one option — attack the premises.  95  cultural relativist
+
+--- Page 96 ---
+What could cultural relativists say in response?  Rachels’ arguments are valid  (and if they are also sound, cultural relativists must accept the conclusion).  So, cultural relativists only have one option — attack the premises.  96
+
+--- Page 97 ---
+97  A sound argument is a good argument because..  if an argument is sound, its conclusion must be true .
+
+--- Page 98 ---
+98  •   A   sound   argument is a   valid   argument whose   premises are all true.  Soundness = (1) validity + (2) all premises being true.  Both conditions need to be met for an argument to be sound.  •   A   valid   argument :  Its premises and conclusion are connected in such a way that…  if   the premises are all true, the conclusion must be true as well .  In other words, the conclusion follows from the premises.  The premises, if all true, 100% guarantee the truth of the conclusion.  (It doesn’t matter whether the premises are   actually true .)  How to check whether an argument is valid :  Assume   that all the premises are true and think about whether it is possible for the conclusion to be false.  If yes, invalid. If no, valid.  E.g.) P1. All philosophers are men.  P2. Jungkook is a philosopher.   Sound or unsound?  C. Jungkook is a man.  Unsound
+
+--- Page 99 ---
+99  •   Rachels’ arguments that cultural relativism is false have the following structure.  P1. If cultural relativism is true, [insert a counterintuitive implication of cultural relativism].  P2. It is   not the case   that [ ].  C. Therefore, cultural relativism is   not   true.  •   He mentions three such implications/consequences.  1. The customs of other societies are never morally inferior to our own.  2. We could decide whether actions are right or wrong just by consulting the standards of our society.  3. Moral progress is impossible.  First, cultural relativists might deny P2, accepting the allegedly counterintuitive implications of cultural relativism.  [Side note] In philosophy, when, in response to the objection that their view has a counterintuitive implication,  a   philosopher just accepts the implication, they are “ biting the bullet ”.  Possible responses to Rachels’ arguments from cultural relativists
+
+--- Page 100 ---
+
+
+--- Page 101 ---
+101  •   Rachels’ arguments that cultural relativism is false have the following structure.  P1. If cultural relativism is true, [insert a counterintuitive implication of cultural relativism].  P2. It is   not the case   that [ ].  C. Therefore, cultural relativism is   not   true.  •   He mentions three such implications/consequences.  1. The customs of other societies are never morally inferior to our own.  2. We could decide whether actions are right or wrong just by consulting the standards of our society.  3. Moral progress is impossible.  Second, cultural relativists might deny P1, by distinguishing between a society’s common practices and  ideals (fundamental standards)   and claiming that only the latter determines what is right or wrong in the  society.   Since members of a society may not know the society’s ideals or may fail to live up to them, even on  cultural relativism, one society can be morally inferior to another (if the first fails to live up to its own ideals),  one cannot necessarily decide whether actions are right or wrong just by consulting the standards of our  society (because these standards might not be the ideals), and moral progress is possible in some sense.  Possible responses to Rachels’ arguments from cultural relativists
+
+--- Page 102 ---
+102  James Rachels  (1941 - 2003)  “A reformer such as Martin Luther King, Jr., seeks to change his society for the better.  Within the constraints imposed by Cultural Relativism, there is one way this might be  done.   If a society is not living up to its own ideals, the reformer may be regarded as  acting for the best: the ideals of the society are the standard by which we judge his or  her proposals as worthwhile. But the "reformer" may not challenge the ideals  themselves, for those ideals are   by definition correct . Accord ing to Cultural  Relativism, then, the idea of social reform makes sense only in this very limited way.”  (pp.18 - 9)  Is this limited sense satisfactory?  For example, is the reason Nazi Germany is morally inferior to other societies really that they failed  to live up to their own moral ideals? What if Nazism was their own moral ideal?
+
+--- Page 103 ---
+What we can learn from cultural relativism, according to Rachels.  which all use the always valid argument form 2 discussed earlier.  103
+
+--- Page 104 ---
+104  According to Rachels, although cultural relativism is false, we can learn something from it.  What we can learn from cultural relativism  James Rachels  (1941 - 2003)  “Cultural Relativism warns us, quite rightly, about the dan ger of assuming that   all our  preferences are based on some abso lute rational standard. They are not. Many (but not all) of  our practices are merely peculiar to our society …Funerary practices are one example… There  are many other matters that we tend to think of in terms of objective right and wrong, but that  are really nothing more than social conventions . Should women cover their breasts? A publicly  exposed breast is scandalous in our society, whereas in other cul tures it is unremarkable.  Objectively speaking, it is neither right nor wrong - there is no objective reason why either  custom is bet ter.   Cultural Relativism begins with the valuable insight that many of our  practices are like this - they are only cultural products. Then it goes wrong by concluding that,  because some practices are like this, all must be .” (p.23)
+
+--- Page 105 ---
+105  There   are   universal moral norms.  e.g.) You should value the life of an infant.  James Rachels  (1941 - 2003)
+
+--- Page 106 ---
+106  James Rachels  (1941 - 2003)  “ An Eskimo family will always protect its babies if conditions permit. But they live  in a harsh environment , where food is often in short supply…A family may want to  nourish its babies but be unable to do so…Moreover, the Eskimos are a nomadic  people   - unable to farm, they must move about in search of food. Infants must be  carried, and a mother can carry only one baby in her parka…Infant girls are more  readily disposed of because, first, in this society the males are the primary food  providers   - they are the hunters… The Eskimos' values are not all that different from  our values. It is only that life forces upon them choices that we do not have to make ”  (pp.20 - 21)  What about the Eskimos?
+
+--- Page 107 ---
+As usual, I’ll leave it up to you to think about  whether Rachels has successfully shown that cultural relativism is false.  which all use the always valid argument form 2 discussed earlier.  107
+
+--- Page 108 ---
+108  •   Do the reading for next lecture  : Perry, excerpts from   Dialogue on Good, Evil and the Existence of God  ( R eadings   are posted in the “Files” section on Canvas)  What to do this week

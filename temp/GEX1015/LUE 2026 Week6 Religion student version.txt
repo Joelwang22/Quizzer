@@ -1,0 +1,105 @@
+
+--- Page 1 ---
+1  < Midterm >  •   Friday, 6 March (Week 7), 2pm - 3:30pm, MPSH 1A & 1B,   NOT LT11  MPSH 1A : tutorial groups TW 10 - 18  MPSH 1B : tutorial groups   TW 1 - 9  •   You   must be physically present at the venue  •   1   hour and 30   minutes,   15 - 20 questions.  •   Relevant materials:   Weeks 2 - 5   lectures   an d   readings.  •   Some questions   may require knowledge from the readings that isn’t covered in class .  •   The   exa m   will be open book, meaning you may bring   one sheet of paper (handwritten or printed, A4 or  smaller, double - sided) . You won’t have access to the internet or files saved on your laptop .  •   A past exam is posted on Canvas in the Files section.  •   Bring   your own laptop with   Examplify   in s talled   (email me if you don’t have a laptop)  •   Fully charge your laptop before the   exa m   and   bring your own   charger   if   you   want   to   charge   your   lapto p  •   You’ll need to download the exam before the   exa m   starts — I’ll make an announcement a few days before the  exa m   about when it will be available for download (likely Thursday evening)  •   You may use a pen or pencil during the exam, but please bring your own. No additional paper is allowed.  •   You’ll be able to use the built - in calculator in   Examplify   (though you won’t need a calculator).  Announcements and reminders
+
+--- Page 2 ---
+<Teaching Assistants of This   C ourse>  Fan Sirui < siruifan@u.nus.edu >   -   W5, W6, W9, W14  Zachary Lee Jie Lun < zacharyleejl@u.nus.edu >   -   W3, W4, W16  Jolly Cheong Haoran < jollycheong@u.nus.edu >   -   W1, W2, W12, W15, W17  Youhei Shibukawa < youhei@u.nus.edu >   -   W7, W8, W10, W13, W11, W18
+
+--- Page 3 ---
+3  •   Please m ake   sure that   you ’re aware   when your tutorial will be cancelled (contact your TA if   you ’re   unsur e )  •   Practice questions will be posted on Canvas early next week (I’ll make an announcement after posting them)  •   Special office hours for midterm preparation: 27 Feb (Friday) 3pm   –   5pm on Zoom ( the link will   be   available  on Canvas in the Zoom section).  Announcements and reminders
+
+--- Page 4 ---
+Religion  To understand her argument better, let’s forget about morality for now and  think about other human traits that are possibly the results of evolution.  4
+
+--- Page 5 ---
+The Problem of Evil  To understand her argument better, let’s forget about morality for now and  think about other human traits that are possibly the results of evolution.  5
+
+--- Page 6 ---
+The Problem of   Evil  To understand her argument better, let’s forget about morality for now and  think about other human traits that are possibly the results of evolution.  6  Suffering, misfortune  (not immorality)
+
+--- Page 7 ---
+
+
+--- Page 8 ---
+Some people argue against the existence of   a certain kind of god  based on the existence of such evils.  To understand her argument better, let’s forget about morality for now and  think about other human traits that are possibly the results of evolution.  8  A god that has the following three features:  1.   Omnipotent   (all - powerful, with possible exceptions such as creating a round square)  2.   Omniscient   (all - knowing)  3.   Omnibenevolent   ( all - loving,   morally   perfect)  Let’s call this kind of god an   all - perfect god .  (From now on, we’ll focus only on an all - perfect god).  Titian, The Rape of Europa
+
+--- Page 9 ---
+Here’s the basic idea behind the problem of evil.  understand her argument better, let’s forget about morality for  now and think about other human traits that are possibly the  results of evolution.  9
+
+--- Page 10 ---
+10  “You believe in a God that is perfect in every way. All - knowing, all - powerful,  and benevolent…But how can this be? If your God exists, he knows I have  the flu because he knows everything. He can certainly make it the case that I  cease to have the   flu, or   could have prevented me from having the flu in the  first place, for he is all - powerful. But I do have the flu! What am I to  conclude? He must not care. But shouldn't a   really benevolent   God care about  even a wretch like me? Why would he want me to suffer? But if he doesn't  want me to suffer, why am I suffering?...There is no being that meets your  definition of God . Perhaps there is no God. Or perhaps there is, but he is  ignorant, or weak, or mean . ”   (p.4)  Weirob
+
+--- Page 11 ---
+There are different ways to turn this basic idea into an argument.  To understand her argument better, let’s forget about morality for now and  think about other human traits that are possibly the results of evolution.  11
+
+--- Page 12 ---
+12  P1. If an all - perfect god   exist s ,   there   ar e   no   evi ls.  P2. There are   evils .  C. An all - perfect god does not exist.  Let’s think about whether this argument is sound.  An argument against the existence of god from   evil   –   first attempt
+
+--- Page 13 ---
+13  A sound argument is a good argument because..  if an argument is sound, its conclusion must be true.
+
+--- Page 14 ---
+14  •   A   sound   argument is a   valid   argument whose   premises are all true.  Soundness = (1) validity + (2) all premises being true.  Both conditions need to be met for an argument to be sound.  •   A   valid   argument :  Its premises and conclusion are connected in such a way that…  if   the premises are all true, the conclusion must be true as well .  In other words, the conclusion follows from the premises.  The premises, if all true, 100% guarantee the truth of the conclusion.  (It doesn’t matter whether the premises are   actually true .)  How to check whether an argument is valid:  Assume   that all the premises are true and think about whether it is possible for the conclusion to be false.  If yes, invalid. If no, valid.  E.g.) P1. All philosophers are men.  P2. Jungkook is a philosopher.   Sound or unsound?  C. Jungkook is a man.  Unsound
+
+--- Page 15 ---
+15  P1. If an all - perfect god   exist s ,   there   ar e   no   evi ls.  P2. There are   evils .  C. An all - perfect god does not exist.  Let’s think about whether this argument is sound.  First, is this argument   valid ?  (hint: it is equivalent   to   one   of   the   four   common   argument   forms you’ve learned)  An argument against the existence of god from   evil   –   first attempt
+
+--- Page 16 ---
+(1)   Always valid  If   A , then   B   (≈ All As are B).  A .  Therefore,   B .  16  (4)   Always invalid  If   A , then   B   (≈ All As are B).  B .  Therefore,   A .  (3)   Always invalid  If   A , then   B   (≈ All As are B).  Not   A .  Therefore, Not   B .  (2)   Always valid  If   A , then   B   (≈ All As are B).  Not   B .  Therefore, Not   A .  No need to memorise the grey parts  Modus Ponens  (affirming the antecedent)  Modus Tollens  (denying the consequent)
+
+--- Page 17 ---
+17  P1. If an all - perfect god   exist s ,   there   ar e   no   evi ls.  P2. There are   evils   = It’s not the case that   there   are   no   evils   =   not   B  C. An all - perfect god does not exist.  Let’s think about whether this argument is sound.  First, is this argument   valid ?  (hint: it is equivalent   to   one   of   the   four   common   argument   forms you’ve learned)  n ot A  B  An argument against the existence of god from   evil   –   first attempt  A
+
+--- Page 18 ---
+18  P1. If an all - perfect god   exist s ,   there   ar e   no   evi ls.  P2. There are   evils .  C. An all - perfect god does not exist.  Let’s think about whether this argument is sound.  First, is this argument valid?  (hint: it is equivalent   to   one   of   the   four   common   argument   forms you’ve learned)  Second,   are the premises all true?  An argument against the existence of god from   evil   –   first attempt
+
+--- Page 19 ---
+
+
+--- Page 20 ---
+20  P1. If an all - perfect god   exist s ,   there   ar e   no   evi ls.  P2. There are   evils .  C. An all - perfect god does not exist.  Let’s think about whether this argument is sound.  First, is this argument valid?  (hint: it is equivalent   to   one   of   the   four   common   argument   forms you’ve learned)  Second,   are the premises all true?  An argument against the existence of god from   evil   –   first attempt
+
+--- Page 21 ---
+21  “Think of the times we go fishing. Surely it is some form of mild suffering to  get out of bed before dawn on a chilly Nebraska spring morning when one  might sleep in. But the   days as a whole, the   days that start out with those  unpleasant experiences, are some of the most enjoyable days one can imagine.  …  Just as we have a plan for spending a fine day fishing that has, as a neces sary  part, a little suffering early in the morning, so   God may have a plan for the  world that requires suffering.   It still may be a fine world, a much better world  than it would have been without the suffering”   (p.4, p.9)  P1 is clearly implausible because  God   may   have   a good reason   to   allow   some   evils  Miller
+
+--- Page 22 ---
+22  Let’s revise the argument so that  it doesn’t have a clearly implausible premise.
+
+--- Page 23 ---
+23  P1. If an all - perfect god   exist s ,   there   ar e   no   unjustified   evi ls.  P2. There are   unjustified   evils .  C. An all - perfect god does not exist.  An argument against the existence of god from   evil   –   second attempt  Evils that an all - perfect god has no good reason to allow  Now, let’s evaluate this argument.  First, is this argument valid?  Second, are the premises all true? If yes, then theists should accept the conclusion!  Theists   typically attack P2, by providing explanations as to how evils in the world are justified  (that is, explanations as to what God’s reasons for allowing the evils are or could be).  Note that theists would want to show that   all   evils in the world are justified.  Allowing the evil in question is   necessary   for achieving  a   more important   moral goal (e.g., generating a good  that outweighs the evil, preventing a more serious evil)  (“necessary” here means that even an all - perfect god  cannot achieve that goal without allowing the evil).
+
+--- Page 24 ---
+24  Possible answer 1.   We would not   appreciate the good things   in life  unless we were exposed to bad things too.  Sure, but do we need so much evil to appreciate the good things in life?  Couldn’t an all - perfect god make us such that we can appreciate good  things without being exposed to bad things?  And what about bad things that happen without anyone knowing?
+
+--- Page 25 ---
+25  Again, do we really need so much horrendous evil for spiritual development?  And what about the suffering of animals or children who die   young   and suffering  that no one notices ?  Also , if the point of suffering is that it promotes spiritual development, why is it  that   those who really need spiritual development often do not suffer ?  Those who suffer a lot often end up bitter, twisted, and morally   crippled .  Couldn’t an all - perfect god make us such that we are already spiritually mature  without suffering?  Possible answer 2.   Evil is necessary for   spiritual   (moral/personal)   development .
+
+--- Page 26 ---
+26  Again, do we really need so much horrendous evil for spiritual development?  And what about the suffering of animals or children who die   young   and suffering  that no one notices ?  Also , if the point of suffering is that it promotes spiritual development, why is it  that   those who really need spiritual development often do not suffer ?  Those who suffer a lot often end up bitter, twisted, and morally   crippled .  Couldn’t an all - perfect god make us such that we are already spiritually mature  without suffering?  Possible answer 2.   Evil is necessary for   spiritual   (moral/personal)   development .
+
+--- Page 27 ---
+27  Do we really have free will, though this is the topic for next lecture?  Why doesn’t an all - perfect god at least intervene sometimes, to prevent the  most horrendous outcomes of free will (e.g., by ending World War 2 a bit early )?  Doe s   the importance of free will really outweigh the evils in the world?  Is our having free   will   compatible with the existence of an   omniscient   god?  God (and angels) presumably have free will and never commit any wrongdoing.  Why, then, couldn’t God make humans like that too?  Also , what about   natural evils , which are not consequences of human free will  (e.g., earthquakes, floods, tsunamis, volcanoes, cancer, etc.)?  Possible answer 3.   Evil in our world is a necessary consequence of humans having   free will
+
+--- Page 28 ---
+28  Do we really have free will, though this is the topic for next lecture?  Why doesn’t an all - perfect god at least intervene sometimes, to prevent the  most horrendous outcomes of free will (e.g., by ending World War 2 a bit early )?  Doe s   the importance of free will really outweigh the evils in the world?  Is our having free   will   compatible with the existence of an   omniscient   god?  God (and angels) presumably have free will and never commit any wrongdoing.  Why, then, couldn’t God make humans like that too?  Also , what about   natural evils , which are not consequences of human free will  (e.g., earthquakes, floods, tsunamis, volcanoes, cancer, etc.)?  Possible answer 3.   Evil in our world is a necessary consequence of humans having   free will
+
+--- Page 29 ---
+An example of natural evil (that is particularly challenging for theists)  Suppose lightning strikes a tree in a remote forest, starting a  wildfire.   A   fawn is unable to escape, is badly burned, and  experiences prolonged suffering for several days before it  dies . ( We may also   assum e   that this happens before any  human beings   existed.)  •   None of the three possible answers discussed so far can easily justify this instance of evil.  •   Then   what   could   theists   say?
+
+--- Page 30 ---
+30  Possible answer   4 .   Natural evils are caused by   supernatural beings with free will   (e.g.,  devils, fallen angels, etc.)  Do you expect me to find it plausible that such supernatural beings exist?  Why doesn’t God stop them or at least intervene sometimes?
+
+--- Page 31 ---
+31  Possible answer   5 .   Natural evils are necessary consequences of there being   laws of nature ,  which is   good   ( perhaps because they enable effective human actions.)  Couldn’t an all - perfect God create laws of nature that result in fewer, or at least less  severe, natural evils than those we currently observe (for example, eliminating  diseases such as cancer)? Or intervene to prevent at least the most terrible natural  evils in ways that humans would not detect?
+
+--- Page 32 ---
+32  This is   a n unjustified   evil !  Possible answer   6 .   God has good reasons to allow evils, but   humans cannot understand   those  reasons   due to   their   limitations.
+
+--- Page 33 ---
+33  If God is all - loving, why doesn’t he help us bear our suffering by enabling us to  understand his reasons for permitting evil   —   or at least by making his presence more  evident?  If this answer is correct, t hat   means we don’t know what is truly good. Then, it seems  we lose our moral   compass   (e.g.,   we’re   unsure   whether to prevent a suffering or not).  This also means that we can’t predict how a god might behave. For example, we  have no   good   reason   to think that our afterlife will be good (in our sense of good).  Possible answer   6 .   God has good reasons to allow evils, but   humans cannot understand   those  reasons   due to   their   limitations.
+
+--- Page 34 ---
+As usual, I’ll leave it up   to you   to   think about  whether this argument from evil against the existence of an all - perfect god  is successful.  34
+
+--- Page 35 ---
+35  •   The   midterm   exam   will   take   place in Week 7. More information is available on the first  slide.  What to do this week

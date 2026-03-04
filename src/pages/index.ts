@@ -8,3 +8,5 @@ export { default as Hangman } from './Hangman';
 export { default as Acronyms } from './Acronyms';
 export { default as Analytics } from './Analytics';
 export { default as Settings } from './Settings';
+export { default as Teach } from './Teach';
+export { default as LessonViewer } from './LessonViewer';

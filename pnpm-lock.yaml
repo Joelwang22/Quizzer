@@ -11,9 +11,6 @@ importers:
       dexie:
         specifier: ^4.0.8
         version: 4.2.0
-      pdfjs-dist:
-        specifier: ^5.4.449
-        version: 5.4.449
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -75,6 +72,9 @@ importers:
       jsdom:
         specifier: ^25.0.1
         version: 25.0.1
+      pdfjs-dist:
+        specifier: ^5.4.449
+        version: 5.4.449
       postcss:
         specifier: ^8.4.47
         version: 8.5.6
@@ -2030,7 +2030,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   globals@14.0.0:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}

@@ -6,10 +6,12 @@ import {
   CreateTest,
   Hangman,
   Home,
+  LessonViewer,
   QuestionBank,
   QuestionEditor,
   Results,
   Settings,
+  Teach,
   TestRunner,
 } from './pages';
 
@@ -22,6 +24,7 @@ const navItems = [
   { to: '/question-editor', label: 'Question Editor' },
   { to: '/analytics', label: 'Analytics' },
   { to: '/settings', label: 'Settings' },
+  { to: '/teach', label: 'GEX1015' },
 ];
 
 const App = (): JSX.Element => {
@@ -60,6 +63,8 @@ const App = (): JSX.Element => {
           <Route path="/question-editor" element={<QuestionEditor />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/teach" element={<Teach />} />
+          <Route path="/teach/:lessonIdx" element={<LessonViewer />} />
         </Routes>
       </main>
       {import.meta.env.DEV ? <DevMenu /> : null}

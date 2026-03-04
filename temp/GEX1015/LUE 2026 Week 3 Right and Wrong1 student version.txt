@@ -1,0 +1,135 @@
+
+--- Page 1 ---
+1  •   The exam format survey is available on Canvas until the end of tomorrow (31 Jan).  •   Today’s office hour (4pm - 5pm) will be on Zoom, not in person. The Zoom link is available in the Zoom section on Canvas.  •   Edited lecture transcripts will be posted in the Discussions section on Canvas from Week3 onwards, within a few days from each lecture. For Weeks 1 and 2, unedited transcripts are posted there.  •   Some exam questions may require knowledge from the readings that isn’t covered in class.  •   The questions from last week’s lecture that I didn’t have time to answer are answered on Canvas in the Discussions section. If I missed any questions, please feel free to post them there.  Announcements and reminders
+
+--- Page 2 ---
+What makes an action morally right or wrong?  Are there objective truths about morality?
+
+--- Page 3 ---
+Morally   wrong  (=impermissible) actions  Morally   right   (=permissible = not wrong) actions  Morally   required   (=obligatory) actions :  actions that are wrong not to perform  <How philosophers usually use these terms>  The rest? Morally neutral actions  e.g., keeping a promise  e.g., jumping on a grenade  to save others  e .g., taking a philosophy course, eating ice cream for breakfast  Morally   supererogatory   actions:  actions that are morally good but not morally required (not wrong not to perform) (going above and beyond one’s moral duties)
+
+--- Page 4 ---
+What makes an action morally right or wrong?  The first theory we will discuss is   consequentialism ,  more specifically   utilitarianism .
+
+--- Page 5 ---
+5  Consequentialism  •   Consequentialism: whether an act is morally right or wrong depends   ONLY   on consequences (everything else, such as intention, motive, etc. is irrelevant).  •   There are different kinds of consequentialism, depending on, among other things, what kinds of consequences are relevant.  e.g.) A hypothetical example of consequentialism: a right action is an action that  maximizes the number of cats in the world.  Suppose that there are two actions available to you.  Action A will produce 1 more cat in the world (wrong)  Action B will produce 2 more cats in the world (right)  •   (Classic) utilitarianism is an example of consequentialism.
+
+--- Page 6 ---
+6  (   Classic) Utilitarianism  •   (Classic) Utilitarianism: a right action is an action that maximizes the good, with the good understood according to hedonism.     a right action is an action that maximizes total net pleasure or happiness  total net pleasure = total pleasure the action produces to everyone affected by  the action – total pain the action produces to everyone affected  by the action  •   E.g.,) There are two available actions in the situation:  Action1 produces 10 units of pleasure and 5 units of pain = 5 units of pleasure  Action2 produces 3 units of pleasure and 2 units of pain = 1 unit of pleasure     Action1 is the right action.
+
+--- Page 7 ---
+7  (   Classic) Utilitarianism  •   (Classic) Utilitarianism: a right action is an action that maximizes the good, with the good understood according to hedonism.     a right action is an action that maximizes total net pleasure or happiness  total net pleasure = total pleasure the action produces to everyone affected by  the action – total pain the action produces to everyone affected  by the action  •   E.g.,) There are two available actions in the situation:  Action1 produces 0 units of pleasure and 5 units of pain = -5 units of pleasure  (or 5 units of pain)  Action2 produces 0 units of pleasure and 2 units of pain = -2 unit of pleasure  (or 2 units of pain)     Action2 is the right action because it maximizes total net pleasure (or minimize  total net pain)
+
+--- Page 8 ---
+8  (   Classic) Utilitarianism  •   (Classic) Utilitarianism: a right action is an action that maximizes the good, with the good understood according to hedonism.     a right action is an action that maximizes total net pleasure or happiness  total net pleasure = total pleasure the action produces to everyone affected by  the action – total pain the action produces to everyone affected  by the action  Jeremy Bentham  (1748-1832)  John Stuart Mill (1806-1873)  We’re classic utilitarians   .
+
+--- Page 9 ---
+9  (   Classic) Utilitarianism  •   (Classic) Utilitarianism: a right action is an action that maximizes the good, with the good understood according to hedonism.     a right action is an action that maximizes total net pleasure or happiness  total net pleasure = total pleasure the action produces to everyone affected by  the action – total pain the action produces to everyone affected  by the action  •   “the greatest (net) happiness for the greatest number”?  There are 10 people affected by your action  Action1: each person experiences 1 unit of pleasure (and no pain) = 10 units of pleasure  Action2: one person experiences 50 units of pleasure; the rest experience 1 unit of pain each  =   50 − 9 = 41 units of pleasure     Action2 is the right action.
+
+--- Page 10 ---
+Important features of classic utilitarianism  10
+
+--- Page 11 ---
+Classic utilitarianism is   impartial .  Anyone’s pleasure (or pain) matters equally,   if it is of the same amount and quality , regardless of their class, gender, race, nationality...  11  Jeremy Bentham  (1748-1832)  John Stuart Mill (1806-1873)  Women are equal to men!  Slavery should be abolished!  Animals morally matter, too!
+
+--- Page 12 ---
+Classic utilitarianism is   impartial .  Anyone’s pleasure (or pain) matters equally,   if it is of the same amount and quality , regardless of their class, gender, race, nationality...  12  wrong  right
+
+--- Page 13 ---
+Classic utilitarianism is   demanding .  Only an action that maximizes total net pleasure is right (all the other available actions are wrong).  13  wrong  right  wrong
+
+--- Page 14 ---
+Morally   wrong  (=impermissible) actions  Morally   right   (=permissible = not wrong) actions  Morally   required   (=obligatory) actions :  actions that are wrong not to perform  <How philosophers usually use these terms>  Morally   supererogatory   actions:  actions that are morally good but not morally required (not wrong not to perform) (going above and beyond one’s moral duties)  The rest? Morally neutral actions  e.g., keeping a promise  e.g., jumping on a grenade  to save others  e .g., taking a philosophy course, eating ice cream for breakfast
+
+--- Page 15 ---
+15  (   Classic) Utilitarianism  •   (Classic) Utilitarianism: a right action is an action that maximizes the good, with the good understood according to hedonism.     a right action is an action that maximizes total net pleasure or happiness  total net pleasure = total pleasure the action produces to everyone affected by  the action – total pain the action produces to everyone affected  by the action  ≠ produces more pleasure than pain  Action1 produces 5 units of pleasure and 1 units of pain      right  Action2 produces 4 units of pleasure and 1 units of pain      right  Action3 produces 1 units of pleasure and 2 units of pain      wrong  Only Action 1 is right on classic utilitarianism.
+
+--- Page 16 ---
+Morally   wrong  (=impermissible) actions  Morally   right   (=permissible = not wrong) actions  ≈   Morally   required   (=obligatory) actions :  actions that are wrong not to perform  <On classic utilitarianism…>
+
+--- Page 17 ---
+Classic utilitarianism is   context sensitive .  17  There are no types of action (e.g., torture, robbery) that are always wrong or right. All that matters is whether the action maximizes total net pleasure, which may depend on the particular context.
+
+--- Page 18 ---
+Morally   wrong  (=impermissible) actions  Morally   right   (=permissible = not wrong) actions  ≈ Morally   required   (=obligatory) actions :  actions that are wrong not to perform  <On classic utilitarianism…>
+
+--- Page 19 ---
+Classic utilitarianism is   context sensitive .  19  friends What is the right thing to do?  There are no types of action (e.g., torture, robbery) that are always wrong or right. All that matters is whether the action maximizes total net pleasure, which may depend on the particular context.  Abolish the NUS curve!  Or a bomb will go off on campus  in an hour.
+
+--- Page 20 ---
+Classic utilitarianism is   context sensitive .  20  What is the right thing to do?  It is permissible to torture the friend.  In fact, it is required. It is wrong not to do so.  There are no types of action (e.g., torture, robbery) that are always wrong or right. All that matters is whether the action maximizes total net pleasure, which may depend on the particular context.
+
+--- Page 21 ---
+This example also shows that classic utilitarianism permits (in fact, requires) sacrificing innocent people if that will maximize total net pleasure. Here’s another example, which was proposed as an objection to utilitarianism.  21
+
+--- Page 22 ---
+
+
+--- Page 23 ---
+I’ll leave it up to you to think about (and discuss in tutorials) what classic utilitarians could say in response and whether classic utilitarianism is a plausible theory.  23
+
+--- Page 24 ---
+Peter Singer, “Famine, Affluence, and Morality” (1972)  24  We (people living in developed countries) ought to donate a significant amount of our money to charities to help people suffering from extreme poverty in developing countries.  This is not supererogatory. It is obligatory.  It is morally wrong not to do so.
+
+--- Page 25 ---
+25  Yes, I’m a utilitarian.  But my argument doesn’t rely on utilitarianism.  Peter Singer, “Famine, Affluence, and Morality” (1972)
+
+--- Page 26 ---
+Singer’s argument   as to why we ought to donate a significant amount of our money to international aid agencies.  26  Roughly put, reason why we should accept a certain claim  (a more precise definition will be provided later)
+
+--- Page 27 ---
+E.g.) series of statements where the last statement  All humans are mortal.  Socrates is a human.  Therefore, Socrates is mortal.  This argument provides a reason why we should accept that Socrates is mortal. then   the last statement (conclusion) follows from the other statements (premises).  That is, if you accept the premises, you must accept the conclusion.  27  Conclusion  Premises  The idea is that (assuming that the argument is well constructed)  if you accept the premises, you must, rationally speaking, accept  the conclusion as well.
+
+--- Page 28 ---
+Singer’s argument   as to why we ought to donate a significant amount of our money to international aid agencies.  28
+
+--- Page 29 ---
+29  Singer’s argument (complicated version)  Premise 1) If we can prevent something bad from happening, without thereby  sacrificing anything of (comparable) moral importance, we ought to do it.  Premise 2) Suffering and death from extreme poverty are bad.  Premise 3) We can prevent suffering and death from extreme poverty, without thereby sacrificing anything  of (comparable) moral importance.  Conclusion) We ought to prevent suffering and death from extreme poverty.  (That is, it is wrong not to do so; It is our moral obligation).  The drowning child case is supposed to motivate Premise 1 (at least on a common interpretation of Singer)
+
+--- Page 30 ---
+https://www.youtube.com/watch?v=9EHnUsV1J2M  [Side note] Singer describes the pond as shallow.
+
+--- Page 31 ---
+31  Singer’s argument (simpler version)  Premise 1) We ought to save the drowning child. (That is, it is wrong not to do so; It is our moral obligation).  Premise 2) There are no morally relevant differences between saving the drowning child and helping people  who are dying and suffering from extreme poverty in developing countries.  (In other words, if we ought to save the drowning child, then we ought to help people dying and  suffering from extreme poverty)  Conclusion) Therefore, we ought to help people who are dying and suffering from extreme poverty in  developing countries. (That is, it is wrong not to do so; It is our moral obligation).  (Assuming that this argument is well constructed), if you accept the premises, you must accept the conclusion.  To put it another way, if you want to reject the conclusion, you should reject at least one of the premises.
+
+--- Page 32 ---
+Let’s hear what you think.  32
+
+--- Page 33 ---
+Differences between saving the drowning child and helping people in developing countries that Singer discusses  33
+
+--- Page 34 ---
+34  1. Physical Distance  The drowning child is right in front of you, but people in developing countries are far away!  Sure. But that difference is not   morally   relevant (it is only psychologically relevant).  “ The fact that a person is physically near to us, so that we have personal contact with him, may make it more likely that we   shall   assist him, but this does not show that we   ought   to help him rather than another who happens to be further away. If we accept any principle of impartiality, universalizability, equality, or whatever, we cannot discriminate against someone merely because he is far away from us...” (p.232)  At least we can more effectively help someone near to us!  These days, we can effectively help people far away as well.  “ instant communication and swift transportation have changed the situation. From the moral point of view, the development of the world into a "global village" has made an important, though still unrecognized, difference to our moral situation. Expert observers and supervisors, sent out by famine relief organizations or permanently stationed in famine-prone areas, can direct our aid to a refugee in Bengal almost as effectively as we could get it to someone in our own block..” (p.232)
+
+--- Page 35 ---
+35  Singer: there are effective and transparent charities.  Organizations that evaluate charities:  https://www.givewell.org/  https://www.thelifeyoucansave.org/
+
+--- Page 36 ---
+36  2. The number of other people in the same situation as we are  I’m the only one who can save the drowning child, but there are lots of other people living in developed countries!  “Again, of course, I admit that there is a psychological difference between the cases; one feels less guilty about doing nothing if one can point to others, similarly placed, who have also done nothing. Yet this can make   no real difference to our moral obligations . Should I consider that I am less obliged to pull the drowning child out of the pond if on looking around I see other people, no further away than I am, who have also noticed the child but are doing nothing?” (pp.232-3)
+
+--- Page 37 ---
+I’ll leave it up to you to think about (and discuss in tutorials) these and other possible morally relevant differences between saving the drowning child and helping people who are dying and suffering from extreme poverty in developing countries.  37
+
+--- Page 38 ---
+How much we ought to donate, according to Singer  38
+
+--- Page 39 ---
+39  Singer proposes two versions, strong and moderate.  Strong version: “we ought to be preventing as much suffering as we can without sacrificing  something else of   comparable   moral importance.” (p.238)  Moderate version: “we should prevent bad occurrences unless, to do so, we had to sacrifice  something morally significant” (p.241)     we ought to be preventing as much suffering as we can without  sacrificing something else of moral importance.  Even the moderate version is quite demanding: We still ought to donate a substantial amount of money. We’re doing something morally wrong when we buy things like bottled water, new clothes, etc.  “By "without sacrificing anything of comparable moral importance" I mean without causing anything else comparably bad to happen, or doing something that is wrong in itself, or failing to promote some moral good, comparable in significance to the bad thing that we can prevent.” (p.231)
+
+--- Page 40 ---
+40  <Clarifications about Singer’s view as it is expressed in this paper>  •   Note that even the strong version only concerns reducing pain or suffering, not maximizing total net pleasure or happiness.  •   So, if people in developing countries were already happy and did not suffer, even the strong version wouldn’t require us to help them become happier even if that would maximize total net happiness.  •   Thus, Singer, in the context of this paper, can allow that there are such things as supererogatory actions (e.g., maximizing total net happiness by making already happy people happier).  •   Singer’s claim, thus, is not that there are no such things as supererogatory actions, but that it is not a supererogatory action for us to help people in developing countries (without sacrificing something of (comparable) moral importance). This is morally required; It is wrong not to do so.
+
+--- Page 41 ---
+More objections to Singer  (If we have time to go over them. If not, you can read them on your own.)  41
+
+--- Page 42 ---
+42  More objections…  •   You’ve worked hard to get where you are now, so haven’t you earned a right to enjoy it?  “Nobel Prize winning economist and social scientist Herbert Simon estimated that “social capital” is responsible for at least 90 percent of what people earn in wealthy societies…. And most of the poor [in developing countries] do work at least as hard as you.  …having a right to do something doesn’t settle the question of what you should do. If you have a right to do something, I can’t justifiably force you not to do it, but I can still tell you that…you would be wrong to do it. You may have a right to spend your weekend surfing, but it can still be true that you ought to visit your sick mother.  I am not arguing here for higher taxation or any other coercive means of increasing aid.” (The Life You Can Save pp.26-28)
+
+--- Page 43 ---
+43  More objections…  •   Isn’t giving people money just treating their “symptoms”? Don’t we need fundamental, lasting change (“treat the disease”)?  “Although I believe we ought to give a larger portion of our income to organizations combating poverty, I am open-minded about the best way to combat poverty.  We need to make it possible for people to earn their own money, or to produce their own food and meet their other needs in a sustainable manner and by their own work….Finding a form of aid that will really help people is crucial, and not a simple task, but…it can be done.”  (The Life You Can Save, p.36)
+
+--- Page 44 ---
+I’ll leave it up to you to think about  whether Singer’s is right.  (If you think his conclusion is false,  think about where his argument goes wrong.)
+
+--- Page 45 ---
+45  •   There are tutorials this week.  •   Do the reading for next lecture  : Thomson, "Turning the Trolley"  (Readings are posted in the “Files” section on Canvas)  •   The exam format survey is available on Canvas until the end of tomorrow (31 Jan).  What to do this week
