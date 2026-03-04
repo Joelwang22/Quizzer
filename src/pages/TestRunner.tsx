@@ -12,6 +12,7 @@ import {
   type TestAttemptAnswer,
 } from '../models';
 import { gradeQuestion } from '../logic/grader';
+import { formatExplanationWithOptionLineBreaks } from '../logic/formatExplanation';
 
 const TestRunner = (): JSX.Element => {
   const { testId } = useParams<{ testId: string }>();
@@ -522,6 +523,17 @@ useEffect(() => {
           onChange={setLocalPBQAnswer}
         />
       )}
+
+      {answered && currentQuestion.explanation ? (
+        <div className="space-y-1 rounded-lg border border-slate-800 bg-slate-900/40 p-4">
+          <h3 className="text-sm font-semibold text-slate-200">Explanation</h3>
+          <p className="whitespace-pre-line text-sm text-slate-300">
+            {isMCQ(currentQuestion)
+              ? formatExplanationWithOptionLineBreaks(currentQuestion.explanation, currentQuestion.choices.length)
+              : currentQuestion.explanation.trim()}
+          </p>
+        </div>
+      ) : null}
 
       <div className="flex flex-wrap items-center gap-3">
         <button

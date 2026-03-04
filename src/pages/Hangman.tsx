@@ -435,13 +435,22 @@ const Hangman = (): JSX.Element => {
               </div>
             ) : null}
           </div>
-          <button
-            type="button"
-            className="rounded-md border border-slate-700 bg-transparent px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800"
-            onClick={() => setImportOpen((current) => !current)}
-          >
-            {importOpen ? 'Hide import' : 'Import acronyms'}
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              className="rounded-md border border-slate-700 bg-transparent px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800"
+              onClick={() => navigate('/acronyms')}
+            >
+              Manage acronyms
+            </button>
+            <button
+              type="button"
+              className="rounded-md border border-slate-700 bg-transparent px-3 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-800"
+              onClick={() => setImportOpen((current) => !current)}
+            >
+              {importOpen ? 'Hide import' : 'Import acronyms'}
+            </button>
+          </div>
         </header>
 
         {importOpen ? (
@@ -558,7 +567,7 @@ const Hangman = (): JSX.Element => {
         </div>
 
         <div className="rounded-lg border border-slate-800 bg-slate-950 p-4 text-center">
-          <p className="break-words font-mono text-xl leading-relaxed tracking-wider text-slate-100">
+          <p className="break-words whitespace-pre-wrap font-mono text-xl leading-relaxed tracking-wider text-slate-100">
             {maskedSolution}
           </p>
           {wrongGuessList.length > 0 ? (

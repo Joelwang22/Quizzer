@@ -1,6 +1,7 @@
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { DevMenu } from './components';
 import {
+  Acronyms,
   Analytics,
   CreateTest,
   Hangman,
@@ -14,6 +15,7 @@ import {
 
 const navItems = [
   { to: '/', label: 'Home' },
+  { to: '/acronyms', label: 'Acronyms' },
   { to: '/create-test', label: 'Create Test' },
   { to: '/results', label: 'Results' },
   { to: '/question-bank', label: 'Question Bank' },
@@ -50,6 +52,7 @@ const App = (): JSX.Element => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/hangman" element={<Hangman />} />
+          <Route path="/acronyms" element={<Acronyms />} />
           <Route path="/create-test" element={<CreateTest />} />
           <Route path="/test/:testId" element={<TestRunner />} />
           <Route path="/results" element={<Results />} />

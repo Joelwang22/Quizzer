@@ -52,6 +52,13 @@ const Home = (): JSX.Element => {
         <button
           type="button"
           className="rounded-md border border-slate-700 px-4 py-2 text-teal-200 hover:bg-slate-800"
+          onClick={() => navigate('/acronyms')}
+        >
+          Acronym list
+        </button>
+        <button
+          type="button"
+          className="rounded-md border border-slate-700 px-4 py-2 text-teal-200 hover:bg-slate-800"
           onClick={() => navigate('/hangman')}
         >
           Acronym hangman

@@ -1,4 +1,4 @@
-import type { ReactNode, TdHTMLAttributes } from 'react';
+import type { ChangeEvent, ReactNode, TdHTMLAttributes } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { db } from '../db';
 import {
@@ -10,6 +10,12 @@ import {
   type Topic,
 } from '../models';
 import { QuestionForm } from '../components/question-authoring/QuestionForm';
+import {
+  importPracticeExamQuestionsFromPdfArrayBuffer,
+  type PracticeExamPdfImportProgress,
+  type PracticeExamPdfImportSectionScope,
+} from '../logic/practiceExamPdfImport';
+import { buildQuestionBankDeduplicationPlan } from '../logic/dedupeQuestionBank';
 
 const PAGE_SIZE = 10;
 
@@ -44,6 +50,16 @@ const QuestionBank = (): JSX.Element => {
   const [pendingCandidate, setPendingCandidate] = useState<QuestionUpsert | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Question | null>(null);
   const [submitting, setSubmitting] = useState<boolean>(false);
+
+  const [isImportOpen, setIsImportOpen] = useState<boolean>(false);
+  const [importMode, setImportMode] = useState<'merge' | 'replace'>('merge');
+  const [importSectionScope, setImportSectionScope] = useState<PracticeExamPdfImportSectionScope>('chapters');
+  const [importFile, setImportFile] = useState<File | null>(null);
+  const [importBusy, setImportBusy] = useState<boolean>(false);
+  const [importError, setImportError] = useState<string | null>(null);
+  const [importSummary, setImportSummary] = useState<string | null>(null);
+  const [importWarningsPreview, setImportWarningsPreview] = useState<string[]>([]);
+  const [importProgress, setImportProgress] = useState<PracticeExamPdfImportProgress | null>(null);
 
   useEffect(() => {
     void refreshData();
@@ -213,6 +229,175 @@ const QuestionBank = (): JSX.Element => {
     await refreshData();
   };
 
+  const openImportModal = (): void => {
+    setIsImportOpen(true);
+    setImportMode('merge');
+    setImportSectionScope('chapters');
+    setImportFile(null);
+    setImportError(null);
+    setImportSummary(null);
+    setImportWarningsPreview([]);
+    setImportProgress(null);
+  };
+
+  const closeImportModal = (): void => {
+    if (importBusy) {
+      return;
+    }
+    setIsImportOpen(false);
+  };
+
+  const handleImportFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setImportFile(event.target.files?.[0] ?? null);
+    setImportError(null);
+    setImportSummary(null);
+    setImportWarningsPreview([]);
+    setImportProgress(null);
+  };
+
+  const handleImportPracticeExamPdf = async (): Promise<void> => {
+    if (!importFile) {
+      setImportError('Choose a PDF file to import.');
+      return;
+    }
+
+    setImportBusy(true);
+    setImportError(null);
+    setImportSummary(null);
+    setImportWarningsPreview([]);
+    setImportProgress(null);
+
+    try {
+      const buffer = await importFile.arrayBuffer();
+      const result = await importPracticeExamQuestionsFromPdfArrayBuffer(buffer, 'security-plus', {
+        onProgress: (progress) => setImportProgress(progress),
+        sectionScope: importSectionScope,
+      });
+
+      if (result.questions.length === 0) {
+        throw new Error(
+          'No questions found in the PDF. Ensure it contains selectable text and matches the expected practice exam format.',
+        );
+      }
+
+      await db.transaction('rw', db.subjects, db.topics, db.questions, async () => {
+        const existingSubject = await db.subjects.get('security-plus');
+        if (!existingSubject) {
+          await db.subjects.put({ id: 'security-plus', name: 'CompTIA Security+' });
+        }
+
+        if (importMode === 'replace') {
+          await db.questions.where('id').startsWith('imp-examsdigest-sy0701-').delete();
+        }
+
+        for (const topic of result.requiredTopics) {
+          const existing = await db.topics.get(topic.id);
+          if (!existing) {
+            await db.topics.put(topic);
+          } else if (
+            existing.name !== topic.name &&
+            existing.name.startsWith('Answers ') &&
+            topic.name.startsWith('Exam Simulator #')
+          ) {
+            await db.topics.put({ ...existing, name: topic.name });
+          }
+        }
+
+        await db.questions.bulkPut(result.questions);
+      });
+
+      await refreshData();
+
+      const warningCount = result.warnings.length;
+      const scopeLabel = importSectionScope === 'chapters' ? 'chapters only' : 'all sections';
+      const summaryParts = [`Imported ${result.questions.length} questions (${scopeLabel}) from ${importFile.name}.`];
+      if (result.duplicateCount > 0) {
+        summaryParts.push(
+          `Skipped ${result.duplicateCount} duplicate${result.duplicateCount === 1 ? '' : 's'}.`,
+        );
+      }
+      if (warningCount > 0) {
+        summaryParts.push(`${warningCount} warning${warningCount === 1 ? '' : 's'}.`);
+      }
+      setImportSummary(summaryParts.join(' '));
+      setImportWarningsPreview(result.warnings.slice(0, 10));
+    } catch (error) {
+      setImportError(error instanceof Error ? error.message : 'Failed to import PDF.');
+    } finally {
+      setImportBusy(false);
+    }
+  };
+
+  const handleDeduplicateQuestionBank = async (): Promise<void> => {
+    if (importBusy) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      'This will merge and remove duplicate questions (by content) and update any existing tests/attempts to point at the kept question. Continue?',
+    );
+    if (!confirmed) {
+      return;
+    }
+
+    setImportBusy(true);
+    setImportError(null);
+    setImportSummary(null);
+    setImportWarningsPreview([]);
+    setImportProgress(null);
+
+    try {
+      const nowIso = new Date().toISOString();
+      const plan = await db.transaction('rw', db.questions, db.tests, db.attempts, async () => {
+        const [questionRows, testRows, attemptRows] = await Promise.all([
+          db.questions.toArray(),
+          db.tests.toArray(),
+          db.attempts.toArray(),
+        ]);
+
+        const dedupePlan = buildQuestionBankDeduplicationPlan({
+          questions: questionRows,
+          tests: testRows,
+          attempts: attemptRows,
+          nowIso,
+        });
+
+        if (dedupePlan.questionIdsToDelete.length === 0) {
+          return dedupePlan;
+        }
+
+        await db.questions.bulkPut(dedupePlan.questionsToPut);
+        await db.questions.bulkDelete(dedupePlan.questionIdsToDelete);
+        await db.tests.bulkPut(dedupePlan.testsToPut);
+        if (dedupePlan.attemptsToPut.length > 0) {
+          await db.attempts.bulkPut(dedupePlan.attemptsToPut);
+        }
+
+        return dedupePlan;
+      });
+
+      await refreshData();
+
+      if (plan.questionIdsToDelete.length === 0) {
+        setImportSummary('No duplicate questions found.');
+        return;
+      }
+
+      const duplicateCount = plan.questionIdsToDelete.length;
+      const duplicateGroups = plan.duplicateGroups;
+      const testsTouched = plan.testsToPut.length;
+      const attemptsTouched = plan.attemptsToPut.length;
+
+      setImportSummary(
+        `Removed ${duplicateCount} duplicate question${duplicateCount === 1 ? '' : 's'} across ${duplicateGroups} group${duplicateGroups === 1 ? '' : 's'}. Updated ${testsTouched} test${testsTouched === 1 ? '' : 's'} and ${attemptsTouched} attempt${attemptsTouched === 1 ? '' : 's'}.`,
+      );
+    } catch (error) {
+      setImportError(error instanceof Error ? error.message : 'Failed to deduplicate question bank.');
+    } finally {
+      setImportBusy(false);
+    }
+  };
+
   return (
     <section className="space-y-6">
       <header className="flex flex-wrap items-center justify-between gap-4">
@@ -222,13 +407,22 @@ const QuestionBank = (): JSX.Element => {
             Filter by subject, topic, question type, or difficulty. Add or edit questions with schema validation.
           </p>
         </div>
-        <button
-          type="button"
-          className="rounded-md bg-primary px-4 py-2 font-semibold text-white hover:bg-teal-600"
-          onClick={handleAddQuestion}
-        >
-          Add question
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            className="rounded-md border border-slate-700 px-4 py-2 font-semibold text-slate-100 hover:bg-slate-800"
+            onClick={openImportModal}
+          >
+            Import PDF
+          </button>
+          <button
+            type="button"
+            className="rounded-md bg-primary px-4 py-2 font-semibold text-white hover:bg-teal-600"
+            onClick={handleAddQuestion}
+          >
+            Add question
+          </button>
+        </div>
       </header>
 
       <div className="grid gap-4 rounded-lg border border-slate-800 bg-slate-900/40 p-4 md:grid-cols-5">
@@ -397,6 +591,111 @@ const QuestionBank = (): JSX.Element => {
                 onClick={handleConfirmDelete}
               >
                 Delete
+              </button>
+            </div>
+          </div>
+        </Modal>
+      ) : null}
+
+      {isImportOpen ? (
+        <Modal title="Import practice exam PDF" onClose={closeImportModal}>
+          <div className="space-y-4">
+            <p className="text-sm text-slate-300">
+              Import the Security+ practice exam PDF into your local database. The file is parsed locally and never
+              uploaded.
+            </p>
+
+            <div className="space-y-2">
+              <input type="file" accept="application/pdf" onChange={handleImportFileChange} disabled={importBusy} />
+              {importProgress ? (
+                <p className="text-xs text-slate-400">
+                  Parsing page {importProgress.page}/{importProgress.totalPages}...
+                </p>
+              ) : null}
+              {importError ? <p className="text-sm text-red-300">{importError}</p> : null}
+              {importSummary ? <p className="text-sm text-emerald-300">{importSummary}</p> : null}
+              {importWarningsPreview.length > 0 ? (
+                <div className="rounded-md border border-slate-800 bg-slate-950 p-3 text-sm text-slate-200">
+                  <p className="mb-2 font-semibold">Warnings (first {importWarningsPreview.length})</p>
+                  <ul className="list-disc space-y-1 pl-5 text-slate-300">
+                    {importWarningsPreview.map((warning) => (
+                      <li key={warning}>{warning}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <label className="flex items-center gap-2 text-sm text-slate-100">
+                <input
+                  type="radio"
+                  value="chapters"
+                  checked={importSectionScope === 'chapters'}
+                  onChange={() => setImportSectionScope('chapters')}
+                  disabled={importBusy}
+                />
+                Chapters only (topic-grouped, no mock exam duplicates)
+              </label>
+              <label className="flex items-center gap-2 text-sm text-slate-100">
+                <input
+                  type="radio"
+                  value="all"
+                  checked={importSectionScope === 'all'}
+                  onChange={() => setImportSectionScope('all')}
+                  disabled={importBusy}
+                />
+                All sections (includes exam simulators)
+              </label>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <label className="flex items-center gap-2 text-sm text-slate-100">
+                <input
+                  type="radio"
+                  value="merge"
+                  checked={importMode === 'merge'}
+                  onChange={() => setImportMode('merge')}
+                  disabled={importBusy}
+                />
+                Merge into existing questions
+              </label>
+              <label className="flex items-center gap-2 text-sm text-red-200">
+                <input
+                  type="radio"
+                  value="replace"
+                  checked={importMode === 'replace'}
+                  onChange={() => setImportMode('replace')}
+                  disabled={importBusy}
+                />
+                Replace previous import (keeps custom questions)
+              </label>
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                className="rounded-md border border-slate-700 px-3 py-2 text-sm hover:bg-slate-800 disabled:opacity-60"
+                onClick={handleDeduplicateQuestionBank}
+                disabled={importBusy}
+              >
+                Deduplicate bank
+              </button>
+              <button
+                type="button"
+                className="rounded-md border border-slate-700 px-3 py-2 text-sm hover:bg-slate-800 disabled:opacity-60"
+                onClick={closeImportModal}
+                disabled={importBusy}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-teal-600 disabled:opacity-60"
+                onClick={handleImportPracticeExamPdf}
+                disabled={importBusy || !importFile}
+              >
+                {importBusy ? 'Importing...' : 'Import PDF'}
               </button>
             </div>
           </div>

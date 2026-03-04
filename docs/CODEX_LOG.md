@@ -1,3 +1,119 @@
+### 2025-12-20 17:17 (local)
+**Summary:** Split “Option A/B/C/D …” sentences onto their own lines in the Explanation panel.
+**Changes:**
+- Updated explanation formatting to add line breaks before `Option X` (and avoided breaking after `Correct Answer:`) (`src/logic/formatExplanation.ts`).
+- Added/updated formatter unit tests (`src/logic/__tests__/formatExplanation.test.ts`).
+**Commands run:**
+- `pnpm test`
+- `pnpm lint`
+- `pnpm build`
+
+### 2025-12-20 16:37 (local)
+**Summary:** Formatted explanations to add a new line per option after submitting an answer.
+**Changes:**
+- Added an explanation formatter that inserts line breaks before option tokens (A./(A)/A:) when multiple options are present (`src/logic/formatExplanation.ts`).
+- Rendered explanations with preserved newlines in the Test Runner (`src/pages/TestRunner.tsx`).
+- Added unit coverage for explanation formatting (`src/logic/__tests__/formatExplanation.test.ts`).
+**Commands run:**
+- `pnpm test`
+- `pnpm lint`
+- `pnpm build`
+
+### 2025-12-20 13:10 (local)
+**Summary:** Added a chapter-only import scope for practice exam PDFs to avoid importing duplicated mock exam questions.
+**Changes:**
+- Added a `sectionScope` option (`chapters` vs `all`) to the practice exam PDF importer and defaulted the Question Bank UI to chapters-only (`src/logic/practiceExamPdfImport.ts`, `src/pages/QuestionBank.tsx`).
+- Added unit coverage for chapters-only filtering (`src/logic/__tests__/practiceExamPdfImport.test.ts`).
+**Commands run:**
+- `pnpm test`
+- `pnpm lint`
+- `pnpm build`
+
+### 2025-12-18 18:27 (local)
+**Summary:** Added a one-click dedupe tool to ensure the question bank has no duplicate questions (updates tests/attempts safely).
+**Changes:**
+- Added content-based fingerprinting + MCQ choice-id remapping helpers (`src/logic/questionFingerprint.ts`).
+- Added a dedupe planner that merges duplicate questions (topics/explanation), rewrites tests/attempts, and deletes duplicates (`src/logic/dedupeQuestionBank.ts`).
+- Exposed "Deduplicate bank" from the PDF import modal so existing duplicates can be cleaned without reimporting (`src/pages/QuestionBank.tsx`).
+- Added Vitest coverage for dedupe planning + choice-id remapping (`src/logic/__tests__/dedupeQuestionBank.test.ts`).
+**Commands run:**
+- `pnpm test`
+- `pnpm lint`
+- `pnpm build`
+
+### 2025-12-18 17:45 (local)
+**Summary:** Deduped imported practice exam questions across PDF sections and improved labeling for the 401-600 answer ranges.
+**Changes:**
+- De-duplicate identical MCQs during PDF import by fingerprint (merge topic tags, keep best explanation) and report `duplicateCount` (`src/logic/practiceExamPdfImport.ts`).
+- Label answer ranges `401-500` / `501-600` as Exam Simulator #5/#6 (without changing existing import IDs) and auto-rename existing `Answers ...` topics on re-import (`src/logic/practiceExamPdfImport.ts`, `src/pages/QuestionBank.tsx`).
+- Added unit coverage for cross-section de-duplication (`src/logic/__tests__/practiceExamPdfImport.test.ts`).
+**Commands run:**
+- `pnpm test`
+- `pnpm lint`
+- `pnpm build`
+
+### 2025-12-18 17:18 (local)
+**Summary:** Reduced noisy PDF import warnings caused by source numbering typos (e.g., “Explanation 62” under “Question 362”).
+**Changes:**
+- Defer/skip explanation-number mismatch warnings when they match common source-PDF typos (off-by-one, repeated previous number, missing leading digits) (`src/logic/practiceExamPdfImport.ts`).
+- Added regression tests for the misnumbered explanation patterns (`src/logic/__tests__/practiceExamPdfImport.test.ts`).
+**Commands run:**
+- `pnpm test` (escalated; sandbox process spawning)
+- `pnpm lint` (escalated; sandbox process spawning)
+- `pnpm build` (escalated; sandbox process spawning)
+
+### 2025-12-18 17:05 (local)
+**Summary:** Hardened the practice exam PDF importer to detect question/explanation headers with missing punctuation (fixes “Explanation N encountered while parsing question N-1”).
+**Changes:**
+- Accept `Question 444` (missing dot) and leading punctuation like `. Question 456` when detecting new questions (`src/logic/practiceExamPdfImport.ts`).
+- Accept `Explanation 444` lines that omit the trailing period after the number (`src/logic/practiceExamPdfImport.ts`).
+- Added test coverage for these header variations (`src/logic/__tests__/practiceExamPdfImport.test.ts`).
+**Commands run:**
+- `pnpm test` (escalated; sandbox process spawning)
+- `pnpm lint` (escalated; sandbox process spawning)
+- `pnpm build` (escalated; sandbox process spawning)
+
+### 2025-12-18 15:31 (local)
+**Summary:** Fixed practice exam PDF import returning zero questions (handles “Explanation … Correct Answer …” on one line).
+**Changes:**
+- Parse the remainder of an `Explanation N.` line so merged `Correct Answer` text is captured (`src/logic/practiceExamPdfImport.ts`).
+- Updated unit tests to cover the merged explanation+answer line format (`src/logic/__tests__/practiceExamPdfImport.test.ts`).
+**Commands run:**
+- `pnpm test` (escalated; sandbox process spawning)
+- `pnpm lint` (escalated; sandbox process spawning)
+- `pnpm build` (escalated; sandbox process spawning)
+
+### 2025-12-18 15:18 (local)
+**Summary:** Added a PDF importer to port the Security+ practice exam questions into IndexedDB, with progress + warnings.
+**Changes:**
+- Added an ExamsDigest-style practice exam PDF parser that extracts MCQs + answers into our Question model (`src/logic/practiceExamPdfImport.ts`).
+- Added a Question Bank "Import PDF" modal that imports the parsed questions/topics into Dexie (`src/pages/QuestionBank.tsx`).
+- Show explanations only after submitting an answer (avoids spoilers when importing explanations) (`src/components/MCQQuestion.tsx`, `src/pages/TestRunner.tsx`).
+- Added unit coverage for the parser (`src/logic/__tests__/practiceExamPdfImport.test.ts`).
+**Commands run:**
+- `pnpm test` (escalated; sandbox process spawning)
+- `pnpm lint` (escalated; sandbox process spawning)
+- `pnpm build` (escalated; sandbox process spawning)
+
+### 2025-12-18 11:26 (local)
+**Summary:** Added an Acronyms CRUD page so you can view/edit the saved acronym list (used by Hangman).
+**Changes:**
+- Added acronyms list + create/edit/delete UI with search, subject filter, and pagination (`src/pages/Acronyms.tsx`).
+- Wired routing/navigation to the acronyms manager (`src/App.tsx`, `src/pages/index.ts`, `src/pages/Home.tsx`, `src/pages/Hangman.tsx`).
+**Commands run:**
+- `pnpm test`
+- `pnpm lint`
+- `pnpm build`
+
+### 2025-12-18 10:59 (local)
+**Summary:** Preserved word spacing in Acronym Hangman masked answers so multi-word definitions show visible gaps.
+**Changes:**
+- Preserved whitespace when rendering the masked solution (`src/pages/Hangman.tsx`).
+**Commands run:**
+- `pnpm test`
+- `pnpm lint`
+- `pnpm build`
+
 ### 2025-12-17 01:26 (local)
 **Summary:** Fixed Hangman PDF acronym import so multi-page, multi-column tables parse the full Security+ list (resolves the “Parsed 34 acronyms” failure).
 **Changes:**

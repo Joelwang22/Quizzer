@@ -35,7 +35,31 @@
       "id": "hangman-acronyms",
       "title": "Acronym hangman practice",
       "status": "done",
-      "notes": "Standalone acronym hangman mode started from Home; acronyms stored in IndexedDB with PDF/text import, plus optional auto-load (and retry) from a local PDF in public/acronyms/security-plus.pdf (PDF parsing handles multi-page + multi-column tables)."
+      "notes": "Standalone acronym hangman mode started from Home; acronyms stored in IndexedDB with PDF/text import, plus optional auto-load (and retry) from a local PDF in public/acronyms/security-plus.pdf (PDF parsing handles multi-page + multi-column tables). Masked definitions preserve word spacing for multi-word answers. Includes an Acronyms manager page for viewing and CRUD edits."
+    },
+    {
+      "id": "json-import-export",
+      "title": "Import/Export JSON (merge/replace)",
+      "status": "done",
+      "notes": "Settings page supports offline JSON export plus merge/replace imports with schema validation and warnings."
+    },
+    {
+      "id": "runner-enhancements",
+      "title": "Test runner UX enhancements",
+      "status": "done",
+      "notes": "Retry missed-only flow, optional timer, keyboard help modal, and explanation display after submit (now formatted into option-per-line) are implemented."
+    },
+    {
+      "id": "dexie-v2",
+      "title": "Dexie migration v2 (difficulty + config)",
+      "status": "done",
+      "notes": "Added difficulty field normalization and a config store for mastery threshold + timer settings; DB now at v3."
+    },
+    {
+      "id": "practice-exam-pdf-import",
+      "title": "Practice exam PDF import (questions)",
+      "status": "done",
+      "notes": "Question Bank can import ExamsDigest-style Security+ practice exam PDFs into IndexedDB, creating needed topics and surfacing parse warnings (handles merged “Explanation … Correct Answer …” lines, question headers missing punctuation, and common explanation-number typos in the source PDF). Dedupes identical questions across sections (merges topic tags, keeps best explanation) and labels the 401-600 ranges as Exam Simulator #5/#6. Includes a one-click question bank dedupe action to remove any remaining duplicates and rewrite related tests/attempts."
     }
   ],
   "todos": [
@@ -46,29 +70,11 @@
       "notes": "Build full authoring surface with duplicate detection and PBQ JSON validation."
     },
     {
-      "id": "json-import-export",
-      "title": "Import/Export JSON (merge/replace)",
-      "status": "todo",
-      "notes": "Offline data transfer flows with schema validation and user warnings."
-    },
-    {
       "id": "analytics-ui",
       "title": "Analytics UI (charts + summaries)",
       "status": "todo",
       "notes": "Visualise accuracy, weak topics, and history, including CSV export."
-    },
-    {
-      "id": "runner-enhancements",
-      "title": "Retry missed only, timer, keyboard help modal",
-      "status": "todo",
-      "notes": "Enhance test runner UX once authoring backlog catches up."
-    },
-    {
-      "id": "dexie-v2",
-      "title": "Dexie migration v2 (difficulty + masteryThreshold)",
-      "status": "todo",
-      "notes": "Introduce schema bump for difficulty scale and configurable mastery threshold."
     }
   ],
-  "lastUpdated": "2025-12-17T01:26:00+08:00"
+  "lastUpdated": "2025-12-20T17:17:21+08:00"
 }

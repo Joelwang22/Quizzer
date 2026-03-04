@@ -13,9 +13,6 @@ const MCQQuestion = ({ question, selectedChoiceIds, onToggleChoice }: MCQQuestio
     <div className="space-y-4 rounded-lg border border-slate-700 bg-slate-900/40 p-4">
       <header className="space-y-1">
         <h2 className="text-xl font-semibold">{question.stem}</h2>
-        {question.explanation ? (
-          <p className="text-sm text-slate-400">{question.explanation}</p>
-        ) : null}
       </header>
       <div className="space-y-2" role="group" aria-label="Answer choices">
         {question.choices.map((choice, index) => {
