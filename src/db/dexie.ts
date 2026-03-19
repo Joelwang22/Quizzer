@@ -10,7 +10,6 @@ import type {
   UserState,
 } from '../models';
 import { securityPlusSeed } from '../../seed/seedSecurityPlus';
-import { gex1015Seed } from '../../seed/seedGEX1015';
 import { securityPlusAcronyms } from '../data/acronyms';
 import type { QuestionDifficulty } from '../models/types';
 
@@ -135,8 +134,20 @@ export class CybersecQuizDB extends Dexie {
         }
       });
 
-    // v4 adds GEX1015 ethics seed data
-    this.version(4)
+    // v4 schema unchanged (previously added GEX1015 data — now managed separately)
+    this.version(4).stores({
+      subjects: 'id',
+      topics: 'id, subjectId',
+      questions: 'id, subjectId, *topicIds, type, difficulty',
+      tests: 'id, status, [subjectIds+status]',
+      attempts: 'id, questionId, testId, subjectId, *topicIds, isCorrect',
+      userState: 'id',
+      config: 'id',
+      acronyms: 'id, subjectId, acronym',
+    });
+
+    // v5 removes GEX1015 data (now lives in its own standalone site)
+    this.version(5)
       .stores({
         subjects: 'id',
         topics: 'id, subjectId',
@@ -151,18 +162,12 @@ export class CybersecQuizDB extends Dexie {
         const subjectsTable = transaction.table<Subject>('subjects');
         const topicsTable = transaction.table<Topic>('topics');
         const questionsTable = transaction.table<Question>('questions');
+        const attemptsTable = transaction.table<Attempt>('attempts');
 
-        const existing = await subjectsTable.get('gex1015');
-        if (!existing) {
-          await subjectsTable.bulkAdd(gex1015Seed.subjects);
-          await topicsTable.bulkAdd(gex1015Seed.topics);
-          await questionsTable.bulkAdd(
-            gex1015Seed.questions.map((q) => ({
-              ...q,
-              difficulty: q.difficulty ?? DEFAULT_DIFFICULTY,
-            })),
-          );
-        }
+        await subjectsTable.delete('gex1015');
+        await topicsTable.where('subjectId').equals('gex1015').delete();
+        await questionsTable.where('subjectId').equals('gex1015').delete();
+        await attemptsTable.where('subjectId').equals('gex1015').delete();
       });
 
     // Initial seed on first create
@@ -173,14 +178,12 @@ export class CybersecQuizDB extends Dexie {
 
   private async populateFromSeed(): Promise<void> {
     const sp = securityPlusSeed;
-    const gex = gex1015Seed;
 
-    // Split into two transactions to satisfy Dexie TS overloads.
     await this.transaction('rw', this.subjects, this.topics, this.questions, async () => {
-      await this.subjects.bulkAdd([...sp.subjects, ...gex.subjects]);
-      await this.topics.bulkAdd([...sp.topics, ...gex.topics]);
+      await this.subjects.bulkAdd(sp.subjects);
+      await this.topics.bulkAdd(sp.topics);
       await this.questions.bulkAdd(
-        [...sp.questions, ...gex.questions].map((q) => ({
+        sp.questions.map((q) => ({
           ...q,
           difficulty: q.difficulty ?? DEFAULT_DIFFICULTY,
         })),

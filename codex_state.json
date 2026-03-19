@@ -47,7 +47,7 @@
       "id": "runner-enhancements",
       "title": "Test runner UX enhancements",
       "status": "done",
-      "notes": "Retry missed-only flow, optional timer, keyboard help modal, and explanation display after submit (now formatted into option-per-line) are implemented."
+      "notes": "Retry missed-only flow, optional timer, keyboard help modal, explanation display after submit, plus centered runner layout, question navigator, review screen, progress summaries, and unsaved-answer guards are implemented."
     },
     {
       "id": "dexie-v2",
@@ -60,6 +60,18 @@
       "title": "Practice exam PDF import (questions)",
       "status": "done",
       "notes": "Question Bank can import ExamsDigest-style Security+ practice exam PDFs into IndexedDB, creating needed topics and surfacing parse warnings (handles merged “Explanation … Correct Answer …” lines, question headers missing punctuation, and common explanation-number typos in the source PDF). Dedupes identical questions across sections (merges topic tags, keeps best explanation) and labels the 401-600 ranges as Exam Simulator #5/#6. Includes a one-click question bank dedupe action to remove any remaining duplicates and rewrite related tests/attempts."
+    },
+    {
+      "id": "security-plus-lessons-expansion",
+      "title": "Security+ lesson coverage expansion",
+      "status": "done",
+      "notes": "Guided lessons now use Professor Messer course notes as the main content base via a generated 119-lesson section path (1.1 through 5.6), plus a supplemental 4.9 investigation-data lesson from the other local Security+ materials. The repo also includes reusable PDF extraction and lesson-generation scripts plus local text extractions in docs/extracted for future content work."
+    },
+    {
+      "id": "playwright-lesson-verification",
+      "title": "Playwright lesson verification",
+      "status": "done",
+      "notes": "Added Playwright config, scripts, and a Chromium E2E pass that walks every lesson and every slide to catch render breakage, empty content, browser errors, and obvious placeholder text in the lesson viewer."
     }
   ],
   "todos": [
@@ -76,5 +88,5 @@
       "notes": "Visualise accuracy, weak topics, and history, including CSV export."
     }
   ],
-  "lastUpdated": "2025-12-20T17:17:21+08:00"
+  "lastUpdated": "2026-03-19T09:08:00+08:00"
 }

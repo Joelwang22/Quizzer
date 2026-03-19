@@ -1,3 +1,69 @@
+### 2026-03-19 09:08 (local)
+**Summary:** Fixed the generated `5.6 - User Training` lesson pulling in table-of-contents numbers and front-matter text from the Professor Messer PDF extraction.
+**Changes:**
+- Tightened the Messer lesson generator so real lesson parsing starts at content pages instead of the early table-of-contents pages (`scripts/generate-security-plus-lessons.mjs`).
+- Filtered standalone page-number lines and merged promotional footer lines such as `ProfessorMesser.com` / `Security+ Success Bundle` from generated lesson content (`scripts/generate-security-plus-lessons.mjs`).
+- Regenerated the lesson dataset so `5.6 - User Training` now contains only the real user-training material (`src/data/securityPlusLessons.generated.ts`).
+**Commands run:**
+- `node scripts/generate-security-plus-lessons.mjs`
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+
+### 2026-03-19 09:03 (local)
+**Summary:** Added Playwright-based browser verification for the lesson system and ran a full Chromium pass across every lesson and slide.
+**Changes:**
+- Added Playwright to the repo with project scripts, browser config, and output ignores for reports and test artifacts (`package.json`, `playwright.config.ts`, `.gitignore`).
+- Added an end-to-end lesson integrity spec that opens every lesson, walks every slide, and fails on browser errors, console errors, empty slide content, or obvious broken render markers like `undefined`, `null`, `NaN`, or `[object Object]` (`e2e/lessons.spec.ts`).
+- Updated Vitest discovery to exclude `e2e/` so Playwright specs are only executed by the Playwright runner (`vite.config.ts`).
+**Commands run:**
+- `pnpm add -D @playwright/test`
+- `pnpm exec playwright install chromium`
+- `pnpm test:e2e -- e2e/lessons.spec.ts`
+- `pnpm test`
+- `pnpm lint`
+- `pnpm build`
+
+### 2026-03-19 08:53 (local)
+**Summary:** Replaced the Security+ lesson summaries with a Professor Messer course-notes lesson path and added a supplemental 4.9 investigation-data lesson.
+**Changes:**
+- Added a column-aware PDF extraction path for two-column study-note PDFs and regenerated a cleaner Professor Messer text extraction for lesson generation (`scripts/extract-pdf-columns.mjs`, `docs/extracted/Professor-Messer-SY0-701-COMPTIA.clean.txt`).
+- Added a lesson generator that turns the cleaned Professor Messer notes into a large static lesson dataset and refactored the lesson module into a stable wrapper plus generated content (`scripts/generate-security-plus-lessons.mjs`, `src/data/securityPlusLessons.generated.ts`, `src/data/securityPlusLessons.ts`).
+- Replaced the prior 19-lesson objective summary with 119 Professor Messer section lessons (`1.1` through `5.6`) and appended a supplemental `4.9 - Data Sources to Support Investigations` lesson sourced from the other local Security+ materials.
+- Updated the lesson tests to validate the Messer coverage shape, `5.5`/`5.6`, and the supplemental `4.9` coverage (`src/data/__tests__/securityPlusLessons.test.ts`).
+**Commands run:**
+- `node scripts/extract-pdf-columns.mjs docs/Professor-Messer-SY0-701-COMPTIA.pdf docs/extracted/Professor-Messer-SY0-701-COMPTIA.clean.txt`
+- `node scripts/generate-security-plus-lessons.mjs`
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm test`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-19 08:33 (local)
+**Summary:** Expanded the Security+ guided lessons from a short summary path into a full SY0-701 objective-aligned course sourced from the local PDFs.
+**Changes:**
+- Added a reusable PDF-to-text extraction script and generated searchable text copies of the main Security+ study PDFs under `docs/extracted/` so lesson expansion could be mapped against the source material (`scripts/extract-pdf-text.mjs`, `docs/extracted/*`).
+- Rewrote the lesson dataset from 5 broad lessons to 19 objective-aligned lessons covering objectives `1.1` through `5.4`, while keeping the existing lesson viewer/search APIs intact (`src/data/securityPlusLessons.ts`).
+- Updated lesson tests to validate objective coverage and broader topic searchability (including late-domain topics like `802.1X`, `SPF/DKIM/DMARC`, and right-to-audit clauses) (`src/data/__tests__/securityPlusLessons.test.ts`).
+- Ignored the scratch `temp/` directory in ESLint so repo linting no longer fails on ad hoc extraction scripts outside the app code (`eslint.config.js`).
+**Commands run:**
+- `node scripts/extract-pdf-text.mjs docs/CompTIA-Security-SY0-701.pdf docs/extracted/CompTIA-Security-SY0-701.txt`
+- `node scripts/extract-pdf-text.mjs docs/Professor-Messer-SY0-701-COMPTIA.pdf docs/extracted/Professor-Messer-SY0-701-COMPTIA.txt`
+- `node scripts/extract-pdf-text.mjs docs/Official-Security+-Student-Guide.pdf docs/extracted/Official-Security-Student-Guide.txt`
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm test`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-18 05:47 (local)
+**Summary:** Ported the newer quiz runner navigation/review UX from GEX1015 into Quizzer.
+**Changes:**
+- Added a centered Test Runner layout with a collapsible question navigator that expands into the desktop right gutter and falls back to a modal on smaller screens (`src/pages/TestRunner.tsx`).
+- Added review-screen flow, answered/marked question tracking, progress summary stats, and unsaved-answer guards before navigation (`src/pages/TestRunner.tsx`, `src/components/ProgressBar.tsx`).
+- Added component coverage for the upgraded progress summary (`src/components/__tests__/ProgressBar.test.tsx`).
+**Commands run:**
+- `pnpm test`
+- `pnpm exec eslint src\pages\TestRunner.tsx src\components\ProgressBar.tsx src\components\__tests__\ProgressBar.test.tsx`
+- `pnpm build`
+
 ### 2025-12-20 17:17 (local)
 **Summary:** Split “Option A/B/C/D …” sentences onto their own lines in the Explanation panel.
 **Changes:**

@@ -34,14 +34,21 @@ const Home = (): JSX.Element => {
       <header className="space-y-2">
         <h1 className="text-3xl font-bold">Cybersec Quiz</h1>
         <p className="text-slate-300">
-          Offline-first Security+ practice. Build custom tests, focus on weak topics, and track progress
-          over time.
+          Offline-first Security+ practice. Build custom tests, review guided lessons, focus on weak
+          topics, and track progress over time.
         </p>
       </header>
 
       {error ? <p className="text-sm text-red-400">{error}</p> : null}
 
       <div className="flex flex-wrap gap-4">
+        <button
+          type="button"
+          className="rounded-md border border-slate-700 px-4 py-2 text-teal-200 hover:bg-slate-800"
+          onClick={() => navigate('/lessons')}
+        >
+          Guided lessons
+        </button>
         <button
           type="button"
           className="rounded-md bg-primary px-4 py-2 font-semibold text-white hover:bg-teal-600"
