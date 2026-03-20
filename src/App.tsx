@@ -4,6 +4,7 @@ import {
   Acronyms,
   Analytics,
   CreateTest,
+  DiagramDebug,
   Hangman,
   Home,
   LessonViewer,
@@ -64,6 +65,7 @@ const App = (): JSX.Element => {
           <Route path="/" element={<Home />} />
           <Route path="/lessons" element={<Teach />} />
           <Route path="/lessons/:lessonIdx" element={<LessonViewer />} />
+          {import.meta.env.DEV ? <Route path="/debug/lesson-diagrams" element={<DiagramDebug />} /> : null}
           <Route path="/hangman" element={<Hangman />} />
           <Route path="/acronyms" element={<Acronyms />} />
           <Route path="/create-test" element={<CreateTest />} />

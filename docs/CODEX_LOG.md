@@ -1,3 +1,81 @@
+### 2026-03-21 04:19 (local)
+**Summary:** Made lesson slides honor the same local diagram crop overrides used by the dev inspector so crop tuning matches between the two views.
+**Changes:**
+- Added shared debug-override loading for lesson diagram crops, using the same `lessonId::slideIndex` keys and browser storage entry that the dev inspector writes (`src/data/lessonDiagramCrops.ts`).
+- Updated the lesson viewer to pass the current lesson/slide override key into diagram rendering, so a crop adjusted in the dev menu is immediately reflected on the actual lesson slide (`src/pages/LessonViewer.tsx`).
+- Switched the dev inspector to import the shared override storage key from the crop module to keep both code paths aligned (`src/pages/DiagramDebug.tsx`).
+**Commands run:**
+- `pnpm exec playwright test e2e/lesson-diagrams.spec.ts --project=chromium`
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm build`
+
+### 2026-03-21 04:14 (local)
+**Summary:** Fixed Lesson 62 slide 2 so the full security-zone topology diagram renders at the intended aspect ratio in the lesson viewer.
+**Changes:**
+- Updated the slide wrapper to provide full slide height to diagram panels, allowing the diagram canvas stage to expand and use the available vertical space instead of collapsing to a small intrinsic render (`src/pages/LessonViewer.tsx`).
+- Expanded the crop for the Lesson 62 slide 2 security-zone topology figure so the lesson uses the full diagram from Professor Messer page 56 instead of only the upper slice (`src/data/lessonDiagramCrops.ts`).
+- Re-verified Lesson 62 slide 2 with Playwright screenshots after the crop/layout changes and reran the full diagram slide E2E pass to confirm the rest of the diagram slides still render correctly.
+**Commands run:**
+- `pnpm exec playwright test e2e/lesson-diagrams.spec.ts --project=chromium`
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm build`
+
+### 2026-03-21 03:47 (local)
+**Summary:** Stabilized lesson diagram rendering so slides stop looping in the loading state and Playwright can verify the rendered canvases reliably.
+**Changes:**
+- Reworked the diagram slide renderer to measure a stable canvas stage instead of an element that shifts when the loading message appears, preventing resize-triggered render loops in the lesson viewer (`src/pages/LessonViewer.tsx`).
+- Kept the current canvas mounted during same-slide resizes and moved the loading/error messaging into an overlay inside the render stage so diagrams no longer flicker back to a blank "Rendering page ..." state (`src/pages/LessonViewer.tsx`).
+- Hardened the diagram Playwright spec to wait for the loading message to clear and for the canvas to have nonzero size before checking its final dimensions, then relaxed the minimum size threshold to match responsive slide rendering (`e2e/lesson-diagrams.spec.ts`).
+**Commands run:**
+- `pnpm exec playwright test e2e/lesson-diagrams.spec.ts --project=chromium`
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm build`
+
+### 2026-03-20 17:37 (local)
+**Summary:** Used Playwright to diagnose diagram cutoff behavior in lesson slides and confirmed the slide viewport is not clipping the rendered canvases.
+**Changes:**
+- Ran the Chromium diagram-slide E2E pass and reproduced a flaky zero-size canvas assertion while the PDF was still in its loading state (`e2e/lesson-diagrams.spec.ts`).
+- Probed Lesson 62 slide 4 and another diagram slide directly with Playwright, capturing screenshots plus DOM metrics that showed the rendered canvas fits fully inside the lesson slide viewport with no overflow (`codex/tmp_cutoff_debug/*`).
+- Compared Lesson 62 slide 4 against the diagram inspector and confirmed the remaining visible loss is from the normalized crop box on the source PDF page, not from the slide layout container.
+**Commands run:**
+- `pnpm exec playwright test e2e/lesson-diagrams.spec.ts --project=chromium`
+- `node --input-type=module -` (Playwright diagnostic probes against `/lessons/61?slide=4`, `/lessons/2?slide=2`, and `/debug/lesson-diagrams`)
+
+### 2026-03-20 17:14 (local)
+**Summary:** Normalized the remaining mojibake/encoding corruption in the lesson source and local metadata files.
+**Changes:**
+- Repaired the corrupted UTF-8 sequences in the generated lesson dataset so lesson titles, captions, arrows, quotes, bullets, and dash punctuation now render as intended again (`src/data/securityPlusLessons.generated.ts`).
+- Cleaned the diagram crop caption map and verified the lesson viewer/test/state/log files no longer contain the corrupted marker sequences (`src/data/lessonDiagramCrops.ts`, `src/pages/LessonViewer.tsx`, `src/data/securityPlusLessons.ts`, `src/data/__tests__/securityPlusLessons.test.ts`, `codex_state.json`, `docs/CODEX_LOG.md`).
+- Re-scanned the repo source set after normalization; the only remaining hit was in the generated `playwright-report/index.html` artifact, not in application/source files.
+**Commands run:**
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm build`
+
+### 2026-03-20 16:29 (local)
+**Summary:** Added the missing Lesson 62 explanation slide for the zone-access diagram and stopped diagram canvases from stretching when the slide width changes.
+**Changes:**
+- Inserted a new Lesson 62 concept slide immediately after the zone-access diagram so the numbered access-control behavior from the source page is explained in the lesson flow (`src/data/securityPlusLessons.generated.ts`).
+- Updated the diagram renderer to measure its available width with `ResizeObserver` and re-render the cropped PDF canvas at that exact width, preserving aspect ratio instead of relying on CSS stretch (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 62 slide 4 and the new slide 5 at multiple viewport widths to confirm the diagram stays proportional and the new explanation content is present.
+**Commands run:**
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm build`
+
+### 2026-03-20 16:01 (local)
+**Summary:** Fixed two lesson diagram mapping issues by adding the missing Race Conditions diagram and correcting Lesson 62 slide 4 to the actual source page.
+**Changes:**
+- Added a Race Conditions diagram slide to Lesson 27, using the lower flowchart on Professor Messer PDF page 32 instead of leaving that lesson without its shared-page visual (`src/data/securityPlusLessons.generated.ts`).
+- Corrected Lesson 62 slide 4 to source Official Student Guide PDF page 117 and retuned its crop to the actual zone-access diagram rather than the page-118 explanatory text (`src/data/securityPlusLessons.generated.ts`, `src/data/lessonDiagramCrops.ts`).
+- Added the new crop mapping for the Race Conditions flowchart so the lesson viewer renders the diagram itself rather than surrounding page text (`src/data/lessonDiagramCrops.ts`).
+**Decisions:**
+- Normalized the new Race Conditions caption to ASCII hyphen text to avoid further encoding drift in generated lesson content.
+- Kept the existing lesson structure and inserted the new diagram directly after the TOCTOU explanation so the visual lands next to the concept it illustrates.
+**Follow-ups:**
+- If more shared-page diagrams are missing, use `/debug/lesson-diagrams` to visually verify the remaining crop boxes against their source pages.
+**Commands run:**
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm build`
+
 ### 2026-03-19 09:08 (local)
 **Summary:** Fixed the generated `5.6 - User Training` lesson pulling in table-of-contents numbers and front-matter text from the Professor Messer PDF extraction.
 **Changes:**

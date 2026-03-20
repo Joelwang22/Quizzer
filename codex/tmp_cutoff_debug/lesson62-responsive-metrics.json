@@ -1,0 +1,126 @@
+[
+  {
+    "item": {
+      "name": "lesson62-1365x900",
+      "viewport": {
+        "width": 1365,
+        "height": 900
+      }
+    },
+    "metrics": {
+      "viewport": {
+        "width": 1024,
+        "height": 616,
+        "top": 183,
+        "bottom": 799
+      },
+      "canvas": {
+        "width": 0,
+        "height": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "viewportScroll": {
+        "clientHeight": 616,
+        "scrollHeight": 616
+      },
+      "canvasIntrinsic": {
+        "width": 546,
+        "height": 334
+      }
+    }
+  },
+  {
+    "item": {
+      "name": "lesson62-1280x720",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    "metrics": {
+      "viewport": {
+        "width": 1024,
+        "height": 616,
+        "top": 104,
+        "bottom": 720
+      },
+      "canvas": {
+        "width": 0,
+        "height": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "viewportScroll": {
+        "clientHeight": 616,
+        "scrollHeight": 616
+      },
+      "canvasIntrinsic": {
+        "width": 546,
+        "height": 334
+      }
+    }
+  },
+  {
+    "item": {
+      "name": "lesson62-1024x768",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      }
+    },
+    "metrics": {
+      "viewport": {
+        "width": 992,
+        "height": 616,
+        "top": 152,
+        "bottom": 768
+      },
+      "canvas": {
+        "width": 546,
+        "height": 334,
+        "top": 218,
+        "bottom": 552
+      },
+      "viewportScroll": {
+        "clientHeight": 616,
+        "scrollHeight": 616
+      },
+      "canvasIntrinsic": {
+        "width": 546,
+        "height": 334
+      }
+    }
+  },
+  {
+    "item": {
+      "name": "lesson62-820x1180",
+      "viewport": {
+        "width": 820,
+        "height": 1180
+      }
+    },
+    "metrics": {
+      "viewport": {
+        "width": 788,
+        "height": 616,
+        "top": 251,
+        "bottom": 867
+      },
+      "canvas": {
+        "width": 0,
+        "height": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "viewportScroll": {
+        "clientHeight": 616,
+        "scrollHeight": 616
+      },
+      "canvasIntrinsic": {
+        "width": 738,
+        "height": 451
+      }
+    }
+  }
+]

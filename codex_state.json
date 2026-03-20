@@ -72,6 +72,48 @@
       "title": "Playwright lesson verification",
       "status": "done",
       "notes": "Added Playwright config, scripts, and a Chromium E2E pass that walks every lesson and every slide to catch render breakage, empty content, browser errors, and obvious placeholder text in the lesson viewer."
+    },
+    {
+      "id": "lesson-diagram-targeted-fixes",
+      "title": "Targeted lesson diagram corrections",
+      "status": "done",
+      "notes": "Added the missing Race Conditions diagram from Professor Messer PDF page 32 and corrected Lesson 62 slide 4 to use/crop Official Student Guide page 117 instead of page 118."
+    },
+    {
+      "id": "lesson-diagram-explanations-and-scaling",
+      "title": "Lesson diagram explanations and scaling",
+      "status": "done",
+      "notes": "Added the missing Lesson 62 access-rules explanation slide and changed diagram rendering to re-measure width and preserve aspect ratio instead of stretching cropped canvases."
+    },
+    {
+      "id": "encoding-normalization",
+      "title": "Encoding normalization",
+      "status": "done",
+      "notes": "Normalized the remaining mojibake sequences in the generated lesson data, diagram caption map, and local metadata so user-facing lesson content renders with the intended punctuation and symbols again."
+    },
+    {
+      "id": "diagram-cutoff-diagnosis",
+      "title": "Diagram cutoff diagnosis",
+      "status": "done",
+      "notes": "Playwright verification showed the lesson slide viewport is fitting diagram canvases inside the available space; the remaining visible cutoff is in per-diagram crop definitions, and the diagram E2E check also has a loading-state timing race."
+    },
+    {
+      "id": "diagram-renderer-stability",
+      "title": "Diagram renderer stability",
+      "status": "done",
+      "notes": "Diagram slides now measure a stable render stage, keep the current canvas mounted during resizes, and show loading/error text as overlays so PDF renders do not loop back into a stuck loading state."
+    },
+    {
+      "id": "lesson62-slide2-diagram-fit",
+      "title": "Lesson 62 slide 2 diagram fit",
+      "status": "done",
+      "notes": "Expanded the Lesson 62 slide 2 crop to the full security-zone topology figure and gave the lesson slide wrapper explicit full height so diagram panels can render at the intended aspect ratio."
+    },
+    {
+      "id": "diagram-dev-override-parity",
+      "title": "Diagram dev-override parity",
+      "status": "done",
+      "notes": "Lesson slides now read the same local diagram crop overrides as the dev inspector, keyed by lessonId and slide index, so a crop tuned in the dev menu matches the lesson rendering immediately."
     }
   ],
   "todos": [
@@ -88,5 +130,5 @@
       "notes": "Visualise accuracy, weak topics, and history, including CSV export."
     }
   ],
-  "lastUpdated": "2026-03-19T09:08:00+08:00"
+  "lastUpdated": "2026-03-21T04:19:28+08:00"
 }

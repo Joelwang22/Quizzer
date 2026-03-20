@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { resetDatabase } from '../db';
 import type { CollectionExport } from '../models/schemas';
 import { exportCollection, mergeCollection } from '../utils/dataTransfer';
@@ -52,6 +53,7 @@ const SAMPLE_SUBJECT_PAYLOAD: CollectionExport = {
 };
 
 const DevMenu = (): JSX.Element => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
   const [busy, setBusy] = useState<boolean>(false);
 
@@ -108,6 +110,16 @@ const DevMenu = (): JSX.Element => {
               onClick={handleDump}
             >
               Dump DB (JSON)
+            </button>
+            <button
+              type="button"
+              className="w-full rounded-md border border-slate-700 px-3 py-2 hover:bg-slate-800"
+              onClick={() => {
+                navigate('/debug/lesson-diagrams');
+                setOpen(false);
+              }}
+            >
+              Diagram Inspector
             </button>
             <button
               type="button"

@@ -1,6 +1,7 @@
 export { default as Home } from './Home';
 export { default as Teach } from './Teach';
 export { default as LessonViewer } from './LessonViewer';
+export { default as DiagramDebug } from './DiagramDebug';
 export { default as CreateTest } from './CreateTest';
 export { default as TestRunner } from './TestRunner';
 export { default as Results } from './Results';

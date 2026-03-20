@@ -11,7 +11,13 @@ import {
   type TermSlide,
   type CheckSlide,
   type SummarySlide,
+  type DiagramSlide,
 } from '../data/securityPlusLessons';
+import { getLessonDiagramCrop } from '../data/lessonDiagramCrops';
+
+// Module-level PDF document cache so the 11MB file is fetched and parsed once
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const pdfDocCache = new Map<string, any>();
 
 const baseSlidePanelClass = 'min-h-full rounded-2xl border border-slate-700 bg-slate-900/60';
 
@@ -532,7 +538,173 @@ const SlideSummary = ({ slide }: { slide: SummarySlide }): JSX.Element => (
   </div>
 );
 
-const RenderSlide = ({ slide }: { slide: LessonSlide }): JSX.Element => {
+const SlideDiagram = ({ slide, cropOverrideKey }: { slide: DiagramSlide; cropOverrideKey?: string }): JSX.Element => {
+  const canvasStageRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [containerHeight, setContainerHeight] = useState(0);
+  const crop = getLessonDiagramCrop(slide, cropOverrideKey);
+  const renderKey = `${cropOverrideKey ?? 'no-override'}:${slide.src}:${slide.page}:${
+    crop ? `${crop.x}:${crop.y}:${crop.width}:${crop.height}` : 'full'
+  }`;
+
+  useEffect(() => {
+    const stage = canvasStageRef.current;
+    if (!stage) return;
+
+    const updateSize = (): void => {
+      setContainerWidth((current) => {
+        const rounded = Math.max(1, Math.round(stage.clientWidth));
+        return current === rounded ? current : rounded;
+      });
+      setContainerHeight((current) => {
+        const rounded = Math.max(1, Math.round(stage.clientHeight));
+        return current === rounded ? current : rounded;
+      });
+    };
+
+    updateSize();
+
+    if (typeof ResizeObserver === 'undefined') {
+      return;
+    }
+
+    const observer = new ResizeObserver(() => {
+      updateSize();
+    });
+
+    observer.observe(stage);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    setStatus('loading');
+    setErrorMsg('');
+  }, [renderKey]);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (containerWidth <= 0 || containerHeight <= 0) return;
+
+    const render = async (): Promise<void> => {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const pdfjsLib = (await import('pdfjs-dist')) as any;
+        const workerUrl = (await import('pdfjs-dist/build/pdf.worker.min.mjs?url')).default as string;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
+
+        let pdf = pdfDocCache.get(slide.src);
+        if (!pdf) {
+          pdf = await pdfjsLib.getDocument(slide.src).promise;
+          pdfDocCache.set(slide.src, pdf);
+        }
+
+        if (cancelled) return;
+
+        const page = await pdf.getPage(slide.page);
+        const canvas = canvasRef.current;
+        if (!canvas || cancelled) return;
+
+        const baseViewport = page.getViewport({ scale: 1 });
+        const scale = containerWidth / (baseViewport.width as number);
+        const viewport = page.getViewport({ scale });
+
+        const fullCanvas = document.createElement('canvas');
+        fullCanvas.width = viewport.width as number;
+        fullCanvas.height = viewport.height as number;
+
+        const fullCtx = fullCanvas.getContext('2d');
+        if (!fullCtx) return;
+
+        await page.render({ canvasContext: fullCtx, viewport }).promise;
+
+        const sourceX = crop ? fullCanvas.width * crop.x : 0;
+        const sourceY = crop ? fullCanvas.height * crop.y : 0;
+        const sourceWidth = crop ? fullCanvas.width * crop.width : fullCanvas.width;
+        const sourceHeight = crop ? fullCanvas.height * crop.height : fullCanvas.height;
+        const widthLimitedHeight = (sourceHeight / sourceWidth) * containerWidth;
+        const renderWidth = Math.max(
+          1,
+          Math.round(widthLimitedHeight > containerHeight ? (containerHeight * sourceWidth) / sourceHeight : containerWidth),
+        );
+        const renderHeight = Math.max(1, Math.round((sourceHeight / sourceWidth) * renderWidth));
+
+        canvas.width = renderWidth;
+        canvas.height = renderHeight;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        ctx.clearRect(0, 0, renderWidth, renderHeight);
+        ctx.drawImage(
+          fullCanvas,
+          sourceX,
+          sourceY,
+          sourceWidth,
+          sourceHeight,
+          0,
+          0,
+          renderWidth,
+          renderHeight,
+        );
+        if (!cancelled) setStatus('ready');
+      } catch (err) {
+        if (!cancelled) {
+          setErrorMsg(err instanceof Error ? err.message : 'Failed to render diagram');
+          setStatus('error');
+        }
+      }
+    };
+
+    void render();
+    return () => {
+      cancelled = true;
+    };
+  }, [containerHeight, containerWidth, crop?.height, crop?.width, crop?.x, crop?.y, slide.page, slide.src]);
+
+  return (
+    <div className={`${baseSlidePanelClass} flex h-full min-h-0 flex-col overflow-hidden`}>
+      <div className="shrink-0 border-b border-slate-700 bg-slate-800/60 px-6 py-3 text-sm font-bold tracking-wide text-amber-400">
+        Diagram — {slide.caption}
+      </div>
+      <div className="flex min-h-0 flex-1 flex-col px-4 py-5">
+        <div ref={canvasStageRef} className="relative flex min-h-0 flex-1 items-center justify-center">
+          <canvas
+            ref={canvasRef}
+            className={`block h-auto max-h-full max-w-full rounded-lg ${status === 'error' ? 'hidden' : ''}`}
+          />
+          {status === 'loading' ? (
+            <div className="absolute inset-0 flex items-center justify-center bg-slate-900/70 text-sm text-slate-500">
+              Rendering page {slide.page}…
+            </div>
+          ) : null}
+          {status === 'error' ? (
+            <div className="absolute inset-0 flex items-center justify-center text-sm text-rose-400">
+              Could not render diagram: {errorMsg}
+            </div>
+          ) : null}
+        </div>
+        {status === 'ready' ? (
+          <p className="mt-3 shrink-0 text-center text-xs text-slate-500">
+            {slide.caption} — cropped from source PDF p.{slide.page}
+          </p>
+        ) : null}
+      </div>
+    </div>
+  );
+};
+
+const RenderSlide = ({
+  slide,
+  cropOverrideKey,
+}: {
+  slide: LessonSlide;
+  cropOverrideKey?: string;
+}): JSX.Element => {
   switch (slide.type) {
     case 'intro':
       return <SlideIntro slide={slide} />;
@@ -548,6 +720,8 @@ const RenderSlide = ({ slide }: { slide: LessonSlide }): JSX.Element => {
       return <SlideCheck slide={slide} />;
     case 'summary':
       return <SlideSummary slide={slide} />;
+    case 'diagram':
+      return <SlideDiagram slide={slide} cropOverrideKey={cropOverrideKey} />;
   }
 };
 
@@ -668,6 +842,7 @@ const LessonViewer = (): JSX.Element => {
   }
 
   const slide = lesson.slides[current];
+  const cropOverrideKey = slide?.type === 'diagram' ? `${lesson.id}::${current}` : undefined;
 
   return (
     <section className="mx-auto grid h-full w-full max-w-5xl min-h-0 grid-rows-[auto_auto_minmax(0,7fr)_minmax(5.5rem,1fr)] gap-5 overflow-hidden">
@@ -706,8 +881,8 @@ const LessonViewer = (): JSX.Element => {
         data-testid="lesson-slide-viewport"
         className="min-h-0 overflow-y-auto px-2"
       >
-        <div className="mx-auto min-h-full w-full" key={`${lesson.id}-${current}`}>
-          {slide ? <RenderSlide slide={slide} /> : null}
+        <div className="mx-auto h-full min-h-full w-full" key={`${lesson.id}-${current}`}>
+          {slide ? <RenderSlide slide={slide} cropOverrideKey={cropOverrideKey} /> : null}
         </div>
       </div>
 

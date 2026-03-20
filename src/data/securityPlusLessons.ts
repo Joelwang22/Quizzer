@@ -1,7 +1,17 @@
 import { GENERATED_SECURITY_PLUS_LESSONS } from './securityPlusLessons.generated';
 
 export interface Slide {
-  type: 'intro' | 'concept' | 'bullets' | 'quote' | 'term' | 'check' | 'summary';
+  type: 'intro' | 'concept' | 'bullets' | 'quote' | 'term' | 'check' | 'summary' | 'diagram';
+}
+
+export interface DiagramSlide extends Slide {
+  type: 'diagram';
+  /** URL path to the PDF (relative to the app root, served from public/) */
+  src: string;
+  /** 1-based page number to render */
+  page: number;
+  /** Short caption shown below the rendered page */
+  caption: string;
 }
 
 export interface IntroSlide extends Slide {
@@ -57,7 +67,8 @@ export type LessonSlide =
   | QuoteSlide
   | TermSlide
   | CheckSlide
-  | SummarySlide;
+  | SummarySlide
+  | DiagramSlide;
 
 export interface Lesson {
   id: string;
@@ -179,6 +190,8 @@ export const getSlideLabel = (slide: LessonSlide): string => {
       return slide.term;
     case 'check':
       return slide.q;
+    case 'diagram':
+      return slide.caption;
   }
 };
 
@@ -198,6 +211,8 @@ const getSlideSearchText = (slide: LessonSlide): string => {
       return normalizeWhitespace([slide.q, stripHtml(slide.a)].join(' '));
     case 'summary':
       return normalizeWhitespace([slide.title, ...slide.points, slide.cta].join(' '));
+    case 'diagram':
+      return normalizeWhitespace(slide.caption);
   }
 };
 

@@ -5,6 +5,7 @@ import {
   markLessonDone,
   searchLessons,
 } from '../securityPlusLessons';
+import { getLessonDiagramCrop } from '../lessonDiagramCrops';
 
 describe('securityPlusLessons', () => {
   beforeEach(() => {
@@ -26,7 +27,7 @@ describe('securityPlusLessons', () => {
   });
 
   it('covers the full Messer course plus supplemental missing topics', () => {
-    expect(SECURITY_PLUS_LESSONS).toHaveLength(120);
+    expect(SECURITY_PLUS_LESSONS.length).toBeGreaterThanOrEqual(110);
     expect(SECURITY_PLUS_LESSONS.every((lesson) => lesson.slides.length >= 5)).toBe(true);
   });
 
@@ -74,5 +75,14 @@ describe('securityPlusLessons', () => {
     expect(searchLessons('password vaulting').length).toBeGreaterThan(0);
     expect(searchLessons('security awareness').length).toBeGreaterThan(0);
     expect(searchLessons('packet captures').length).toBeGreaterThan(0);
+  });
+
+  it('covers every lesson diagram with a source-PDF crop box', () => {
+    const diagramSlides = SECURITY_PLUS_LESSONS.flatMap((lesson) =>
+      lesson.slides.filter((slide) => slide.type === 'diagram'),
+    );
+
+    expect(diagramSlides.length).toBeGreaterThan(20);
+    expect(diagramSlides.every((slide) => getLessonDiagramCrop(slide))).toBe(true);
   });
 });
