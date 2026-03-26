@@ -19,6 +19,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "body": "<p>Before selecting specific controls, organizations need a structured approach. The <strong>NIST Cybersecurity Framework (CSF)</strong> defines five core security functions that organize cybersecurity activities across an entire program:</p><ul><li><strong>Identify</strong> — develop security policies, evaluate risks, and inventory assets. You cannot protect what you do not know you have.</li><li><strong>Protect</strong> — procure, install, operate, and decommission IT assets with security built into every lifecycle stage. Implement controls to limit or contain the impact of potential events.</li><li><strong>Detect</strong> — perform ongoing proactive monitoring to ensure controls are effective and capable of recognizing new threat types. Detection enables timely response.</li><li><strong>Respond</strong> — identify, analyze, contain, and eradicate threats to systems and data security once a potential incident is detected.</li><li><strong>Recover</strong> — implement cybersecurity resilience to restore systems and data when other controls are unable to prevent an attack. Includes backup restoration, lessons-learned reviews, and communication plans.</li></ul><p>The NIST CSF gives a common language for internal risk management and provides an externally verifiable statement of regulatory compliance.</p>"
       },
       {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 13,
+        "caption": "NIST Cybersecurity Framework core tasks — Identify, Protect, Detect, Respond, and Recover"
+      },
+      {
         "type": "concept",
         "title": "Control Categories",
         "body": "<p><strong>Technical controls</strong> are implemented by systems — firewalls, antivirus software, OS-level access control lists, and encryption all qualify. They enforce policy automatically without requiring human action for each event.</p><p><strong>Managerial controls</strong> are administrative: security policies, risk assessments, and standard operating procedures. They set direction for the entire security program.</p><p><strong>Operational controls</strong> are carried out by people: security guards, awareness training, and manual review processes. They require ongoing human effort to be effective.</p><p><strong>Physical controls</strong> restrict physical access to facilities and hardware: badge readers, fences, guard shacks, and locks. They protect the environment in which systems operate.</p>"
@@ -27,6 +33,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "type": "concept",
         "title": "Control Types",
         "body": "<p><strong>Preventive</strong> controls block an event from occurring — locked doors, firewall rules, and access restrictions are all preventive. They are the first line of defense.</p><p><strong>Deterrent</strong> controls discourage attacks without technically blocking them — warning signs, splash screens, and the threat of disciplinary action raise the psychological cost of attacking without stopping a determined adversary.</p><p><strong>Detective</strong> controls identify and log attempts — motion sensors, IDS alerts, and log reviews detect events but do not stop them. They create the evidence needed for response.</p><p><strong>Corrective</strong> controls restore normal operations after an incident — restoring from backup after ransomware, revoking compromised credentials, or applying an emergency patch.</p><p><strong>Compensating</strong> controls substitute for a preferred control that cannot be implemented, such as blocking a vulnerable port on the firewall instead of immediately patching the application. They are often temporary.</p><p><strong>Directive</strong> controls direct users toward compliant behavior through policies, procedures, and posted signs. They are the weakest type because effectiveness depends entirely on human choice.</p>"
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 20,
+        "caption": "Security control functional types — preventive, detective, corrective, directive, deterrent, and compensating"
       },
       {
         "type": "bullets",
@@ -871,6 +883,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
       },
       {
         "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 73,
+        "caption": "Digital envelope key exchange — symmetric session key protected with the recipient public key"
+      },
+      {
+        "type": "diagram",
         "src": "/lesson-diagrams/professor-messer.pdf",
         "page": 21,
         "caption": "Asymmetric keys generating a shared symmetric key — Diffie-Hellman concept"
@@ -884,6 +902,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "type": "concept",
         "title": "Session Keys and Perfect Forward Secrecy",
         "body": "<p>A <strong>session key</strong> is a temporary symmetric key generated fresh for each communication session. After the key exchange, both parties use this shared secret for that session's encryption. When the session ends, the key is discarded.</p><p><strong>Ephemeral keys</strong> are session keys generated fresh for every session with no long-term reuse. They provide <em>perfect forward secrecy (PFS)</em> — even if an attacker records all traffic now and obtains the server's private key years later, they cannot decrypt past sessions because those unique session keys no longer exist.</p><p>PFS is implemented using <strong>Diffie-Hellman Ephemeral (DHE)</strong> or <strong>Elliptic Curve DHE (ECDHE)</strong> key exchange algorithms. Modern TLS configurations should require one of these to ensure PFS.</p>"
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 74,
+        "caption": "Perfect forward secrecy — ephemeral Diffie-Hellman derives a per-session shared secret"
       },
       {
         "type": "concept",
@@ -1089,6 +1113,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "body": "<p><strong>File integrity verification:</strong> When you download software, the publisher provides the hash of the original file on the download page. After downloading, compute the hash of your downloaded file and compare it to the published value. If they match, the file is exactly as published — no corruption and no tampering occurred in transit.</p><p><strong>Password storage:</strong> Systems should never store plaintext passwords. Instead, store a hash of the password. At login, hash the provided input and compare to the stored hash — if they match, authentication succeeds. The actual password is never stored after the initial hash is computed.</p><p><strong>Salting:</strong> A random value (salt) added to each password before hashing. Every user gets a unique salt, which is stored alongside the hash. Salting defeats <em>rainbow table attacks</em> — precomputed hash lookup tables cannot be used because even identical passwords produce different salted hashes. Salting is mandatory for secure password storage.</p>"
       },
       {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 53,
+        "caption": "File download hash verification — published digest compared to the downloaded file"
+      },
+      {
         "type": "concept",
         "title": "Digital Signatures",
         "body": "<p>Digital signatures combine hashing with asymmetric cryptography to simultaneously prove integrity, authentication, and non-repudiation.</p><p><strong>Creating a signature:</strong> The sender hashes the message to create a digest. The sender encrypts the digest with their <em>private key</em>. The encrypted digest (the signature) is sent alongside the plaintext message.</p><p><strong>Verifying a signature:</strong> The recipient decrypts the signature using the sender's <em>public key</em>, recovering the original digest. The recipient independently hashes the received message. If the two digests match, the signature is valid: the message has not been altered and it came from the holder of that private key.</p><p>Important: <strong>the message itself is NOT encrypted</strong> by the signature — anyone can read it. The signature only proves origin and integrity. Encryption for confidentiality is a separate step using the recipient's public key.</p>"
@@ -1220,6 +1250,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "type": "concept",
         "title": "Certificate Authorities, Chains, and CSRs",
         "body": "<p><strong>Root CAs</strong> are self-signed — they vouch for themselves and are trusted because browser and OS vendors pre-install their public keys. Approximately 100–150 globally trusted root CAs exist. The root CA's private key is kept offline to minimize exposure.</p><p><strong>Intermediate CAs</strong> are signed by a root CA and sign end-entity certificates (websites, users, devices). The full chain — Root CA → Intermediate CA → End-entity certificate — must be presented for validation.</p><p><strong>Certificate Signing Request (CSR):</strong> To obtain a certificate, the applicant generates a key pair, then sends the public key plus identifying information to the CA. The CA validates the applicant's identity (confirming domain ownership, organizational details, etc.), then signs the public key to create the certificate and returns it to the applicant.</p><p><strong>Private CAs:</strong> Organizations build internal CAs for internal systems. Devices must explicitly trust the internal CA's root certificate — done through group policy or MDM.</p>"
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 60,
+        "caption": "Certificate chain of trust - root CA, intermediate CA, and end-entity certificate path"
       },
       {
         "type": "concept",
@@ -1425,6 +1461,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "type": "concept",
         "title": "Phishing Indicators",
         "body": "<p>Training users to spot phishing requires knowing the common red flags. Key indicators:</p><ul><li><strong>Urgency:</strong> Phishing emails create artificial time pressure — \"Your account will be suspended in 24 hours.\" This prevents victims from pausing to verify the request.</li><li><strong>Unusual requests:</strong> Legitimate organizations rarely ask for passwords, credit card numbers, or wire transfers via email. Any such request should trigger verification through a separate, trusted channel.</li><li><strong>Mismatched URLs:</strong> The visible link text may say one thing while the actual hyperlink points elsewhere. Always hover over links before clicking to see the real destination URL. Look for subtle character substitutions (0 for o, 1 for l).</li><li><strong>Strange sender addresses:</strong> The displayed \"From\" name may look legitimate while the actual email address is completely different. Always verify the real sending address, not the display name.</li><li><strong>Poor spelling or grammar:</strong> Many phishing campaigns originate from attackers who are not native speakers of the target language, resulting in broken English, awkward phrasing, or obvious grammatical errors.</li></ul><p>Organizations should run simulated phishing campaigns (anti-phishing campaigns) regularly to train employees and provide remedial training to those who click.</p>"
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 366,
+        "caption": "Phishing header analysis — typosquatting visible in the raw message headers"
       },
       {
         "type": "bullets",
@@ -3070,6 +3112,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "body": "<p><strong>Pass-the-hash (PtH)</strong> — In Windows NTLM authentication, the client sends a hashed password (not the plaintext) to authenticate. An attacker who captures the hash (from memory, network capture, or credential dumping tools like Mimikatz) can send that same hash to authenticate to any service that trusts it — without knowing or cracking the underlying password.</p><p><strong>How hashes are obtained</strong> — Network tap during authentication, ARP poisoning to capture NTLM authentication, or dumping credentials from compromised Windows memory (lsass.exe).</p><p><strong>Mitigation</strong> — Use Kerberos instead of NTLM (Kerberos uses tickets with timestamps, making replay harder). Enable Credential Guard in Windows to protect lsass. Limit lateral movement with network segmentation and least privilege.</p>"
       },
       {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 405,
+        "caption": "Pass-the-hash credential replay — LSASS and SAM secrets reused for lateral movement"
+      },
+      {
         "type": "concept",
         "title": "Session Hijacking (Sidejacking)",
         "body": "<p><strong>Session ID</strong> — After authentication, web applications issue a session token (often stored in a cookie) that proves the user is authenticated. The server trusts whoever presents this token.</p><p><strong>Session hijacking</strong> — An attacker captures the victim's session token (via network sniffing, XSS, or ARP poisoning) and presents it to the server, impersonating the authenticated user. Since the token is valid, the server accepts the attacker as the legitimate user.</p><p><strong>Sidejacking</strong> — Specifically refers to sniffing session cookies over unencrypted wireless networks. Popularized by the Firesheep browser extension (2010), which demonstrated trivial session hijacking on open Wi-Fi.</p><p><strong>Defenses</strong> — HTTPS everywhere (HSTS) encrypts session cookies in transit. HTTPOnly flag prevents JavaScript from reading cookies. Short session timeouts limit the replay window. Personal VPN on untrusted networks.</p>"
@@ -3745,6 +3793,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
       {
         "type": "diagram",
         "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 111,
+        "caption": "OSI infrastructure model — Ethernet, MAC addressing, IP routing, transport, and application services"
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
         "page": 113,
         "caption": "Star topology — switch at center with host links radiating out (broadcast domain)"
       },
@@ -3769,6 +3823,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "type": "concept",
         "title": "Software-Defined Networking (SDN)",
         "body": "<p><strong>SDN planes</strong> — Traditional network devices combine three functions in one box. SDN separates them:</p><ul><li><strong>Data plane (infrastructure layer)</strong> — Processes network frames and packets: forwarding, trunking, encrypting, NAT.</li><li><strong>Control plane (control layer)</strong> — Manages data plane behavior: routing tables, session tables, NAT tables, dynamic routing protocol updates.</li><li><strong>Management plane (application layer)</strong> — Configures and manages devices: SSH, browser, API access.</li></ul><p><strong>Why SDN matters for security</strong> — By separating planes, security policies can be applied centrally and programmatically rather than device by device. SDN enables rapid response to threats (push updated ACLs to all devices instantly), micro-segmentation in virtualized environments, and consistent policy across hybrid cloud.</p><p><strong>Centralized vs. decentralized management</strong> — Centralized: correlated alerts, consolidated logs, comprehensive patching visibility. Downside: single point of failure. Decentralized: no single failure point but harder to correlate and manage consistently.</p>"
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 163,
+        "caption": "Software-defined networking planes — management, control, and data plane separation"
       },
       {
         "type": "bullets",
@@ -4028,6 +4088,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "caption": "TAP vs. SPAN (mirror port) — inline TAP copies physical signal; mirror port copies switch frames to a sensor port"
       },
       {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 134,
+        "caption": "Security Onion Snort alert in Kibana — intrusion detection event details and rule hit"
+      },
+      {
         "type": "concept",
         "title": "IDS vs. IPS and Deployment Modes",
         "body": "<p><strong>IDS (Intrusion Detection System)</strong> — Passive monitoring: receives a copy of network traffic via a tap or port mirror (SPAN port). Analyzes traffic and generates alerts when suspicious patterns are detected. Cannot block traffic because it only sees a copy. Best when you need visibility without risk of blocking legitimate traffic.</p><p><strong>IPS (Intrusion Prevention System)</strong> — Active monitoring: deployed inline — all network traffic physically passes through the IPS. Can drop malicious packets in real time before they reach the destination. Risk: if the IPS device fails or misbehaves, it can affect all traffic.</p><p><strong>Failure modes</strong> — Critical design consideration for inline devices:</p><ul><li><strong>Fail-open</strong> — Device failure allows traffic to continue flowing. Maintains availability but removes security inspection.</li><li><strong>Fail-closed</strong> — Device failure blocks all traffic. Maintains security posture but causes an outage. Choose based on whether availability or security takes priority.</li></ul>"
@@ -4271,6 +4337,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "src": "/lesson-diagrams/professor-messer.pdf",
         "page": 61,
         "caption": "SSL/TLS VPN concentrator — tunnel decryption and routing flow"
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 139,
+        "caption": "Remote access VPN topology — client tunnel through a VPN gateway to internal services"
       },
       {
         "type": "diagram",
@@ -4876,6 +4948,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "body": "<p><strong>MDM</strong> centrally manages all mobile devices — company-owned and BYOD. It sets policies on apps, data, camera, and screen locks, and can manage the entire device or a secure partition. MDM enforces PIN/screen lock, encryption, and remote wipe capabilities.</p><p><strong>Site surveys</strong> determine the existing wireless landscape by sampling the RF spectrum, identifying existing access points, and planning around interference. Heat maps visualize signal strength. Wireless survey tools include built-in OS tools, third-party software, and spectrum analyzers. Cellular networks (4G/5G) introduce additional concerns: traffic monitoring, location tracking, and worldwide device accessibility.</p>"
       },
       {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 265,
+        "caption": "Wi-Fi site survey heat map — signal strength and access point coverage across the floor plan"
+      },
+      {
         "type": "bullets",
         "title": "Wireless and Mobile Security — Key Points",
         "items": [
@@ -4989,6 +5067,18 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "type": "concept",
         "title": "802.1X, EAP, Secure Cookies, and Sandboxing",
         "body": "<h4>802.1X / EAP / RADIUS</h4><ul><li><strong>802.1X:</strong> port-based NAC — no network access until authenticated; used with RADIUS, LDAP, or TACACS+.</li><li><strong>EAP (Extensible Authentication Protocol):</strong> authentication framework integrated with 802.1X; manufacturers can build custom EAP methods.</li><li><strong>Roles:</strong> Supplicant (client), Authenticator (switch/AP), Authentication Server (RADIUS).</li><li><strong>RADIUS:</strong> supports routers, switches, firewalls, VPN, and 802.1X on most server OSes.</li></ul><h4>Secure Cookies and Sandboxing</h4><ul><li><strong>Secure cookies:</strong> Secure attribute forces HTTPS transmission; sensitive data should never be stored in cookies.</li><li><strong>Sandboxing:</strong> isolates applications to their own resources — used in VMs, mobile devices, browser iframes, and Windows UAC.</li></ul>"
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 120,
+        "caption": "IEEE 802.1X port-based NAC — supplicant, switch, RADIUS, and EAP authentication flow"
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 334,
+        "caption": "Joe Sandbox malware analysis report — sandbox verdict, signatures, and threat intel"
       },
       {
         "type": "bullets",
@@ -5399,6 +5489,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "body": "<p><strong>Log aggregation</strong> sends all logs — servers, firewalls, VPN concentrators, cloud services, SANs — to a SIEM or SEM. Centralized storage enables correlation across diverse systems: authentication + access + data transfer events viewed together reveal patterns invisible in individual log streams.</p><p><strong>Alerting</strong> provides real-time notification of security events (authentication errors, large file transfers) via SMS, email, or the SOC console. Alerts must be accurate and actionable — too many false positives create alert fatigue.</p><p><strong>Archiving</strong> preserves historical log data. IBM research shows breaches take an average of nine months to identify — access to months of historical data is essential. State and federal laws often mandate specific retention periods.</p>"
       },
       {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 277,
+        "caption": "Security Onion Alerts dashboard — Suricata and Emerging Threats events queued for review"
+      },
+      {
         "type": "concept",
         "title": "User Behavior Analytics (UBA) and UEBA",
         "body": "<p><strong>User Behavior Analytics (UBA)</strong> is an advanced cybersecurity approach that uses big data analytics and machine learning to analyze user activities and detect anomalies that indicate security threats. Rather than relying solely on rules and signatures, UBA learns what \"normal\" looks like for each user and flags deviations — such as a user downloading 10x their typical data volume at 2 AM, or accessing systems they have never accessed before.</p><p><strong>User and Entity Behavior Analytics (UEBA)</strong> extends UBA by also monitoring non-human entities — routers, servers, endpoints, and applications. This broader scope is critical because attackers increasingly compromise service accounts and devices rather than just user accounts. UEBA correlates behavior across both users and entities to detect sophisticated attacks that span multiple systems.</p><p>Key capabilities:</p><ul><li>Establish behavioral baselines from historical data.</li><li>Apply ML algorithms to identify deviations from normal.</li><li>Process data from network traffic, user devices, and application logs.</li><li>Generate alerts for security team investigation when anomalies are detected.</li><li>Particularly effective at detecting insider threats and compromised credential abuse.</li></ul>"
@@ -5636,6 +5732,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "type": "concept",
         "title": "Email Authentication: SPF, DKIM, and DMARC",
         "body": "<p><strong>SPF (Sender Policy Framework):</strong> The sending organization publishes a list of authorized mail servers in a DNS TXT record. Receiving servers check whether incoming mail originated from an authorized host. Unauthorized servers are flagged.</p><p><strong>DKIM (DomainKeys Identified Mail):</strong> The sending mail server digitally signs all outgoing mail. The public key is published in a DNS TXT record. Receiving servers validate the signature — not visible to end users but confirms mail integrity and origin.</p><p><strong>DMARC (Domain-based Message Authentication, Reporting, and Conformance):</strong> Extends SPF and DKIM. The domain owner publishes a policy in DNS TXT specifying what to do with mail failing SPF or DKIM validation: accept all, send to spam, or reject. Compliance reports are sent back to the email administrator.</p>"
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 322,
+        "caption": "DMARC verification lookup - published policy and DNS validation results"
       },
       {
         "type": "concept",
@@ -6079,6 +6181,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "body": "NIST SP 800-61 defines the incident response lifecycle: Preparation, Detection and Analysis, Containment/Eradication/Recovery, and Post-Incident Activity. Security incidents range from malware execution and DDoS to data theft and unauthorized peer-to-peer software. Effective response requires preparation before events occur, not during them."
       },
       {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 339,
+        "caption": "Incident response lifecycle phases — preparation, detection, analysis, containment, eradication, recovery, and lessons learned"
+      },
+      {
         "type": "concept",
         "title": "NIST SP 800-61: Preparation and Detection",
         "body": "<p><strong>NIST SP 800-61 Rev. 2</strong> is the authoritative Computer Security Incident Handling Guide.</p><p><strong>Preparation</strong> includes: communication methods (phones and contact lists), incident handling hardware and software (laptops, removable media, forensic software, cameras), analysis resources (documentation, network diagrams, baselines, critical file hashes), mitigation software (clean OS images), and documented policies so everyone knows their role.</p><p><strong>Detection challenges:</strong> incidents involve many different sources, high event volume, and significant complexity. Sources include web server logs, exploit announcements, monthly patch releases, and direct threats. Analysis requires identifying whether an attack is underway — IDS/IPS alerts, AV notifications, host configuration changes, and network traffic anomalies all serve as indicators.</p>"
@@ -6145,6 +6253,18 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "type": "concept",
         "title": "Root Cause Analysis and Threat Hunting",
         "body": "<p><strong>Root cause analysis (RCA)</strong> determines the ultimate cause of an incident by repeatedly asking \"why.\" Creates a set of conclusions backed by facts. Avoid tunnel vision — there can be multiple root causes. The response to a mistake matters as much as the mistake itself.</p><p><strong>Threat hunting</strong> is proactive — searching for attackers before they are detected by automated tools. Intelligence data is inherently reactive (you cannot see an attack until it happens), so threat hunting speeds up reaction time. Strategies constantly change: firewalls improve, so phishing gets more sophisticated. Technology is used actively to find threats rather than waiting for alerts to fire.</p>"
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 343,
+        "caption": "Cyber kill chain stages — reconnaissance through actions on objectives"
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 348,
+        "caption": "Security Onion Hunt dashboard — threat hunting pivot to scope a possible intrusion"
       },
       {
         "type": "bullets",
@@ -6587,6 +6707,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         ]
       },
       {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 453,
+        "caption": "Risk heat map - traffic-light impact matrix for qualitative risk prioritization"
+      },
+      {
         "type": "term",
         "label": "5.2",
         "term": "ALE (Annualized Loss Expectancy)",
@@ -6681,6 +6807,12 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
         "week": "5.2 - Business Impact Analysis",
         "question": "How do RTO, RPO, MTTR, and MTBF quantify recovery expectations and system reliability?",
         "body": "Business Impact Analysis (BIA) quantifies the consequences of system failures and defines recovery targets. RTO defines how quickly systems must be restored; RPO defines how much data loss is acceptable. MTTR measures average repair time; MTBF predicts time between failures. Together these metrics drive DR planning, backup strategies, and HA architecture decisions."
+      },
+      {
+        "type": "diagram",
+        "src": "/lesson-diagrams/official-student-guide.pdf",
+        "page": 460,
+        "caption": "Mission essential function recovery metrics — MTD, RTO, WRT, and RPO on one timeline"
       },
       {
         "type": "concept",
@@ -7087,3 +7219,4 @@ export const GENERATED_SECURITY_PLUS_LESSONS: Lesson[] = [
     ]
   }
 ];
+

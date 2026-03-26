@@ -2,10 +2,17 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   getLessonDiagramCrop,
-  LESSON_DIAGRAM_DEBUG_OVERRIDE_STORAGE_KEY,
+  LESSON_DIAGRAM_DEBUG_OVERRIDE_EXPORT_FILE_NAME,
+  loadLessonDiagramDebugOverrides,
+  normalizeDiagramCropOverrides,
+  saveLessonDiagramDebugOverrides,
   type DiagramCrop,
 } from '../data/lessonDiagramCrops';
-import { SECURITY_PLUS_LESSONS, type DiagramSlide } from '../data/securityPlusLessons';
+import {
+  SECURITY_PLUS_LESSONS,
+  getDiagramStorageKey,
+  type DiagramSlide,
+} from '../data/securityPlusLessons';
 
 interface PdfViewport {
   width: number;
@@ -64,7 +71,6 @@ interface DiagramDebugCardProps {
 
 const pdfDocCache = new Map<string, PdfDocument>();
 
-const STORAGE_KEY = LESSON_DIAGRAM_DEBUG_OVERRIDE_STORAGE_KEY;
 const FULL_PAGE_CROP: DiagramCrop = { x: 0, y: 0, width: 1, height: 1 };
 const MIN_CROP_SIZE = 0.02;
 const SOURCE_PREVIEW_WIDTH = 1200;
@@ -88,7 +94,7 @@ const DIAGRAM_DEBUG_ENTRIES: DiagramDebugEntry[] = SECURITY_PLUS_LESSONS.flatMap
     slide.type === 'diagram'
       ? [
           {
-            id: `${lesson.id}::${slideIndex}`,
+            id: getDiagramStorageKey(lesson.id, slide),
             lessonId: lesson.id,
             lessonTitle: lesson.title,
             lessonSubtitle: lesson.subtitle,
@@ -130,60 +136,16 @@ const escapeTsString = (value: string): string => value.replace(/\\/g, '\\\\').r
 const buildCropEntrySnippet = (caption: string, crop: DiagramCrop): string =>
   `'${escapeTsString(caption)}': {\n  x: ${formatCropNumber(crop.x)},\n  y: ${formatCropNumber(crop.y)},\n  width: ${formatCropNumber(crop.width)},\n  height: ${formatCropNumber(crop.height)},\n},`;
 
+const buildCropEntryByIdSnippet = (diagramId: string, crop: DiagramCrop): string =>
+  buildCropEntrySnippet(diagramId, crop);
+
 const buildOverrideMapSnippet = (entries: DiagramDebugEntry[], overrides: OverrideMap): string => {
   const lines = entries.flatMap((entry) => {
     const crop = overrides[entry.id];
-    return crop ? [buildCropEntrySnippet(entry.slide.caption, crop)] : [];
+    return crop ? [buildCropEntryByIdSnippet(entry.id, crop)] : [];
   });
 
   return lines.length > 0 ? `{\n${lines.map((line) => `  ${line.replace(/\n/g, '\n  ')}`).join('\n')}\n}` : '{}';
-};
-
-const loadOverrides = (): OverrideMap => {
-  if (typeof window === 'undefined') {
-    return {};
-  }
-
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      return {};
-    }
-
-    const parsed = JSON.parse(raw) as unknown;
-    if (!parsed || typeof parsed !== 'object') {
-      return {};
-    }
-
-    const overrides: OverrideMap = {};
-
-    for (const [key, value] of Object.entries(parsed)) {
-      if (!value || typeof value !== 'object') {
-        continue;
-      }
-
-      const candidate = value as Partial<DiagramCrop>;
-      if (
-        typeof candidate.x !== 'number' ||
-        typeof candidate.y !== 'number' ||
-        typeof candidate.width !== 'number' ||
-        typeof candidate.height !== 'number'
-      ) {
-        continue;
-      }
-
-      overrides[key] = sanitizeCrop({
-        x: candidate.x,
-        y: candidate.y,
-        width: candidate.width,
-        height: candidate.height,
-      });
-    }
-
-    return overrides;
-  } catch {
-    return {};
-  }
 };
 
 const writeToClipboard = async (value: string): Promise<boolean> => {
@@ -459,9 +421,9 @@ const DiagramDebugCard = memo(function DiagramDebugCard({
   }, [crop, setCopyFeedback]);
 
   const handleCopyEntry = useCallback(async (): Promise<void> => {
-    const copied = await writeToClipboard(buildCropEntrySnippet(entry.slide.caption, crop));
+    const copied = await writeToClipboard(buildCropEntryByIdSnippet(entry.id, crop));
     setCopyFeedback(copied ? 'Copied mapping entry' : 'Clipboard write failed');
-  }, [crop, entry.slide.caption, setCopyFeedback]);
+  }, [crop, entry.id, setCopyFeedback]);
 
   return (
     <article
@@ -500,6 +462,7 @@ const DiagramDebugCard = memo(function DiagramDebugCard({
           <p className="text-xs uppercase tracking-[0.14em] text-slate-500">Source</p>
           <p className="mt-1 font-mono text-xs text-slate-300">{entry.slide.src}</p>
           <p className="mt-2 text-slate-400">PDF page {entry.slide.page}</p>
+          <p className="mt-2 break-all font-mono text-[11px] text-slate-500">{entry.id}</p>
         </div>
         <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-3">
           <p className="text-xs uppercase tracking-[0.14em] text-slate-500">Current crop</p>
@@ -537,8 +500,8 @@ const DiagramDebugCard = memo(function DiagramDebugCard({
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Edit controls</p>
             <p className="mt-1 text-sm text-slate-400">
-              Drag inside the crop box to move it. Drag the handles to resize it. Changes auto-save in local
-              storage for debugging.
+              Drag inside the crop box to move it. Drag the handles to resize it. Changes auto-save locally; use
+              export/import if you need the same crop set in another browser.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -678,10 +641,11 @@ const DiagramDebugCard = memo(function DiagramDebugCard({
 const DiagramDebug = (): JSX.Element => {
   const [query, setQuery] = useState('');
   const [copyStatus, setCopyStatus] = useState('');
-  const [overrides, setOverrides] = useState<OverrideMap>(() => loadOverrides());
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [overrides, setOverrides] = useState<OverrideMap>(() => loadLessonDiagramDebugOverrides());
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(overrides));
+    saveLessonDiagramDebugOverrides(overrides);
   }, [overrides]);
 
   const filteredEntries = useMemo(() => {
@@ -734,6 +698,43 @@ const DiagramDebug = (): JSX.Element => {
     setPageCopyFeedback(copied ? 'Copied override map' : 'Clipboard write failed');
   }, [overrides, setPageCopyFeedback]);
 
+  const handleExportOverrides = useCallback((): void => {
+    const payload = {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      overrides: normalizeDiagramCropOverrides(overrides),
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = LESSON_DIAGRAM_DEBUG_OVERRIDE_EXPORT_FILE_NAME;
+    anchor.click();
+    window.URL.revokeObjectURL(url);
+    setPageCopyFeedback('Downloaded overrides JSON');
+  }, [overrides, setPageCopyFeedback]);
+
+  const handleImportOverrides = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+      const file = event.target.files?.[0];
+      if (!file) {
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(await file.text()) as unknown;
+        const importedOverrides = normalizeDiagramCropOverrides(parsed);
+        setOverrides(importedOverrides);
+        setPageCopyFeedback(`Imported ${Object.keys(importedOverrides).length} overrides`);
+      } catch {
+        setPageCopyFeedback('Import failed');
+      } finally {
+        event.target.value = '';
+      }
+    },
+    [setPageCopyFeedback],
+  );
+
   return (
     <section className="mx-auto w-full max-w-7xl space-y-6">
       <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
@@ -742,6 +743,7 @@ const DiagramDebug = (): JSX.Element => {
         <p className="mt-3 max-w-4xl text-sm leading-relaxed text-slate-400">
           Use this page to tune crop boxes visually. Drag the overlay on the source PDF page, compare it with the
           cropped output, and copy the resulting mapping back into the crop source file when the slice looks right.
+          Browser storage is local to one browser profile; export the JSON file if you want to move crops elsewhere.
         </p>
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -761,12 +763,33 @@ const DiagramDebug = (): JSX.Element => {
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="application/json"
+            onChange={(event) => void handleImportOverrides(event)}
+            className="hidden"
+          />
           <button
             type="button"
             onClick={() => void handleCopyOverrideMap()}
             className="rounded-md border border-amber-500/60 px-3 py-2 text-sm text-amber-100 hover:bg-amber-500/10"
           >
             Copy override map
+          </button>
+          <button
+            type="button"
+            onClick={handleExportOverrides}
+            className="rounded-md border border-slate-700 px-3 py-2 text-sm text-slate-200 hover:bg-slate-800"
+          >
+            Export overrides JSON
+          </button>
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="rounded-md border border-slate-700 px-3 py-2 text-sm text-slate-200 hover:bg-slate-800"
+          >
+            Import overrides JSON
           </button>
           <button
             type="button"

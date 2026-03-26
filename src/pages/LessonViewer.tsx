@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   SECURITY_PLUS_LESSONS,
+  getDiagramStorageKey,
   markLessonDone,
   type LessonSlide,
   type IntroSlide,
@@ -842,7 +843,7 @@ const LessonViewer = (): JSX.Element => {
   }
 
   const slide = lesson.slides[current];
-  const cropOverrideKey = slide?.type === 'diagram' ? `${lesson.id}::${current}` : undefined;
+  const cropOverrideKey = slide?.type === 'diagram' ? getDiagramStorageKey(lesson.id, slide) : undefined;
 
   return (
     <section className="mx-auto grid h-full w-full max-w-5xl min-h-0 grid-rows-[auto_auto_minmax(0,7fr)_minmax(5.5rem,1fr)] gap-5 overflow-hidden">

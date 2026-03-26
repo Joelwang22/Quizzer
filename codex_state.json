@@ -68,6 +68,12 @@
       "notes": "Guided lessons now use Professor Messer course notes as the main content base via a generated 119-lesson section path (1.1 through 5.6), plus a supplemental 4.9 investigation-data lesson from the other local Security+ materials. The repo also includes reusable PDF extraction and lesson-generation scripts plus local text extractions in docs/extracted for future content work."
     },
     {
+      "id": "security-plus-gap-remediation",
+      "title": "Security+ gap remediation supplements",
+      "status": "done",
+      "notes": "Added anchored supplemental lessons and merged same-number addenda back into their base lessons, with a standalone 4.9 investigation lesson retained separately. Coverage now explicitly includes LDAP injection, X.500 distinguished names, Kerberos KDC/TGT/TGS plus clock-skew dependency, API gateways, STARTTLS, SFTP vs FTPS, SMTP 25/587/465 roles, SNMPv3, TACACS+, PLC/DCS/HMI/data historian, Purdue Model, split tunneling, geofencing/mobile threat defense, DPP, juice jacking, gamified awareness delivery, CMDB usage, and SED/TCG Opal details."
+    },
+    {
       "id": "playwright-lesson-verification",
       "title": "Playwright lesson verification",
       "status": "done",
@@ -114,6 +120,18 @@
       "title": "Diagram dev-override parity",
       "status": "done",
       "notes": "Lesson slides now read the same local diagram crop overrides as the dev inspector, keyed by lessonId and slide index, so a crop tuned in the dev menu matches the lesson rendering immediately."
+    },
+    {
+      "id": "diagram-crop-persistence",
+      "title": "Diagram crop persistence and stable IDs",
+      "status": "done",
+      "notes": "Diagram slides now get stable IDs so local crop overrides survive lesson reordering, old slide-index overrides are migrated automatically, and the debug inspector can export/import override JSON for reuse across browser profiles."
+    },
+    {
+      "id": "security-plus-diagram-expansion",
+      "title": "Security+ diagram and screenshot expansion",
+      "status": "done",
+      "notes": "Added verified lesson visuals from the Official Student Guide for NIST CSF, control functional types, file-hash verification, digital envelope/PFS, OSI layering, certificate chain-of-trust, remote-access VPN, 802.1X/RADIUS/EAP, SDN planes, Wi-Fi heat maps, Security Onion views, Joe Sandbox, DMARC verification, phishing header analysis, pass-the-hash with LSASS/SAM, the incident-response lifecycle, the cyber kill chain, qualitative risk heat maps, and BIA recovery metrics."
     }
   ],
   "todos": [
@@ -130,5 +148,5 @@
       "notes": "Visualise accuracy, weak topics, and history, including CSV export."
     }
   ],
-  "lastUpdated": "2026-03-21T04:19:28+08:00"
+  "lastUpdated": "2026-03-26T08:11:37+08:00"
 }

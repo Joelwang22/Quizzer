@@ -1,11 +1,15 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import {
   SECURITY_PLUS_LESSONS,
+  getDiagramStorageKey,
   getDoneLessons,
   markLessonDone,
   searchLessons,
 } from '../securityPlusLessons';
-import { getLessonDiagramCrop } from '../lessonDiagramCrops';
+import {
+  getLessonDiagramCrop,
+  LESSON_DIAGRAM_DEBUG_OVERRIDE_STORAGE_KEY,
+} from '../lessonDiagramCrops';
 
 describe('securityPlusLessons', () => {
   beforeEach(() => {
@@ -77,6 +81,32 @@ describe('securityPlusLessons', () => {
     expect(searchLessons('packet captures').length).toBeGreaterThan(0);
   });
 
+  it('includes the gap-remediation supplement topics in search results', () => {
+    expect(searchLessons('LDAP injection').length).toBeGreaterThan(0);
+    expect(searchLessons('distinguished name').length).toBeGreaterThan(0);
+    expect(searchLessons('STARTTLS').length).toBeGreaterThan(0);
+    expect(searchLessons('data historian').length).toBeGreaterThan(0);
+    expect(searchLessons('mobile threat defense').length).toBeGreaterThan(0);
+    expect(searchLessons('background checks').length).toBeGreaterThan(0);
+    expect(searchLessons('Purdue Model').length).toBeGreaterThan(0);
+    expect(searchLessons('split tunneling').length).toBeGreaterThan(0);
+    expect(searchLessons('agentless NAC').length).toBeGreaterThan(0);
+    expect(searchLessons('SOAR').length).toBeGreaterThan(0);
+    expect(searchLessons('SFTP').length).toBeGreaterThan(0);
+    expect(searchLessons('FTPS').length).toBeGreaterThan(0);
+    expect(searchLessons('port 587').length).toBeGreaterThan(0);
+    expect(searchLessons('TACACS+').length).toBeGreaterThan(0);
+    expect(searchLessons('SNMPv3').length).toBeGreaterThan(0);
+    expect(searchLessons('BPDU Guard').length).toBeGreaterThan(0);
+    expect(searchLessons('clock skew').length).toBeGreaterThan(0);
+    expect(searchLessons('syslog severity').length).toBeGreaterThan(0);
+    expect(searchLessons('Self-Encrypting Drive').length).toBeGreaterThan(0);
+    expect(searchLessons('Device Provisioning Protocol').length).toBeGreaterThan(0);
+    expect(searchLessons('juice jacking').length).toBeGreaterThan(0);
+    expect(searchLessons('gamification').length).toBeGreaterThan(0);
+    expect(searchLessons('CMDB').length).toBeGreaterThan(0);
+  });
+
   it('covers every lesson diagram with a source-PDF crop box', () => {
     const diagramSlides = SECURITY_PLUS_LESSONS.flatMap((lesson) =>
       lesson.slides.filter((slide) => slide.type === 'diagram'),
@@ -84,5 +114,42 @@ describe('securityPlusLessons', () => {
 
     expect(diagramSlides.length).toBeGreaterThan(20);
     expect(diagramSlides.every((slide) => getLessonDiagramCrop(slide))).toBe(true);
+  });
+
+  it('assigns a unique stable diagram id to every diagram slide', () => {
+    const diagramIds = SECURITY_PLUS_LESSONS.flatMap((lesson) =>
+      lesson.slides.flatMap((slide) =>
+        slide.type === 'diagram' ? [getDiagramStorageKey(lesson.id, slide)] : [],
+      ),
+    );
+
+    expect(diagramIds.length).toBeGreaterThan(20);
+    expect(new Set(diagramIds).size).toBe(diagramIds.length);
+  });
+
+  it('migrates legacy diagram override keys to stable diagram ids', () => {
+    const locatedDiagram = SECURITY_PLUS_LESSONS.flatMap((lesson) =>
+      lesson.slides.map((slide, slideIndex) => ({ lesson, slide, slideIndex })),
+    ).find(({ slide }) => slide.type === 'diagram');
+
+    if (!locatedDiagram || locatedDiagram.slide.type !== 'diagram') {
+      throw new Error('Expected at least one lesson containing a diagram slide');
+    }
+
+    const { lesson, slide, slideIndex } = locatedDiagram;
+
+    const legacyKey = `${lesson.id}::${slideIndex}`;
+    const stableKey = getDiagramStorageKey(lesson.id, slide);
+    const override = { x: 0.11, y: 0.22, width: 0.33, height: 0.44 };
+
+    localStorage.setItem(
+      LESSON_DIAGRAM_DEBUG_OVERRIDE_STORAGE_KEY,
+      JSON.stringify({ [legacyKey]: override }),
+    );
+
+    expect(getLessonDiagramCrop(slide, stableKey)).toEqual(override);
+    expect(JSON.parse(localStorage.getItem(LESSON_DIAGRAM_DEBUG_OVERRIDE_STORAGE_KEY) ?? '{}')).toEqual({
+      [stableKey]: override,
+    });
   });
 });

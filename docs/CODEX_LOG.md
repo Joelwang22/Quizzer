@@ -1,3 +1,70 @@
+### 2026-03-26 08:11 (local)
+**Summary:** Added the next targeted Official Student Guide visuals for certificate chaining, DMARC verification, and qualitative risk heat maps.
+**Changes:**
+- Inserted three new lesson visuals into the generated Security+ deck: the certificate chain-of-trust screenshot on page 60, the DMARC lookup screenshot on page 322, and the traffic-light risk heat map on page 453 (`src/data/securityPlusLessons.generated.ts`).
+- Added source crop mappings for the three new captions and tuned the risk heat map crop so the factor labels render fully in the lesson viewer (`src/data/lessonDiagramCrops.ts`).
+- Browser-checked all three new diagram cards in the local lesson diagram inspector, corrected the new caption strings to ASCII hyphens to avoid mojibake, and re-ran the lesson regression/build/lint pass.
+**Commands run:**
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-24 18:12 (local)
+**Summary:** Added a broad set of currently missing verified Security+ lesson visuals from the local Official Student Guide PDF and wired crops for each new slide.
+**Changes:**
+- Expanded the generated lesson deck with new diagram/screenshot slides for NIST CSF, security control functional types, file-download hash verification, digital envelope/PFS, OSI layering, remote-access VPN, 802.1X/RADIUS/EAP, SDN planes, Wi-Fi heat maps, Security Onion monitoring views, Joe Sandbox, phishing header analysis, pass-the-hash via LSASS/SAM, the incident-response lifecycle, the cyber kill chain, and BIA recovery metrics (`src/data/securityPlusLessons.generated.ts`).
+- Added crop mappings for every new caption so the lesson viewer renders the actual figure regions instead of full textbook pages, including the new Security Onion, phishing, Joe Sandbox, VPN, and metric visuals (`src/data/lessonDiagramCrops.ts`).
+- Re-ran the lesson-data regression suite plus production build and lint to confirm the expanded diagram set is valid and the repo remains green.
+**Commands run:**
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-23 13:51 (local)
+**Summary:** Made lesson-diagram crop overrides stable across lesson reordering and added export/import persistence for moving crop sets between browsers.
+**Changes:**
+- Added stable per-diagram IDs during lesson normalization and switched lesson rendering/debug override lookup off slide-index keys, so reordering or merging slides no longer invalidates saved diagram crops (`src/data/securityPlusLessons.ts`, `src/pages/LessonViewer.tsx`, `src/pages/DiagramDebug.tsx`).
+- Updated diagram crop resolution to migrate old `lessonId::slideIndex` overrides into the new stable IDs automatically while preserving legacy caption-based source crop entries as a compatibility fallback (`src/data/lessonDiagramCrops.ts`).
+- Added debug-page JSON export/import for crop overrides, plus regression tests covering stable diagram IDs and legacy-key migration so crop sets can be carried between browser profiles without re-cropping (`src/pages/DiagramDebug.tsx`, `src/data/__tests__/securityPlusLessons.test.ts`).
+- Declared Node globals in the local PDF scan helper scripts so repository lint remains green (`scan_detail.mjs`, `scan_pdf.mjs`, `scan_pdf2.mjs`, `scan_pdf3.mjs`, `scan_smart.mjs`).
+**Commands run:**
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-23 13:23 (local)
+**Summary:** Merged same-number supplemental Security+ lessons into their base lessons and filled the remaining verified minor protocol and operations gaps.
+**Changes:**
+- Changed lesson assembly so same-number supplements are merged into the base lesson slide deck instead of appearing as separate `60A`/`67A`/`77A`/`90A`/`92A`/`113A` lessons, while keeping the standalone `4.9` investigation lesson inserted as its own objective after `4.8` (`src/data/securityPlusLessons.ts`).
+- Expanded coverage for the remaining verified gaps: SFTP vs FTPS, SMTP ports 25/587/465, TACACS+ vs RADIUS, layer-2 hardening (BPDU Guard, PortFast, VLAN hopping), Kerberos clock skew and NTP dependency, WPA3 DPP, juice jacking, gamified awareness training, plus new deep dives for SED/TCG Opal, CMDB usage, and syslog/SNMPv3 protocol details (`src/data/securityPlusLessonSupplementApplication.ts`, `src/data/securityPlusLessonSupplementNetwork.ts`, `src/data/securityPlusLessonSupplementIdentity.ts`, `src/data/securityPlusLessonSupplementMobile.ts`, `src/data/securityPlusLessonSupplementPersonnel.ts`, `src/data/securityPlusLessonSupplementOps.ts`).
+- Extended lesson-search regression coverage for the new terms so the in-app search now explicitly hits `SFTP`, `FTPS`, `port 587`, `TACACS+`, `SNMPv3`, `BPDU Guard`, `clock skew`, `syslog severity`, `Self-Encrypting Drive`, `Device Provisioning Protocol`, `juice jacking`, `gamification`, and `CMDB` (`src/data/__tests__/securityPlusLessons.test.ts`).
+**Commands run:**
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-23 13:08 (local)
+**Summary:** Closed the remaining minor Security+ lesson gaps with explicit Purdue Model, VPN design, and NAC system coverage, while confirming SOAR already had direct lesson coverage.
+**Changes:**
+- Added a new VPN/NAC supplement covering remote-access vs site-to-site VPN, IPsec vs TLS VPN behavior, split tunneling, full tunneling, always-on VPN, and NAC as a full posture/quarantine system rather than only 802.1X authentication (`src/data/securityPlusLessonSupplementNetwork.ts`, `src/data/securityPlusLessons.ts`).
+- Expanded the OT supplement to name the Purdue Model directly and tie it to layered OT segmentation boundaries between plant-floor systems and enterprise IT (`src/data/securityPlusLessonSupplementOt.ts`).
+- Extended lesson-search regression coverage for `Purdue Model`, `split tunneling`, `agentless NAC`, and `SOAR`, keeping the lower-priority terms searchable alongside the earlier gap-remediation topics (`src/data/__tests__/securityPlusLessons.test.ts`).
+**Commands run:**
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-23 12:42 (local)
+**Summary:** Filled the biggest Security+ lesson coverage gaps by adding anchored supplemental lessons for identity protocols, application security, OT/ICS/IoT, mobile security, and personnel operations.
+**Changes:**
+- Added five new supplemental lesson modules and wired the lesson catalog to insert them after the relevant base lessons, so the app now explicitly teaches LDAP/LDAPS, X.500 distinguished names, LDAP injection, Kerberos KDC/TGT/TGS, WAF/API gateway/STARTTLS/DNSSEC, OT components like PLC/DCS/HMI/data historian, mobile threat defense/geofencing, and personnel-process topics such as onboarding/offboarding and background checks (`src/data/securityPlusLessons.ts`, `src/data/securityPlusLessonSupplement*.ts`).
+- Kept the existing supplemental `4.9` investigation lesson but moved lesson assembly to an anchor-based insertion model so future coverage fixes can land next to the right objective instead of relying on a single hard-coded splice (`src/data/securityPlusLessons.ts`).
+- Extended lesson-search tests to assert the new gap-remediation terms are searchable in-app, covering `LDAP injection`, `distinguished name`, `STARTTLS`, `data historian`, `mobile threat defense`, and `background checks` (`src/data/__tests__/securityPlusLessons.test.ts`).
+**Commands run:**
+- `pnpm test -- src/data/__tests__/securityPlusLessons.test.ts`
+- `pnpm build`
+- `pnpm lint`
+
 ### 2026-03-21 04:19 (local)
 **Summary:** Made lesson slides honor the same local diagram crop overrides used by the dev inspector so crop tuning matches between the two views.
 **Changes:**

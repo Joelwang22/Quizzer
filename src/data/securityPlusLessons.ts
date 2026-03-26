@@ -1,4 +1,15 @@
 import { GENERATED_SECURITY_PLUS_LESSONS } from './securityPlusLessons.generated';
+import { APPLICATION_SECURITY_DEEP_DIVE_LESSON } from './securityPlusLessonSupplementApplication';
+import { IDENTITY_PROTOCOLS_DEEP_DIVE_LESSON } from './securityPlusLessonSupplementIdentity';
+import { MOBILE_SECURITY_DEEP_DIVE_LESSON } from './securityPlusLessonSupplementMobile';
+import { VPN_NAC_DEEP_DIVE_LESSON } from './securityPlusLessonSupplementNetwork';
+import {
+  ASSET_CMDB_DEEP_DIVE_LESSON,
+  DATA_PROTECTION_DEEP_DIVE_LESSON,
+  LOGGING_PROTOCOLS_DEEP_DIVE_LESSON,
+} from './securityPlusLessonSupplementOps';
+import { OT_IOT_DEEP_DIVE_LESSON } from './securityPlusLessonSupplementOt';
+import { PERSONNEL_SECURITY_OPERATIONS_LESSON } from './securityPlusLessonSupplementPersonnel';
 
 export interface Slide {
   type: 'intro' | 'concept' | 'bullets' | 'quote' | 'term' | 'check' | 'summary' | 'diagram';
@@ -12,6 +23,8 @@ export interface DiagramSlide extends Slide {
   page: number;
   /** Short caption shown below the rendered page */
   caption: string;
+  /** Stable identifier used for crop persistence across lesson reordering */
+  diagramId?: string;
 }
 
 export interface IntroSlide extends Slide {
@@ -155,11 +168,102 @@ const SUPPLEMENTAL_SECURITY_PLUS_LESSONS: Lesson[] = [
   },
 ];
 
-export const SECURITY_PLUS_LESSONS: Lesson[] = [
-  ...GENERATED_SECURITY_PLUS_LESSONS.slice(0, 100),
-  ...SUPPLEMENTAL_SECURITY_PLUS_LESSONS,
-  ...GENERATED_SECURITY_PLUS_LESSONS.slice(100),
-];
+const MERGED_SUPPLEMENTAL_SECURITY_PLUS_LESSONS_BY_AFTER_ID: Record<string, Lesson[]> = {
+  '3-1-specialized-infrastructure': [OT_IOT_DEEP_DIVE_LESSON],
+  '3-2-secure-communication': [VPN_NAC_DEEP_DIVE_LESSON],
+  '3-3-protecting-data': [DATA_PROTECTION_DEEP_DIVE_LESSON],
+  '4-1-securing-wireless-and-mobile': [MOBILE_SECURITY_DEEP_DIVE_LESSON],
+  '4-2-asset-management': [ASSET_CMDB_DEEP_DIVE_LESSON],
+  '4-5-email-security-and-data-monitoring': [APPLICATION_SECURITY_DEEP_DIVE_LESSON],
+  '4-6-identity-and-access-management': [IDENTITY_PROTOCOLS_DEEP_DIVE_LESSON],
+  '4-8-log-data': [LOGGING_PROTOCOLS_DEEP_DIVE_LESSON],
+  '5-6-security-awareness': [PERSONNEL_SECURITY_OPERATIONS_LESSON],
+};
+
+const INSERTED_SUPPLEMENTAL_SECURITY_PLUS_LESSONS_BY_AFTER_ID: Record<string, Lesson[]> = {
+  '4-8-log-data': SUPPLEMENTAL_SECURITY_PLUS_LESSONS,
+};
+
+const mergeSupplementalLessons = (lesson: Lesson, supplementalLessons: Lesson[]): Lesson => {
+  if (supplementalLessons.length === 0) {
+    return lesson;
+  }
+
+  return {
+    ...lesson,
+    slides: [
+      ...lesson.slides,
+      ...supplementalLessons.flatMap((supplementalLesson) => supplementalLesson.slides),
+    ],
+  };
+};
+
+const slugifyDiagramIdPart = (value: string): string => {
+  const slug = value
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-{2,}/g, '-');
+
+  return slug || 'diagram';
+};
+
+const getDiagramIdBase = (lessonId: string, slide: DiagramSlide): string => {
+  const srcSlug = slugifyDiagramIdPart(slide.src.split('/').pop()?.replace(/\.[^.]+$/, '') ?? 'pdf');
+  const captionSlug = slugifyDiagramIdPart(slide.caption);
+
+  return `${lessonId}::${srcSlug}::p${slide.page}::${captionSlug}`;
+};
+
+const assignDiagramIds = (lesson: Lesson): Lesson => {
+  const seenIds = new Map<string, number>();
+
+  return {
+    ...lesson,
+    slides: lesson.slides.map((slide) => {
+      if (slide.type !== 'diagram') {
+        return slide;
+      }
+
+      const baseId = slide.diagramId ?? getDiagramIdBase(lesson.id, slide);
+      const nextCount = (seenIds.get(baseId) ?? 0) + 1;
+      seenIds.set(baseId, nextCount);
+
+      return {
+        ...slide,
+        diagramId: nextCount === 1 ? baseId : `${baseId}::${nextCount}`,
+      };
+    }),
+  };
+};
+
+const buildSecurityPlusLessons = (lessons: Lesson[]): Lesson[] => {
+  const orderedLessons: Lesson[] = [];
+
+  lessons.forEach((lesson) => {
+    orderedLessons.push(
+      assignDiagramIds(
+        mergeSupplementalLessons(
+          lesson,
+          MERGED_SUPPLEMENTAL_SECURITY_PLUS_LESSONS_BY_AFTER_ID[lesson.id] ?? [],
+        ),
+      ),
+    );
+    orderedLessons.push(
+      ...(INSERTED_SUPPLEMENTAL_SECURITY_PLUS_LESSONS_BY_AFTER_ID[lesson.id] ?? []).map(assignDiagramIds),
+    );
+  });
+
+  return orderedLessons;
+};
+
+export const SECURITY_PLUS_LESSONS: Lesson[] = buildSecurityPlusLessons(
+  GENERATED_SECURITY_PLUS_LESSONS,
+);
+
+export const getDiagramStorageKey = (lessonId: Lesson['id'], slide: DiagramSlide): string =>
+  slide.diagramId ?? getDiagramIdBase(lessonId, slide);
 
 export interface LessonSearchResult {
   lessonId: Lesson['id'];
