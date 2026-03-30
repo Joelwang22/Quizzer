@@ -1,3 +1,113 @@
+### 2026-03-30 13:31 (local)
+**Summary:** Constrained cutscene speech bubbles to the stage bounds while keeping them centered over the active speaker whenever space allows.
+**Changes:**
+- Replaced the per-speaker bubble placement with a single measured overlay bubble that uses the active speaker’s on-screen position to compute the ideal center point, then clamps the bubble inside the cutscene stage bounds before rendering (`src/pages/LessonViewer.tsx`).
+- Kept the bubble tail aligned to the speaking character by separately measuring and clamping the tail anchor within the bubble, so centered bubbles still point toward the speaker even when the box itself has to shift inward (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 1 after the update to confirm both the opening bubble and the next-speaker bubble stay inside the lesson viewport bounds.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/0?slide=1`
+
+### 2026-03-30 13:27 (local)
+**Summary:** Re-anchored cutscene speech bubbles over the speaking character’s head and added a tail so they read as proper speech bubbles.
+**Changes:**
+- Moved cutscene dialogue bubbles from column-aligned placement to speaker-anchored placement by attaching each bubble to the speaking character’s sprite wrapper and centering it horizontally above the head (`src/pages/LessonViewer.tsx`).
+- Added a small rotated tail element at the bottom of each bubble so the active line reads visually as a speech bubble pointing toward the current speaker (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 1 after the update to confirm both the opening line and the next-speaker line still render correctly with the new centered anchoring.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/0?slide=1`
+
+### 2026-03-30 13:21 (local)
+**Summary:** Removed the fixed-height cutscene bubble slots so dialogue bubbles can render at natural height without stretching vertically.
+**Changes:**
+- Repositioned cutscene speech bubbles to float directly above the speaking character using `bottom-full` absolute positioning, removing the fixed vertical allocation that was making bubbles look unnaturally tall (`src/pages/LessonViewer.tsx`).
+- Increased the maximum bubble width while keeping the stage lineup stable, allowing longer lines to overlap upward into scene space rather than stretching vertically or pushing sprites around (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 1 after the change to confirm the second line still renders correctly and the visible sprite lineup remains stable as the active speaker changes.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/0?slide=1`
+
+### 2026-03-30 13:18 (local)
+**Summary:** Removed the remaining sprite chrome from lesson cutscenes and made right-side speech bubbles non-displacing.
+**Changes:**
+- Added an explicit unstyled mode to the shared `CastSprite` component and switched the cutscene stage to use it, so lesson cutscene sprites no longer inherit the default rounded border/background wrapper (`src/components/CastSprite.tsx`, `src/pages/LessonViewer.tsx`).
+- Changed the active speech bubbles to render inside fixed-height bubble slots with absolute positioning, so when a right-side character speaks the bubble no longer pushes or reflows the rest of the lineup (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 1 after the update to confirm the cutscene sprites are borderless and the visible stage lineup remains stable as dialogue advances.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/0?slide=1`
+
+### 2026-03-30 13:14 (local)
+**Summary:** Removed the boxed character treatment from lesson cutscenes and tightened the right-side cast into a single side-by-side lineup.
+**Changes:**
+- Reworked the cutscene stage so sprites no longer sit inside bordered character cards; actors now appear as plain stage figures with only subtle emphasis on the active speaker (`src/pages/LessonViewer.tsx`).
+- Changed the right-side scene cast from a roomy grid into a bottom-aligned side-by-side lineup, reducing the awkward spacing between non-player characters while preserving per-speaker speech bubbles above the active actor (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 1 after the layout change to confirm the dialogue bubble still renders and all scene characters remain visible on stage.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/0?slide=1`
+
+### 2026-03-30 13:10 (local)
+**Summary:** Simplified the cutscene stage so Noah stays anchored on the left while the rest of the cast remains visible on the right.
+**Changes:**
+- Reworked the conversation stage layout so the learner character, Noah Reed, is pinned to the left whenever he is present in the scene, while all other participants render together on the right side as persistent stage cards (`src/pages/LessonViewer.tsx`).
+- Removed the separate `Cast In Scene` roster because the full scene cast now stays visible on the stage throughout playback, with speech bubbles still appearing only above the active speaker (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 1 with Playwright to confirm the old cast section is gone, all three scene characters remain visible at once, and the opening dialogue still renders correctly after the relayout.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/0?slide=1`
+
+### 2026-03-30 13:07 (local)
+**Summary:** Redesigned the Northwind cutscenes into a two-character stage so only the active line appears as a speech bubble above the current speaker.
+**Changes:**
+- Reworked the cutscene player to select an active speaker and conversation partner, place them on a shared stage facing each other, and render only one live speech bubble above the current speaker instead of stacking past dialogue lines in the scene body (`src/pages/LessonViewer.tsx`).
+- Moved the rest of the scene participants into a lighter cast roster and added a gated `Reveal full script` control that only appears after the scene completes, so the transcript stays hidden during playback but remains accessible afterward (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 1 with Playwright to confirm the scene starts with one active bubble, keeps future lines hidden until advanced, and reveals the full script only after the explicit post-scene button is used.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/0?slide=1`
+
+### 2026-03-30 13:01 (local)
+**Summary:** Upgraded the Northwind cutscenes into actual timed conversation scenes with sequential speech bubbles and scene controls.
+**Changes:**
+- Expanded the first 10 lesson story callbacks so they contain spoken dialogue as well as a final takeaway, allowing both the opening and ending cutscenes to play as conversations instead of static text summaries (`src/data/lessonStories.ts`).
+- Replaced the static story panels in the lesson viewer with a conversation player that reveals one bubble at a time, highlights the active speaker in the cast strip, auto-plays the scene, and provides `Next line`, `Skip to end`, and `Replay scene` controls (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 1 in Playwright to confirm the first bubble renders alone, later bubbles advance correctly, and the takeaway appears only after the scene finishes.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/0?slide=1`
+
+### 2026-03-30 12:55 (local)
+**Summary:** Reworked lesson story presentation so Northwind beats use dedicated cutscene slides instead of being stacked inside intro and summary panels.
+**Changes:**
+- Changed the lesson viewer to synthesize story-backed slide sequences: a cold-open cutscene before the first lesson slide and a callback cutscene after the lesson content, so the normal slide panels keep their original height and are no longer displaced by story cards (`src/pages/LessonViewer.tsx`).
+- Restored the standard intro and summary slide rendering paths, with the story content now handled by separate cutscene slide components rather than inline card insertion.
+- Browser-checked Lesson 1 with Playwright to confirm slide 1 is the story cutscene, slide 2 is the original intro, and the final slide is the callback cutscene with the updated slide count.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity checks for `/lessons/0?slide=1`, `/lessons/0?slide=2`, and `/lessons/0?slide=12`
+
+### 2026-03-30 12:52 (local)
+**Summary:** Implemented the first story layer for guided lessons by adding Northwind cold-open and callback cards to the first 10 lessons.
+**Changes:**
+- Added structured lesson-story metadata for Lessons 1 through 10, keyed by lesson id and built around the Northwind Office Systems cast, with a cold open, concept hook, and callback/payoff for each lesson (`src/data/lessonStories.ts`).
+- Updated the lesson viewer to render compact story cards only on intro and summary slides, reusing the animated cast sprites so the narrative supports the lesson without crowding the main content (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 1 and Lesson 10 with Playwright against the live app to confirm the new `Northwind Story Beat` intro card and `Northwind Callback` summary card both render in the intended places.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity checks for `/lessons/0`, `/lessons/0?slide=10`, `/lessons/9`, and `/lessons/9?slide=8`
+
 ### 2026-03-30 12:39 (local)
 **Summary:** Removed the end-of-loop flicker on the `/story-cast` sprite preview by switching to a proper stepped sprite-sheet animation.
 **Changes:**

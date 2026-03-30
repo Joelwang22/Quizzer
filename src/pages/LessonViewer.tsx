@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   SECURITY_PLUS_LESSONS,
@@ -14,7 +14,10 @@ import {
   type SummarySlide,
   type DiagramSlide,
 } from '../data/securityPlusLessons';
+import { getLessonStory, type LessonStory } from '../data/lessonStories';
 import { getLessonDiagramCrop } from '../data/lessonDiagramCrops';
+import { STORY_CAST, type StoryCastMember } from '../data/storyCast';
+import { CastSprite } from '../components';
 
 // Module-level PDF document cache so the 11MB file is fetched and parsed once
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -132,6 +135,17 @@ const clampSlideIndex = (value: number, total: number): number => {
 
   return Math.min(Math.max(Math.trunc(value), 0), total - 1);
 };
+
+const storyCastById = new Map<string, StoryCastMember>(STORY_CAST.map((member) => [member.id, member]));
+
+const getStoryCastMembers = (castIds: string[]): StoryCastMember[] =>
+  castIds
+    .map((castId) => storyCastById.get(castId))
+    .filter((member): member is StoryCastMember => Boolean(member));
+
+type RenderedLessonSlide =
+  | { kind: 'lesson'; slide: LessonSlide }
+  | { kind: 'story'; slideKey: 'cold_open' | 'callback'; story: LessonStory };
 
 type CheckSlideMode = 'binary' | 'fill_blank' | 'multiple_choice' | 'multi_part' | 'case' | 'reflection';
 
@@ -336,6 +350,373 @@ const renderFillBlankPrompt = (
     </p>
   );
 };
+
+const getStoryLineDelayMs = (text: string): number => Math.min(3200, Math.max(1250, 700 + text.length * 18));
+
+const STORY_USER_CHARACTER_ID = 'noah-reed';
+
+const StoryConversationPlayer = ({
+  title,
+  eyebrow,
+  badge,
+  cast,
+  lines,
+  takeawayTitle,
+  takeaway,
+  accentClassName,
+  shellClassName,
+}: {
+  title: string;
+  eyebrow: string;
+  badge: string;
+  cast: StoryCastMember[];
+  lines: Array<{ speakerId: string; text: string }>;
+  takeawayTitle: string;
+  takeaway: string;
+  accentClassName: string;
+  shellClassName: string;
+}): JSX.Element => {
+  const [revealedCount, setRevealedCount] = useState(1);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [showFullScript, setShowFullScript] = useState(false);
+  const [bubblePosition, setBubblePosition] = useState<{ left: number; top: number; tailLeft: number } | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const activeAnchorRef = useRef<HTMLDivElement | null>(null);
+  const activeBubbleRef = useRef<HTMLDivElement | null>(null);
+  const clampedRevealedCount = Math.min(Math.max(revealedCount, 1), lines.length);
+  const activeLineIndex = clampedRevealedCount - 1;
+  const activeLine = lines[activeLineIndex];
+  const isComplete = clampedRevealedCount >= lines.length;
+  const activeSpeakerId = activeLine?.speakerId;
+  const progressLabel = `${clampedRevealedCount} / ${lines.length}`;
+  const leftStageMember = cast.find((member) => member.id === STORY_USER_CHARACTER_ID);
+  const rightStageMembers = cast.filter((member) => member.id !== STORY_USER_CHARACTER_ID);
+
+  useEffect(() => {
+    setRevealedCount(1);
+    setIsAutoPlaying(true);
+    setShowFullScript(false);
+    setBubblePosition(null);
+  }, [lines, title]);
+
+  useLayoutEffect(() => {
+    const stage = stageRef.current;
+    const anchor = activeAnchorRef.current;
+    const bubble = activeBubbleRef.current;
+
+    if (!stage || !anchor || !bubble || !activeLine) {
+      setBubblePosition(null);
+      return;
+    }
+
+    const updatePosition = (): void => {
+      const stageRect = stage.getBoundingClientRect();
+      const anchorRect = anchor.getBoundingClientRect();
+      const bubbleRect = bubble.getBoundingClientRect();
+      const anchorCenter = anchorRect.left - stageRect.left + anchorRect.width / 2;
+      const desiredLeft = anchorCenter - bubbleRect.width / 2;
+      const minLeft = 12;
+      const maxLeft = Math.max(minLeft, stageRect.width - bubbleRect.width - 12);
+      const clampedLeft = Math.min(Math.max(desiredLeft, minLeft), maxLeft);
+      const desiredTop = anchorRect.top - stageRect.top - bubbleRect.height - 10;
+      const clampedTop = Math.max(10, desiredTop);
+      const desiredTailLeft = anchorCenter - clampedLeft;
+      const clampedTailLeft = Math.min(Math.max(desiredTailLeft, 18), bubbleRect.width - 18);
+
+      setBubblePosition((current) => {
+        if (
+          current &&
+          Math.abs(current.left - clampedLeft) < 1 &&
+          Math.abs(current.top - clampedTop) < 1 &&
+          Math.abs(current.tailLeft - clampedTailLeft) < 1
+        ) {
+          return current;
+        }
+
+        return {
+          left: clampedLeft,
+          top: clampedTop,
+          tailLeft: clampedTailLeft,
+        };
+      });
+    };
+
+    updatePosition();
+
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', updatePosition);
+      return () => {
+        window.removeEventListener('resize', updatePosition);
+      };
+    }
+
+    const observer = new ResizeObserver(() => {
+      updatePosition();
+    });
+
+    observer.observe(stage);
+    observer.observe(anchor);
+    observer.observe(bubble);
+    window.addEventListener('resize', updatePosition);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [activeLine, activeSpeakerId]);
+
+  useEffect(() => {
+    if (!isAutoPlaying || isComplete) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setRevealedCount((count) => Math.min(lines.length, count + 1));
+    }, getStoryLineDelayMs(activeLine?.text ?? ''));
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [activeLine?.text, isAutoPlaying, isComplete, lines.length]);
+
+  const handleNext = (): void => {
+    if (isComplete) {
+      return;
+    }
+    setIsAutoPlaying(false);
+    setRevealedCount((count) => Math.min(lines.length, count + 1));
+  };
+
+  const handleSkip = (): void => {
+    setIsAutoPlaying(false);
+    setRevealedCount(lines.length);
+  };
+
+  const handleReplay = (): void => {
+    setRevealedCount(1);
+    setIsAutoPlaying(true);
+    setShowFullScript(false);
+  };
+
+  return (
+    <div className={`rounded-[1.75rem] p-6 shadow-[0_20px_70px_rgba(15,23,42,0.18)] sm:p-7 ${shellClassName}`}>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className={`text-xs font-bold uppercase tracking-[0.14em] ${accentClassName}`}>{eyebrow}</p>
+          <h3 className="mt-2 text-xl font-semibold text-slate-50">{title}</h3>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="rounded-full border border-slate-600/70 bg-slate-950/40 px-3 py-1 text-xs font-semibold text-slate-300">
+            {progressLabel}
+          </span>
+          <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${accentClassName} border-current/30 bg-slate-950/35`}>
+            {badge}
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-5 rounded-[1.5rem] border border-slate-700/80 bg-slate-950/50 px-4 py-5 sm:px-5 sm:py-6">
+        <div ref={stageRef} className="relative grid min-h-[21rem] grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] gap-4 sm:gap-6">
+          {activeLine ? (
+            <div
+              ref={activeBubbleRef}
+              className="absolute z-20 w-max max-w-[24rem] rounded-[1.35rem] border border-teal-300/55 bg-slate-900/95 px-4 py-3 shadow-[0_12px_30px_rgba(15,23,42,0.24)]"
+              style={{
+                left: `${bubblePosition?.left ?? 12}px`,
+                top: `${bubblePosition?.top ?? 10}px`,
+                visibility: bubblePosition ? 'visible' : 'hidden',
+              }}
+            >
+              <p className={`text-sm font-semibold ${storyCastById.get(activeSpeakerId ?? '')?.accentClassName ?? 'text-slate-100'}`}>
+                {storyCastById.get(activeSpeakerId ?? '')?.name ?? ''}
+              </p>
+              <p className="mt-1 text-sm leading-7 text-slate-100">{activeLine.text}</p>
+              <div
+                className="absolute top-full h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border-b border-r border-teal-300/55 bg-slate-900/95"
+                style={{ left: `${bubblePosition?.tailLeft ?? 24}px` }}
+              />
+            </div>
+          ) : null}
+
+          <div className="flex h-full justify-start">
+            {leftStageMember ? (
+              <div className="flex h-full w-full flex-col justify-end items-start text-left">
+                <div
+                  ref={leftStageMember.id === activeSpeakerId ? activeAnchorRef : null}
+                  className={`relative inline-flex flex-col items-center px-2 py-1 transition ${
+                    leftStageMember.id === activeSpeakerId
+                      ? 'translate-y-[-2px] brightness-110'
+                      : 'opacity-90'
+                  }`}
+                >
+                  <CastSprite
+                    spriteSheet={leftStageMember.spriteSheet}
+                    name={leftStageMember.name}
+                    size={96}
+                    unstyled
+                  />
+                  <p className={`mt-2 text-sm font-semibold ${leftStageMember.accentClassName}`}>{leftStageMember.name}</p>
+                  <p className="text-xs text-slate-500">{leftStageMember.title}</p>
+                </div>
+              </div>
+            ) : (
+              <div className="invisible w-full" aria-hidden="true" />
+            )}
+          </div>
+
+          <div className="flex h-full flex-wrap items-end justify-end gap-x-2 gap-y-4 sm:gap-x-4">
+            {rightStageMembers.map((member) => {
+              const isSpeaker = member.id === activeSpeakerId;
+
+              return (
+                <div key={member.id} className="flex flex-col items-end justify-end text-right">
+                  <div
+                    ref={isSpeaker ? activeAnchorRef : null}
+                    className={`relative inline-flex flex-col items-center px-2 py-1 transition ${
+                      isSpeaker
+                        ? 'translate-y-[-2px] brightness-110'
+                        : 'opacity-90'
+                    }`}
+                  >
+                    <div className="scale-x-[-1]">
+                      <CastSprite
+                        spriteSheet={member.spriteSheet}
+                        name={member.name}
+                        size={96}
+                        unstyled
+                      />
+                    </div>
+                    <p className={`mt-2 text-sm font-semibold ${member.accentClassName}`}>{member.name}</p>
+                    <p className="text-xs text-slate-500">{member.title}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="mt-5 flex flex-wrap gap-3">
+          {!isComplete ? (
+            <button
+              type="button"
+              onClick={handleNext}
+              className="rounded-lg border border-slate-600 bg-slate-900/70 px-4 py-2 text-sm font-semibold text-slate-100 hover:bg-slate-800"
+            >
+              Next line
+            </button>
+          ) : null}
+          {!isComplete ? (
+            <button
+              type="button"
+              onClick={handleSkip}
+              className="rounded-lg border border-slate-700 bg-transparent px-4 py-2 text-sm font-semibold text-slate-300 hover:bg-slate-900/60"
+            >
+              Skip to end
+            </button>
+          ) : null}
+          {isComplete ? (
+            <button
+              type="button"
+              onClick={handleReplay}
+              className="rounded-lg border border-slate-600 bg-slate-900/70 px-4 py-2 text-sm font-semibold text-slate-100 hover:bg-slate-800"
+            >
+              Replay scene
+            </button>
+          ) : null}
+          {isComplete ? (
+            <button
+              type="button"
+              onClick={() => setShowFullScript((value) => !value)}
+              className="rounded-lg border border-slate-700 bg-transparent px-4 py-2 text-sm font-semibold text-slate-300 hover:bg-slate-900/60"
+            >
+              {showFullScript ? 'Hide full script' : 'Reveal full script'}
+            </button>
+          ) : null}
+          {!isComplete ? (
+            <p className="self-center text-xs text-slate-500">
+              {isAutoPlaying ? 'Playing automatically' : 'Auto-play paused'}
+            </p>
+          ) : null}
+        </div>
+
+        {isComplete && showFullScript ? (
+          <div className="mt-5 rounded-2xl border border-slate-700/80 bg-slate-900/70 px-4 py-4">
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">Full Script</p>
+            <div className="mt-3 space-y-3">
+              {lines.map((line, index) => {
+                const speaker = storyCastById.get(line.speakerId);
+
+                return (
+                  <div key={`${line.speakerId}-script-${index}`} className="rounded-xl border border-slate-800 bg-slate-950/45 px-4 py-3">
+                    <p className={`text-sm font-semibold ${speaker?.accentClassName ?? 'text-slate-200'}`}>
+                      {speaker?.name ?? line.speakerId}
+                    </p>
+                    <p className="mt-1 text-sm leading-7 text-slate-200">{line.text}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
+      </div>
+
+      {isComplete ? (
+        <div className="mt-5 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-4">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-300">{takeawayTitle}</p>
+          <p className="mt-2 text-sm leading-7 text-slate-200">{takeaway}</p>
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
+const StoryColdOpen = ({ story }: { story: LessonStory }): JSX.Element => {
+  const cast = getStoryCastMembers(story.coldOpen.cast);
+
+  return (
+    <StoryConversationPlayer
+      title={story.coldOpen.title}
+      eyebrow="Northwind Story Beat"
+      badge="Cold Open"
+      cast={cast}
+      lines={story.coldOpen.lines}
+      takeawayTitle="Concept Hook"
+      takeaway={story.coldOpen.conceptHook}
+      accentClassName="text-amber-300"
+      shellClassName="border border-amber-400/25 bg-[linear-gradient(135deg,rgba(120,53,15,0.24),rgba(15,23,42,0.82))]"
+    />
+  );
+};
+
+const StoryCallbackCard = ({ story }: { story: LessonStory }): JSX.Element => {
+  const cast = getStoryCastMembers(story.callback.cast);
+
+  return (
+    <StoryConversationPlayer
+      title={story.callback.title}
+      eyebrow="Northwind Callback"
+      badge="Lesson Payoff"
+      cast={cast}
+      lines={story.callback.lines}
+      takeawayTitle="Why It Matters"
+      takeaway={story.callback.takeaway}
+      accentClassName="text-cyan-300"
+      shellClassName="border border-cyan-400/20 bg-[linear-gradient(135deg,rgba(8,47,73,0.22),rgba(15,23,42,0.82))]"
+    />
+  );
+};
+
+const StoryCutsceneSlide = ({
+  story,
+  slideKey,
+}: {
+  story: LessonStory;
+  slideKey: 'cold_open' | 'callback';
+}): JSX.Element => (
+  <div className={`${baseSlidePanelClass} overflow-hidden`}>
+    {slideKey === 'cold_open' ? <StoryColdOpen story={story} /> : <StoryCallbackCard story={story} />}
+  </div>
+);
 
 const SlideIntro = ({ slide }: { slide: IntroSlide }): JSX.Element => (
   <div className={`${baseSlidePanelClass} p-12 text-center sm:p-16`}>
@@ -808,7 +1189,7 @@ const SlideDiagram = ({ slide, cropOverrideKey }: { slide: DiagramSlide; cropOve
           />
           {status === 'loading' ? (
             <div className="absolute inset-0 flex items-center justify-center bg-slate-900/70 text-sm text-slate-500">
-              Rendering page {slide.page}…
+              Rendering page {slide.page}...
             </div>
           ) : null}
           {status === 'error' ? (
@@ -828,29 +1209,33 @@ const SlideDiagram = ({ slide, cropOverrideKey }: { slide: DiagramSlide; cropOve
 };
 
 const RenderSlide = ({
-  slide,
+  renderedSlide,
   cropOverrideKey,
 }: {
-  slide: LessonSlide;
+  renderedSlide: RenderedLessonSlide;
   cropOverrideKey?: string;
 }): JSX.Element => {
-  switch (slide.type) {
+  if (renderedSlide.kind === 'story') {
+    return <StoryCutsceneSlide story={renderedSlide.story} slideKey={renderedSlide.slideKey} />;
+  }
+
+  switch (renderedSlide.slide.type) {
     case 'intro':
-      return <SlideIntro slide={slide} />;
+      return <SlideIntro slide={renderedSlide.slide} />;
     case 'concept':
-      return <SlideConcept slide={slide} />;
+      return <SlideConcept slide={renderedSlide.slide} />;
     case 'bullets':
-      return <SlideBullets slide={slide} />;
+      return <SlideBullets slide={renderedSlide.slide} />;
     case 'quote':
-      return <SlideQuote slide={slide} />;
+      return <SlideQuote slide={renderedSlide.slide} />;
     case 'term':
-      return <SlideTerm slide={slide} />;
+      return <SlideTerm slide={renderedSlide.slide} />;
     case 'check':
-      return <SlideCheck slide={slide} />;
+      return <SlideCheck slide={renderedSlide.slide} />;
     case 'summary':
-      return <SlideSummary slide={slide} />;
+      return <SlideSummary slide={renderedSlide.slide} />;
     case 'diagram':
-      return <SlideDiagram slide={slide} cropOverrideKey={cropOverrideKey} />;
+      return <SlideDiagram slide={renderedSlide.slide} cropOverrideKey={cropOverrideKey} />;
   }
 };
 
@@ -865,7 +1250,15 @@ const LessonViewer = (): JSX.Element => {
   const [finished, setFinished] = useState(false);
   const slideViewportRef = useRef<HTMLDivElement | null>(null);
 
-  const total = lesson?.slides.length ?? 0;
+  const lessonStory = lesson ? getLessonStory(lesson.id) : undefined;
+  const renderedSlides: RenderedLessonSlide[] = lesson
+    ? [
+        ...(lessonStory ? [{ kind: 'story', slideKey: 'cold_open', story: lessonStory } as const] : []),
+        ...lesson.slides.map((slide) => ({ kind: 'lesson', slide } as const)),
+        ...(lessonStory ? [{ kind: 'story', slideKey: 'callback', story: lessonStory } as const] : []),
+      ]
+    : [];
+  const total = renderedSlides.length;
   const requestedSlideParam = Number(searchParams.get('slide') ?? '1') - 1;
   const hasRequestedSlide = searchParams.has('slide');
   const requestedSlideIndex = clampSlideIndex(requestedSlideParam, total);
@@ -970,8 +1363,11 @@ const LessonViewer = (): JSX.Element => {
     );
   }
 
-  const slide = lesson.slides[current];
-  const cropOverrideKey = slide?.type === 'diagram' ? getDiagramStorageKey(lesson.id, slide) : undefined;
+  const renderedSlide = renderedSlides[current];
+  const cropOverrideKey =
+    renderedSlide?.kind === 'lesson' && renderedSlide.slide.type === 'diagram'
+      ? getDiagramStorageKey(lesson.id, renderedSlide.slide)
+      : undefined;
 
   return (
     <section className="mx-auto grid h-full w-full max-w-none min-h-0 grid-rows-[auto_auto_minmax(0,7fr)_minmax(5.5rem,1fr)] gap-6 overflow-hidden">
@@ -1011,7 +1407,7 @@ const LessonViewer = (): JSX.Element => {
         className="min-h-0 overflow-y-auto px-1 sm:px-2"
       >
         <div className="mx-auto h-full min-h-full w-full" key={`${lesson.id}-${current}`}>
-          {slide ? <RenderSlide slide={slide} cropOverrideKey={cropOverrideKey} /> : null}
+          {renderedSlide ? <RenderSlide renderedSlide={renderedSlide} cropOverrideKey={cropOverrideKey} /> : null}
         </div>
       </div>
 
