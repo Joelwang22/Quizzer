@@ -1,3 +1,81 @@
+### 2026-03-30 12:30 (local)
+**Summary:** Split Ethan Cole’s nose and mouth positioning so the lower face can be tuned independently.
+**Changes:**
+- Replaced Ethan’s shared lower-face offset with separate `noseYOffset` and `mouthYOffset` handling in the story-cast generator, allowing the nose to stay in a normal position while the mouth/beard sits lower (`scripts/generate-story-cast-sprites.mjs`, `public/story-cast/*`).
+- Rechecked Ethan’s `/story-cast` card after regeneration to confirm the nose and mouth no longer move as one block.
+**Commands run:**
+- `node scripts/generate-story-cast-sprites.mjs`
+- inline Vite + Playwright close-up check for Ethan Cole on `/story-cast`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-30 12:23 (local)
+**Summary:** Adjusted Ethan Cole’s nose placement so it sits higher on the face and no longer crowds the mouth.
+**Changes:**
+- Added a per-character nose Y-offset in the story-cast generator and used it to raise Ethan Cole’s single nose pixel by one row, improving the spacing between his nose and beard/mouth (`scripts/generate-story-cast-sprites.mjs`, `public/story-cast/*`).
+- Rechecked Ethan’s card in `/story-cast` after regeneration to confirm the facial spacing reads correctly at preview scale.
+**Commands run:**
+- `node scripts/generate-story-cast-sprites.mjs`
+- inline Vite + Playwright close-up check for Ethan Cole on `/story-cast`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-30 11:38 (local)
+**Summary:** Applied a second targeted facial polish pass to Rosa, Ethan, and Tessa after the first fix still looked off in close-up.
+**Changes:**
+- Refined Rosa Jimenez’s face to use a cleaner small smile, Ethan Cole’s face to use clearer stern eyes plus a trimmed beard/mouth separation, and Tessa Vale’s face to use a more restrained closed smile with the nose removed entirely (`scripts/generate-story-cast-sprites.mjs`, `public/story-cast/*`).
+- Took focused browser screenshots of the individual cast cards from `/story-cast` before and after the pass so the changes were based on the actual rendered close-ups instead of the full-page preview.
+**Commands run:**
+- inline Vite + Playwright close-up checks for Rosa Jimenez, Ethan Cole, and Tessa Vale on `/story-cast`
+- `node scripts/generate-story-cast-sprites.mjs`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-30 11:31 (local)
+**Summary:** Polished the weakest cast faces by giving Priya, Rosa, Ethan, and Tessa more character-specific eye and mouth shapes.
+**Changes:**
+- Added targeted face-style handling in the story-cast generator so Priya uses a tired focused eye shape with a tighter mouth, Rosa uses softer kinder eyes with a warmer smile, Ethan uses steadier deeper-set eyes and a less blocky beard/mouth treatment, and Tessa uses friendlier eyes with a softer smile (`scripts/generate-story-cast-sprites.mjs`, `public/story-cast/*`).
+- Rechecked the updated `/story-cast` preview in-browser after regenerating the sprite sheets to confirm those four faces read more naturally than the generic template pass.
+**Commands run:**
+- `node scripts/generate-story-cast-sprites.mjs`
+- inline Vite + Playwright preview check for `/story-cast`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-30 11:28 (local)
+**Summary:** Corrected the cast rig so the sprite heads are centered over the torso instead of leaning too far right, and tightened the upper-body silhouette.
+**Changes:**
+- Shifted the generated head anchor left to center the face over the torso and widened the neck/shoulder bridge pixels so the cast no longer looks detached or right-heavy in the `/story-cast` preview (`scripts/generate-story-cast-sprites.mjs`, `public/story-cast/*`).
+- Rechecked the updated sprite set in-browser after regeneration to confirm the cast reads more balanced and less awkward at preview scale.
+**Commands run:**
+- `node scripts/generate-story-cast-sprites.mjs`
+- inline Vite + Playwright preview check for `/story-cast`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-30 11:22 (local)
+**Summary:** Reduced the story-cast idle motion so the sprites feel steadier and less bobbleheaded in the preview.
+**Changes:**
+- Flattened the generated idle poses by removing the up/down bob and side sway from the four-frame cast animation while keeping smaller arm/leg/blink variation for life, reducing the excessive head movement visible on `/story-cast` (`scripts/generate-story-cast-sprites.mjs`, `public/story-cast/*`).
+- Rechecked the `/story-cast` preview in-browser after regenerating the sprite sheets to confirm the cast reads more like subtle idle motion than exaggerated head bobbing.
+**Commands run:**
+- `node scripts/generate-story-cast-sprites.mjs`
+- inline Vite + Playwright preview check for `/story-cast`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-30 11:08 (local)
+**Summary:** Reworked the first-pass story cast sprites into a cleaner animated set with better proportions, facial readability, clothing details, and a less awkward idle loop.
+**Changes:**
+- Rewrote the local story-cast sprite generator to produce more polished four-frame idle sprite sheets with improved head/body proportions, rounded silhouettes, per-character brows/mouths, better hair shapes, stronger outfit differentiation, prop rendering, and basic shadows instead of the blockier first-pass rigs (`scripts/generate-story-cast-sprites.mjs`, `public/story-cast/*`).
+- Updated the sprite animation CSS to handle four-frame sheets and slowed the loop slightly so the cast reads more like discrete idle animation instead of a harsh three-frame cycle (`src/index.css`).
+- Enlarged the `/story-cast` preview sprites so the art pass is easier to evaluate in-browser while the narrative layer is still being designed (`src/pages/StoryCast.tsx`).
+**Commands run:**
+- `node scripts/generate-story-cast-sprites.mjs`
+- inline Vite + Playwright preview checks for `/story-cast`
+- `pnpm build`
+- `pnpm lint`
+
 ### 2026-03-30 10:54 (local)
 **Summary:** Added an original animated pixel-art cast prototype for the planned story mode, including reusable sprite-sheet assets and an in-app preview route.
 **Changes:**

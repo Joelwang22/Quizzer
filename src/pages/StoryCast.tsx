@@ -16,10 +16,10 @@ const StoryCast = (): JSX.Element => (
       {STORY_CAST.map((member) => (
         <article
           key={member.id}
-          className="flex gap-4 rounded-[1.5rem] border border-slate-800 bg-slate-900/60 p-5 shadow-[0_16px_48px_rgba(15,23,42,0.24)]"
+          className="flex gap-5 rounded-[1.5rem] border border-slate-800 bg-slate-900/60 p-5 shadow-[0_16px_48px_rgba(15,23,42,0.24)]"
         >
           <div className="shrink-0">
-            <CastSprite spriteSheet={member.spriteSheet} name={member.name} size={96} />
+            <CastSprite spriteSheet={member.spriteSheet} name={member.name} size={112} />
           </div>
           <div className="space-y-2">
             <div>
