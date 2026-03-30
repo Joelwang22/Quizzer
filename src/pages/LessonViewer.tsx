@@ -351,7 +351,13 @@ const renderFillBlankPrompt = (
   );
 };
 
-const getStoryLineDelayMs = (text: string): number => Math.min(3200, Math.max(1250, 700 + text.length * 18));
+const getStoryLineDelayMs = (text: string): number => {
+  const trimmedText = text.trim();
+  const wordCount = trimmedText ? trimmedText.split(/\s+/).length : 0;
+  const punctuationPauseCount = (trimmedText.match(/[,:;.!?]/g) ?? []).length;
+
+  return Math.min(6500, Math.max(1800, 900 + wordCount * 240 + punctuationPauseCount * 110));
+};
 
 const STORY_USER_CHARACTER_ID = 'noah-reed';
 
@@ -712,11 +718,8 @@ const StoryCutsceneSlide = ({
 }: {
   story: LessonStory;
   slideKey: 'cold_open' | 'callback';
-}): JSX.Element => (
-  <div className={`${baseSlidePanelClass} overflow-hidden`}>
-    {slideKey === 'cold_open' ? <StoryColdOpen story={story} /> : <StoryCallbackCard story={story} />}
-  </div>
-);
+}): JSX.Element =>
+  slideKey === 'cold_open' ? <StoryColdOpen story={story} /> : <StoryCallbackCard story={story} />;
 
 const SlideIntro = ({ slide }: { slide: IntroSlide }): JSX.Element => (
   <div className={`${baseSlidePanelClass} p-12 text-center sm:p-16`}>

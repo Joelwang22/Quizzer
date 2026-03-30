@@ -1,3 +1,14 @@
+### 2026-03-30 13:36 (local)
+**Summary:** Slowed cutscene auto-play timing so speech bubbles stay on screen longer for longer lines.
+**Changes:**
+- Replaced the old character-count-only delay formula with a more readable timing model based on word count plus punctuation pauses, with a higher minimum and maximum display time so longer dialogue stays visible long enough to read comfortably (`src/pages/LessonViewer.tsx`).
+- Kept the manual cutscene controls unchanged, so users can still advance, skip, or replay even though the default auto-play pacing is now more generous.
+- Browser-checked Lesson 1 after the timing change to confirm the cutscene still renders and starts normally with the updated pacing model.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/0?slide=1`
+
 ### 2026-03-30 13:31 (local)
 **Summary:** Constrained cutscene speech bubbles to the stage bounds while keeping them centered over the active speaker whenever space allows.
 **Changes:**

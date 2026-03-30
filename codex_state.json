@@ -5,7 +5,7 @@
       "id": "lesson-story-beats-foundation",
       "title": "Lesson story beats foundation",
       "status": "done",
-      "notes": "Added a reusable lesson-story metadata layer for the first 10 Security+ lessons and integrated it into the lesson viewer as dedicated Northwind cutscene slides, with a cold-open beat inserted before the lesson content and a callback beat inserted after it. The scenes now keep Noah anchored on the left when present, show the rest of the cast together on the right in a tighter side-by-side lineup, render cutscene sprites without the default border/background chrome, display only one live speech bubble above the current speaker, keep that bubble centered over the speaker's head when space allows, clamp it to the stage bounds when necessary while keeping the tail pointed at the speaker, let bubbles float at natural height above the stage without reflowing the lineup, and hide the transcript behind a post-scene reveal control."
+      "notes": "Added a reusable lesson-story metadata layer for the first 10 Security+ lessons and integrated it into the lesson viewer as dedicated Northwind cutscene slides, with a cold-open beat inserted before the lesson content and a callback beat inserted after it. The scenes now keep Noah anchored on the left when present, show the rest of the cast together on the right in a tighter side-by-side lineup, render cutscene sprites without the default border/background chrome, display only one live speech bubble above the current speaker, keep that bubble centered over the speaker's head when space allows, clamp it to the stage bounds when necessary while keeping the tail pointed at the speaker, let bubbles float at natural height above the stage without reflowing the lineup, use a slower word-count-based auto-play delay so longer lines stay readable, and hide the transcript behind a post-scene reveal control."
     },
     {
       "id": "lesson-readability-pass",
@@ -166,5 +166,5 @@
       "notes": "Visualise accuracy, weak topics, and history, including CSV export."
     }
   ],
-  "lastUpdated": "2026-03-30T13:31:52+08:00"
+  "lastUpdated": "2026-03-30T13:36:50+08:00"
 }
