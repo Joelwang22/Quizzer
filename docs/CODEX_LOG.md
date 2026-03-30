@@ -1,3 +1,13 @@
+### 2026-03-30 12:39 (local)
+**Summary:** Removed the end-of-loop flicker on the `/story-cast` sprite preview by switching to a proper stepped sprite-sheet animation.
+**Changes:**
+- Replaced the manual frame-by-frame keyframe percentages with a standard `steps(4)` sprite-sheet animation that runs from frame 0 through the sheet width, eliminating the visible flicker/jump when the loop resets on `/story-cast` (`src/index.css`).
+- Rechecked the `/story-cast` route after the CSS change to confirm the cast still renders and animates with the updated timing model.
+**Commands run:**
+- inline Vite browser check for `/story-cast`
+- `pnpm build`
+- `pnpm lint`
+
 ### 2026-03-30 12:30 (local)
 **Summary:** Split Ethan Cole’s nose and mouth positioning so the lower face can be tuned independently.
 **Changes:**

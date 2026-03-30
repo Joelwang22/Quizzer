@@ -137,31 +137,15 @@ button {
   background-size: calc(var(--story-sprite-frame-size) * var(--story-sprite-frame-count))
     var(--story-sprite-frame-size);
   image-rendering: pixelated;
-  animation: story-sprite-idle 1100ms infinite;
+  animation: story-sprite-idle 1100ms steps(4) infinite;
 }
 
 @keyframes story-sprite-idle {
-  0%,
-  24% {
+  from {
     background-position: 0 0;
   }
 
-  25%,
-  49% {
-    background-position: calc(var(--story-sprite-frame-size) * -1) 0;
-  }
-
-  50%,
-  74% {
-    background-position: calc(var(--story-sprite-frame-size) * -2) 0;
-  }
-
-  75%,
-  99% {
-    background-position: calc(var(--story-sprite-frame-size) * -3) 0;
-  }
-
-  100% {
-    background-position: 0 0;
+  to {
+    background-position: calc(var(--story-sprite-frame-size) * -4) 0;
   }
 }

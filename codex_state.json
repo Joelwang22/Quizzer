@@ -143,7 +143,7 @@
       "id": "story-cast-pixel-sprites",
       "title": "Story cast animated pixel sprites",
       "status": "done",
-      "notes": "Added original locally generated story-cast sprite sheets for the planned Northwind Office Systems narrative layer, then reworked them into cleaner four-frame idle animations with stronger silhouettes, better facial readability, more distinct clothing, a larger in-app /story-cast preview, reduced idle head motion, a corrected rig that centers heads over the torso, and multiple targeted face-style passes so Priya, Rosa, Ethan, and Tessa no longer rely on the same generic eye/mouth template. Ethan now uses separate nose and mouth offsets so his lower face can be tuned independently."
+      "notes": "Added original locally generated story-cast sprite sheets for the planned Northwind Office Systems narrative layer, then reworked them into cleaner four-frame idle animations with stronger silhouettes, better facial readability, more distinct clothing, a larger in-app /story-cast preview, reduced idle head motion, a corrected rig that centers heads over the torso, and multiple targeted face-style passes so Priya, Rosa, Ethan, and Tessa no longer rely on the same generic eye/mouth template. Ethan now uses separate nose and mouth offsets so his lower face can be tuned independently, and the preview uses a stepped sprite-sheet animation to avoid loop-end flicker."
     }
   ],
   "todos": [
@@ -160,5 +160,5 @@
       "notes": "Visualise accuracy, weak topics, and history, including CSV export."
     }
   ],
-  "lastUpdated": "2026-03-30T12:30:10+08:00"
+  "lastUpdated": "2026-03-30T12:39:56+08:00"
 }
