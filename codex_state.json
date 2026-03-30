@@ -138,6 +138,12 @@
       "title": "Security+ diagram and screenshot expansion",
       "status": "done",
       "notes": "Added verified lesson visuals from the Official Student Guide for NIST CSF, control functional types, file-hash verification, digital envelope/PFS, OSI layering, certificate chain-of-trust, remote-access VPN, 802.1X/RADIUS/EAP, SDN planes, Wi-Fi heat maps, Security Onion views, Joe Sandbox, DMARC verification, phishing header analysis, pass-the-hash with LSASS/SAM, the incident-response lifecycle, the cyber kill chain, qualitative risk heat maps, and BIA recovery metrics."
+    },
+    {
+      "id": "story-cast-pixel-sprites",
+      "title": "Story cast animated pixel sprites",
+      "status": "done",
+      "notes": "Added original three-frame idle pixel-sprite sheets for the planned Northwind Office Systems cast, generated locally into public/story-cast, plus reusable cast metadata, a CastSprite component, and a /story-cast preview route for narrative prototyping."
     }
   ],
   "todos": [
@@ -154,5 +160,5 @@
       "notes": "Visualise accuracy, weak topics, and history, including CSV export."
     }
   ],
-  "lastUpdated": "2026-03-30T10:19:42+08:00"
+  "lastUpdated": "2026-03-30T10:54:44+08:00"
 }

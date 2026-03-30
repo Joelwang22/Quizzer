@@ -128,3 +128,33 @@ button {
   --lesson-strong-bg: rgba(16, 185, 129, 0.14);
   --lesson-strong-border: rgba(74, 222, 128, 0.38);
 }
+
+.story-sprite {
+  --story-sprite-frame-size: 96px;
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-size: calc(var(--story-sprite-frame-size) * 3) var(--story-sprite-frame-size);
+  image-rendering: pixelated;
+  animation: story-sprite-idle 900ms infinite;
+}
+
+@keyframes story-sprite-idle {
+  0%,
+  32% {
+    background-position: 0 0;
+  }
+
+  33%,
+  65% {
+    background-position: calc(var(--story-sprite-frame-size) * -1) 0;
+  }
+
+  66%,
+  99% {
+    background-position: calc(var(--story-sprite-frame-size) * -2) 0;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}

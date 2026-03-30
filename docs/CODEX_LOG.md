@@ -1,3 +1,15 @@
+### 2026-03-30 10:54 (local)
+**Summary:** Added an original animated pixel-art cast prototype for the planned story mode, including reusable sprite-sheet assets and an in-app preview route.
+**Changes:**
+- Built a local sprite generator that outputs original three-frame idle pixel-sprite sheets for the full Northwind Office Systems cast without external image tooling, and committed the generated assets under `public/story-cast` for reuse in future lesson/story work (`scripts/generate-story-cast-sprites.mjs`, `public/story-cast/*`).
+- Added reusable cast metadata plus a small `CastSprite` component that animates the generated sprite sheets with CSS step timing, making the assets usable in future lesson callouts and story beats (`src/data/storyCast.ts`, `src/components/CastSprite.tsx`, `src/index.css`).
+- Added a dedicated `/story-cast` preview page so the full cast can be reviewed in the app while the narrative layer is still being designed (`src/pages/StoryCast.tsx`, `src/App.tsx`, `src/pages/index.ts`, `src/components/index.ts`).
+**Commands run:**
+- `node scripts/generate-story-cast-sprites.mjs`
+- inline Vite + Playwright preview check for `/story-cast`
+- `pnpm build`
+- `pnpm lint`
+
 ### 2026-03-30 10:19 (local)
 **Summary:** Fine-tuned the bullet-slide lead marker offset so the starting dot is vertically centered against the first line of text, then verified the fix with Playwright measurements.
 **Changes:**

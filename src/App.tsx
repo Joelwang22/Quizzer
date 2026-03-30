@@ -12,6 +12,7 @@ import {
   QuestionEditor,
   Results,
   Settings,
+  StoryCast,
   Teach,
   TestRunner,
 } from './pages';
@@ -75,6 +76,7 @@ const App = (): JSX.Element => {
           <Route path="/question-editor" element={<QuestionEditor />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/story-cast" element={<StoryCast />} />
         </Routes>
       </main>
       {import.meta.env.DEV ? <DevMenu /> : null}

@@ -4,3 +4,4 @@ export { default as ProgressBar } from './ProgressBar';
 export { default as TimerDisplay } from './TimerDisplay';
 export { default as AnalyticsChart } from './AnalyticsChart';
 export { default as DevMenu } from './DevMenu';
+export { default as CastSprite } from './CastSprite';

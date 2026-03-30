@@ -1,0 +1,42 @@
+[
+  {
+    "id": "marty-bell",
+    "name": "Marty Bell",
+    "spriteSheet": "/story-cast/marty-bell-idle.svg"
+  },
+  {
+    "id": "priya-nair",
+    "name": "Priya Nair",
+    "spriteSheet": "/story-cast/priya-nair-idle.svg"
+  },
+  {
+    "id": "glen-foster",
+    "name": "Glen Foster",
+    "spriteSheet": "/story-cast/glen-foster-idle.svg"
+  },
+  {
+    "id": "denise-park",
+    "name": "Denise Park",
+    "spriteSheet": "/story-cast/denise-park-idle.svg"
+  },
+  {
+    "id": "rosa-jimenez",
+    "name": "Rosa Jimenez",
+    "spriteSheet": "/story-cast/rosa-jimenez-idle.svg"
+  },
+  {
+    "id": "ethan-cole",
+    "name": "Ethan Cole",
+    "spriteSheet": "/story-cast/ethan-cole-idle.svg"
+  },
+  {
+    "id": "noah-reed",
+    "name": "Noah Reed",
+    "spriteSheet": "/story-cast/noah-reed-idle.svg"
+  },
+  {
+    "id": "tessa-vale",
+    "name": "Tessa Vale",
+    "spriteSheet": "/story-cast/tessa-vale-idle.svg"
+  }
+]
