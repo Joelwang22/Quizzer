@@ -369,7 +369,7 @@ const SlideBullets = ({ slide }: { slide: BulletsSlide }): JSX.Element => (
         <li key={index} className="flex items-start gap-4 text-base leading-8 text-slate-100">
           <span
             aria-hidden="true"
-            className="mt-[0.85rem] block h-1.5 w-1.5 shrink-0 rounded-full bg-teal-300"
+            className="mt-[1rem] block h-1.5 w-1.5 shrink-0 rounded-full bg-teal-300"
           />
           <div
             className="lesson-inline-richtext flex-1"

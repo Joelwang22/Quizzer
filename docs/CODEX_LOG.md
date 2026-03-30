@@ -1,3 +1,13 @@
+### 2026-03-30 10:19 (local)
+**Summary:** Fine-tuned the bullet-slide lead marker offset so the starting dot is vertically centered against the first line of text, then verified the fix with Playwright measurements.
+**Changes:**
+- Adjusted the bullet-slide marker top offset from `0.85rem` to `1rem`, eliminating the roughly 2.4 px high bias visible on key-point slides such as Lesson 20 slide 5 and Lesson 42 slide 8 (`src/pages/LessonViewer.tsx`).
+- Rechecked `/lessons/19?slide=5` and `/lessons/41?slide=8` in Playwright, confirming the marker center now matches the highlighted keyword center on both slides.
+**Commands run:**
+- inline Vite + Playwright measurement/screenshot checks for `/lessons/19?slide=5` and `/lessons/41?slide=8`
+- `pnpm build`
+- `pnpm lint`
+
 ### 2026-03-30 10:15 (local)
 **Summary:** Removed the unnecessary separator dots from lesson keyword highlight pills and verified the cleanup on the reported bullet-slide pages.
 **Changes:**
