@@ -1,3 +1,73 @@
+### 2026-03-30 10:15 (local)
+**Summary:** Removed the unnecessary separator dots from lesson keyword highlight pills and verified the cleanup on the reported bullet-slide pages.
+**Changes:**
+- Dropped the extra pseudo-element marker from short highlighted lesson labels so keyword pills no longer render an internal dot after the text (`src/index.css`).
+- Rechecked `/lessons/19?slide=5` and `/lessons/41?slide=8` in Playwright after the CSS cleanup to confirm the highlight pills are clean and the left-hand bullets remain aligned.
+**Commands run:**
+- inline Vite + Playwright screenshot checks for `/lessons/19?slide=5` and `/lessons/41?slide=8`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-30 10:06 (local)
+**Summary:** Corrected the actual bullet-slide regression by aligning the left-hand list markers on lesson key-point slides, then rechecked the reported pages in Playwright.
+**Changes:**
+- Replaced the starting bullet glyph on `bullets` slides with a fixed-size circular marker and tuned its offset so the marker aligns with the first line of lesson text instead of sitting low beside the content cards (`src/pages/LessonViewer.tsx`).
+- Browser-checked `/lessons/19?slide=5` and `/lessons/41?slide=8` with fresh Playwright screenshots after the patch to verify the left-hand markers now align with the text.
+**Commands run:**
+- inline Vite + Playwright screenshot checks for `/lessons/19?slide=5` and `/lessons/41?slide=8`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-30 10:00 (local)
+**Summary:** Fixed the remaining lesson label-separator dot alignment issue on bullet slides and verified the reported examples in-browser.
+**Changes:**
+- Replaced the label separator bullet glyph with a sized pseudo-element dot and aligned short lesson labels with inline flex so the separator sits consistently beside the text instead of drifting vertically on bullet slides (`src/index.css`).
+- Browser-checked the reported regressions on Lesson 20 slide 5 and Lesson 42 slide 8 with direct screenshots after the CSS change to confirm the separator alignment now matches the label text.
+**Commands run:**
+- inline Vite + Playwright screenshot checks for `/lessons/19?slide=5` and `/lessons/41?slide=8`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-30 07:56 (local)
+**Summary:** Used Playwright to inspect Lesson 42 slides 4 and 8, then fixed both the separator-dot alignment and the missing list markers in lesson rich text.
+**Changes:**
+- Browser-checked `/lessons/41?slide=4` and `/lessons/41?slide=8` with Playwright screenshots/DOM inspection to verify the reported rendering issues before patching the CSS.
+- Restored explicit `ul`/`ol` markers in lesson rich text so indented list items render with visible bullets again, including the previously markerless lines on Lesson 42 slide 4 (`src/index.css`).
+- Simplified the label separator rendering to a baseline-safe inline marker and widened label detection so longer `Label:` phrases can receive the separator without being forced into oversized badge styling (`src/index.css`, `src/pages/LessonViewer.tsx`).
+**Commands run:**
+- `pnpm exec playwright test e2e/lesson-highlight-inspect.spec.ts --project=chromium`
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-30 07:51 (local)
+**Summary:** Fixed the lesson-label separator dot alignment so the marker sits on the text baseline instead of drifting on some slides.
+**Changes:**
+- Switched the short label highlight variant to an explicit inline-flex baseline-aligned treatment and sized/positioned the separator dot for more consistent rendering across lessons such as Lesson 42 slide 8 (`src/index.css`).
+- Removed a leftover unused variable from the lesson highlight heuristic and re-ran the verification pass (`src/pages/LessonViewer.tsx`).
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-30 07:38 (local)
+**Summary:** Fixed the awkward lesson-text indentation caused by longer highlighted phrases wrapping like pill badges.
+**Changes:**
+- Tightened the lesson highlight-pill heuristic so only short labels and acronym-like terms keep the pill treatment, while longer emphasized phrases use the flatter underline style and wrap normally (`src/pages/LessonViewer.tsx`).
+- Re-ran the production build and lint pass to confirm the updated lesson viewer still compiles cleanly (`src/pages/LessonViewer.tsx`).
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+
+### 2026-03-30 07:26 (local)
+**Summary:** Improved lesson readability by widening the lesson content area, increasing text spacing, and introducing restrained category-based keyword highlighting.
+**Changes:**
+- Expanded the lesson viewer panels and content spacing so lesson slides make better use of the available width while keeping paragraphs, bullets, term cards, check explanations, and summaries easier to scan (`src/pages/LessonViewer.tsx`).
+- Added a semantic lesson-rich-text decorator that classifies emphasized keywords into a small shared palette for protocols, identity terms, risks, and process/governance terms instead of rendering every highlight in the same teal (`src/pages/LessonViewer.tsx`, `src/index.css`).
+- Refined the shared lesson typography rules for paragraph rhythm, list spacing, subhead styling, and summary label treatment to make dense slide content read more like structured notes than compact blocks (`src/index.css`, `src/pages/LessonViewer.tsx`).
+**Commands run:**
+- `pnpm build`
+- `pnpm test`
+- `pnpm lint`
+
 ### 2026-03-26 08:11 (local)
 **Summary:** Added the next targeted Official Student Guide visuals for certificate chaining, DMARC verification, and qualitative risk heat maps.
 **Changes:**

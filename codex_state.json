@@ -2,6 +2,12 @@
   "version": 1,
   "features": [
     {
+      "id": "lesson-readability-pass",
+      "title": "Lesson readability and semantic highlighting",
+      "status": "done",
+      "notes": "Lesson slides now use a wider layout, looser content spacing, and a restrained multi-tone highlight system that groups emphasized lesson keywords into protocol, identity, risk, and process/governance categories. Longer highlighted phrases now fall back to a flatter wrap-safe style so indentation stays clean, short label highlights no longer inject extra separator dots, bullet-slide lead markers use fixed circular dots aligned to the first line, and lesson rich text restores explicit list markers for indented bullet content."
+    },
+    {
       "id": "milestone-a-core",
       "title": "Milestone A — Core flows (builder, grader, runner, persistence)",
       "status": "done",
@@ -148,5 +154,5 @@
       "notes": "Visualise accuracy, weak topics, and history, including CSV export."
     }
   ],
-  "lastUpdated": "2026-03-26T08:11:37+08:00"
+  "lastUpdated": "2026-03-30T10:15:34+08:00"
 }

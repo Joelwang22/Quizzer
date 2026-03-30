@@ -19,12 +19,112 @@ button {
   @apply rounded-md bg-primary px-4 py-2 font-semibold text-white transition hover:bg-teal-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary;
 }
 
-.slide-body strong {
-  @apply font-semibold text-teal-300;
+.slide-body {
+  @apply text-base leading-8 text-slate-100;
 }
-.slide-body em {
+
+.slide-body p,
+.lesson-inline-richtext p {
+  @apply text-base leading-8 text-slate-100;
+}
+
+.slide-body p + p,
+.slide-body p + ul,
+.slide-body p + ol,
+.slide-body ul + p,
+.slide-body ol + p,
+.slide-body ul + ul,
+.slide-body ol + ol,
+.slide-body h4 + p,
+.slide-body h4 + ul,
+.slide-body h4 + ol {
+  @apply mt-5;
+}
+
+.slide-body ul,
+.slide-body ol {
+  @apply space-y-3 pl-7;
+}
+
+.slide-body ul {
+  list-style-type: disc;
+}
+
+.slide-body ol {
+  list-style-type: decimal;
+}
+
+.slide-body li {
+  @apply pl-1;
+}
+
+.slide-body li::marker {
+  color: #5eead4;
+}
+
+.slide-body h4 {
+  @apply mt-8 text-sm font-semibold uppercase tracking-[0.14em] text-slate-300;
+}
+
+.slide-body strong,
+.lesson-inline-richtext strong {
+  @apply font-semibold;
+}
+
+.lesson-emphasis {
   @apply italic text-slate-300;
 }
-.slide-body p + p {
-  @apply mt-3;
+
+.lesson-strong {
+  color: var(--lesson-strong-fg);
+}
+
+.lesson-strong--pill {
+  @apply rounded-md border px-1.5 py-0.5;
+  background-color: var(--lesson-strong-bg);
+  border-color: var(--lesson-strong-border);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.lesson-strong--label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.lesson-strong--plain {
+  text-decoration: underline;
+  text-decoration-color: var(--lesson-strong-border);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.lesson-strong--core {
+  --lesson-strong-fg: #5eead4;
+  --lesson-strong-bg: rgba(20, 184, 166, 0.14);
+  --lesson-strong-border: rgba(45, 212, 191, 0.4);
+}
+
+.lesson-strong--protocol {
+  --lesson-strong-fg: #bae6fd;
+  --lesson-strong-bg: rgba(14, 165, 233, 0.14);
+  --lesson-strong-border: rgba(56, 189, 248, 0.38);
+}
+
+.lesson-strong--identity {
+  --lesson-strong-fg: #ddd6fe;
+  --lesson-strong-bg: rgba(139, 92, 246, 0.14);
+  --lesson-strong-border: rgba(167, 139, 250, 0.38);
+}
+
+.lesson-strong--risk {
+  --lesson-strong-fg: #fde68a;
+  --lesson-strong-bg: rgba(245, 158, 11, 0.14);
+  --lesson-strong-border: rgba(252, 211, 77, 0.38);
+}
+
+.lesson-strong--process {
+  --lesson-strong-fg: #bbf7d0;
+  --lesson-strong-bg: rgba(16, 185, 129, 0.14);
+  --lesson-strong-border: rgba(74, 222, 128, 0.38);
 }

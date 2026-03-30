@@ -20,7 +20,110 @@ import { getLessonDiagramCrop } from '../data/lessonDiagramCrops';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const pdfDocCache = new Map<string, any>();
 
-const baseSlidePanelClass = 'min-h-full rounded-2xl border border-slate-700 bg-slate-900/60';
+const baseSlidePanelClass =
+  'min-h-full rounded-[1.75rem] border border-slate-700/80 bg-slate-900/70 shadow-[0_24px_80px_rgba(15,23,42,0.32)]';
+const slideHeaderClass =
+  'border-b border-slate-700/80 bg-slate-800/70 px-8 py-4 text-sm font-semibold tracking-[0.12em] sm:px-10';
+const slideContentPaddingClass = 'px-8 py-7 sm:px-10 sm:py-8';
+
+type LessonHighlightTone = 'core' | 'protocol' | 'identity' | 'risk' | 'process';
+
+const LESSON_HIGHLIGHT_RULES: Array<{ tone: LessonHighlightTone; pattern: RegExp }> = [
+  {
+    tone: 'risk',
+    pattern:
+      /\b(phishing|spear phishing|smishing|vishing|malware|adware|spyware|ransomware|virus|worm|trojan|botnet|rootkit|keylogger|exploit|vulnerability|threat|attack|attacker|compromise|exfiltration|indicator of compromise|ioc|xss|cross-site scripting|sql injection|csrf|race condition|buffer overflow|on-path|man-in-the-middle|mitm|denial of service|dos|ddos)\b/i,
+  },
+  {
+    tone: 'identity',
+    pattern:
+      /\b(identity|authentication|authorization|account|credential|password|passphrase|token|certificate|federation|directory|single sign-on|sso|mfa|biometric|session|kdc|tgt|tgs)\b/i,
+  },
+  {
+    tone: 'protocol',
+    pattern:
+      /\b(tls|ssl|https|ssh|sftp|ftps|smtp|imap|pop3|dnssec|dmarc|dkim|spf|snmpv3|syslog|netflow|ipfix|ldap|ldaps|radius|tacacs\+?|kerberos|ipsec|vpn|802\.1x|eap|osi|tcp|udp|icmp|arp|wpa3|dpp|api gateway|waf|csp)\b/i,
+  },
+  {
+    tone: 'process',
+    pattern:
+      /\b(policy|compliance|audit|attestation|due diligence|due care|classification|data owner|owner|risk|control|identify|protect|detect|respond|recover|incident response|recovery|backup|restoration|rto|rpo|mttr|mtbf|sla|mou|moa|msa|sow|nda|bpa|onboarding|offboarding|retention)\b/i,
+  },
+];
+
+const normalizeLessonText = (value: string): string => value.replace(/\s+/g, ' ').trim();
+
+const isLessonHighlightLabel = (value: string): boolean => {
+  const normalized = normalizeLessonText(value);
+  const wordCount = normalized ? normalized.split(/\s+/).length : 0;
+
+  return normalized.endsWith(':') && normalized.length <= 40 && wordCount <= 5;
+};
+
+const getLessonHighlightTone = (value: string): LessonHighlightTone => {
+  const normalized = normalizeLessonText(value).toLowerCase();
+  if (!normalized) {
+    return 'core';
+  }
+
+  return LESSON_HIGHLIGHT_RULES.find(({ pattern }) => pattern.test(normalized))?.tone ?? 'core';
+};
+
+const shouldUseLessonHighlightPill = (value: string): boolean => {
+  const normalized = normalizeLessonText(value);
+  const isAcronymLike = /^[A-Z0-9/+.\- ]{2,24}:?$/.test(normalized);
+  const isShortLabel = isLessonHighlightLabel(normalized) && normalized.length <= 22;
+
+  return (
+    normalized.length > 0 &&
+    (normalized.length <= 16 || isShortLabel || isAcronymLike)
+  );
+};
+
+const getLessonHighlightClassName = (value: string): string => {
+  const tone = getLessonHighlightTone(value);
+  const variant = shouldUseLessonHighlightPill(value) ? 'lesson-strong--pill' : 'lesson-strong--plain';
+  const labelClass = isLessonHighlightLabel(value) ? 'lesson-strong--label' : '';
+
+  return `lesson-strong ${variant} lesson-strong--${tone} ${labelClass}`.trim();
+};
+
+const decorateLessonHtml = (html: string): string => {
+  if (!html || typeof DOMParser === 'undefined') {
+    return html;
+  }
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(`<div>${html}</div>`, 'text/html');
+  const root = doc.body.firstElementChild;
+
+  if (!root) {
+    return html;
+  }
+
+  root.querySelectorAll('strong').forEach((element) => {
+    const text = normalizeLessonText(element.textContent ?? '');
+    element.className = [element.className, getLessonHighlightClassName(text)].filter(Boolean).join(' ');
+  });
+
+  root.querySelectorAll('em').forEach((element) => {
+    element.className = [element.className, 'lesson-emphasis'].filter(Boolean).join(' ');
+  });
+
+  return root.innerHTML;
+};
+
+const splitSummaryLabel = (point: string): { label: string; body: string } | null => {
+  const separatorIndex = point.indexOf(':');
+  if (separatorIndex <= 0 || separatorIndex > 36) {
+    return null;
+  }
+
+  return {
+    label: point.slice(0, separatorIndex + 1).trim(),
+    body: point.slice(separatorIndex + 1).trim(),
+  };
+};
 
 const clampSlideIndex = (value: number, total: number): number => {
   if (!Number.isFinite(value) || total <= 0) {
@@ -235,35 +338,43 @@ const renderFillBlankPrompt = (
 };
 
 const SlideIntro = ({ slide }: { slide: IntroSlide }): JSX.Element => (
-  <div className={`${baseSlidePanelClass} p-10 text-center sm:p-14`}>
+  <div className={`${baseSlidePanelClass} p-12 text-center sm:p-16`}>
     <p className="text-xs font-bold uppercase tracking-[0.14em] text-teal-400">{slide.week}</p>
-    <h2 className="mt-3 text-2xl font-bold leading-snug sm:text-3xl">{slide.question}</h2>
-    <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-slate-400">{slide.body}</p>
+    <h2 className="mx-auto mt-4 max-w-4xl text-3xl font-bold leading-tight text-slate-50 sm:text-4xl">
+      {slide.question}
+    </h2>
+    <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-slate-300">{slide.body}</p>
   </div>
 );
 
 const SlideConcept = ({ slide }: { slide: ConceptSlide }): JSX.Element => (
   <div className={`${baseSlidePanelClass} overflow-hidden`}>
-    <div className="border-b border-slate-700 bg-slate-800/60 px-6 py-3 text-sm font-bold tracking-wide text-teal-400">
+    <div className={`${slideHeaderClass} text-teal-300`}>
       {slide.title}
     </div>
     <div
-      className="slide-body space-y-3 px-6 py-5 text-[0.95rem] leading-relaxed"
-      dangerouslySetInnerHTML={{ __html: slide.body }}
+      className={`slide-body ${slideContentPaddingClass}`}
+      dangerouslySetInnerHTML={{ __html: decorateLessonHtml(slide.body) }}
     />
   </div>
 );
 
 const SlideBullets = ({ slide }: { slide: BulletsSlide }): JSX.Element => (
   <div className={`${baseSlidePanelClass} overflow-hidden`}>
-    <div className="border-b border-slate-700 bg-slate-800/60 px-6 py-3 text-sm font-bold tracking-wide text-violet-400">
+    <div className={`${slideHeaderClass} text-violet-300`}>
       {slide.title}
     </div>
-    <ul className="space-y-3 px-6 py-5">
+    <ul className={`space-y-4 ${slideContentPaddingClass}`}>
       {slide.items.map((item, index) => (
-        <li key={index} className="flex gap-3 text-[0.95rem] leading-relaxed">
-          <span className="mt-0.5 shrink-0 text-teal-400">&bull;</span>
-          <span dangerouslySetInnerHTML={{ __html: item }} />
+        <li key={index} className="flex items-start gap-4 text-base leading-8 text-slate-100">
+          <span
+            aria-hidden="true"
+            className="mt-[0.85rem] block h-1.5 w-1.5 shrink-0 rounded-full bg-teal-300"
+          />
+          <div
+            className="lesson-inline-richtext flex-1"
+            dangerouslySetInnerHTML={{ __html: decorateLessonHtml(item) }}
+          />
         </li>
       ))}
     </ul>
@@ -271,22 +382,25 @@ const SlideBullets = ({ slide }: { slide: BulletsSlide }): JSX.Element => (
 );
 
 const SlideQuote = ({ slide }: { slide: QuoteSlide }): JSX.Element => (
-  <div className={`${baseSlidePanelClass} border-l-4 border-l-teal-500 px-7 py-8`}>
+  <div className={`${baseSlidePanelClass} border-l-4 border-l-teal-400 px-8 py-10 sm:px-10 sm:py-12`}>
     <p className="text-xs font-bold uppercase tracking-[0.14em] text-teal-400">{slide.label}</p>
-    <blockquote className="mt-4 text-lg italic leading-relaxed text-slate-200">{slide.text}</blockquote>
-    <p className="mt-4 text-sm text-slate-400" dangerouslySetInnerHTML={{ __html: slide.source }} />
+    <blockquote className="mt-5 max-w-4xl text-xl italic leading-9 text-slate-100">{slide.text}</blockquote>
+    <p
+      className="lesson-inline-richtext mt-5 text-sm leading-7 text-slate-400"
+      dangerouslySetInnerHTML={{ __html: decorateLessonHtml(slide.source) }}
+    />
   </div>
 );
 
 const SlideTerm = ({ slide }: { slide: TermSlide }): JSX.Element => (
-  <div className={`${baseSlidePanelClass} px-7 py-8`}>
+  <div className={`${baseSlidePanelClass} px-8 py-9 sm:px-10 sm:py-10`}>
     <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{slide.label}</p>
-    <p className="mt-3 inline-block rounded-lg border border-teal-800 bg-teal-900/20 px-5 py-2 text-xl font-bold text-teal-300">
+    <p className="mt-4 inline-block rounded-2xl border border-cyan-400/25 bg-cyan-500/10 px-5 py-3 text-2xl font-bold text-cyan-100">
       {slide.term}
     </p>
     <div
-      className="slide-body mt-4 text-[0.95rem] leading-relaxed"
-      dangerouslySetInnerHTML={{ __html: slide.def }}
+      className="slide-body mt-6"
+      dangerouslySetInnerHTML={{ __html: decorateLessonHtml(slide.def) }}
     />
   </div>
 );
@@ -343,17 +457,17 @@ const SlideCheck = ({ slide }: { slide: CheckSlide }): JSX.Element => {
       : choiceOptions;
 
   return (
-    <div className={`${baseSlidePanelClass} px-7 py-8`}>
-      <div className="max-w-3xl space-y-3">
+    <div className={`${baseSlidePanelClass} px-8 py-8 sm:px-10 sm:py-9`}>
+      <div className="max-w-4xl space-y-4">
         <p className={`text-xs font-bold uppercase tracking-[0.14em] ${presentation.accentClass}`}>
           {presentation.eyebrow}
         </p>
-        <h3 className="text-2xl font-semibold text-slate-100">{presentation.title}</h3>
-        <p className="text-sm leading-relaxed text-slate-400">{presentation.description}</p>
+        <h3 className="text-2xl font-semibold text-slate-50 sm:text-[2rem]">{presentation.title}</h3>
+        <p className="max-w-3xl text-base leading-8 text-slate-300">{presentation.description}</p>
       </div>
 
-      <div className="mt-8 rounded-xl border border-slate-800 bg-slate-950/40 p-5">
-        <p className="text-base leading-relaxed text-slate-100">{slide.q}</p>
+      <div className="mt-8 rounded-[1.5rem] border border-slate-800/90 bg-slate-950/55 p-6 shadow-[inset_0_1px_0_rgba(148,163,184,0.04)] sm:p-7">
+        <p className="whitespace-pre-line text-base leading-8 text-slate-100 sm:text-[1.05rem]">{slide.q}</p>
 
         {presentation.mode === 'binary' ? (
           <div className="mt-5 flex gap-3">
@@ -514,8 +628,8 @@ const SlideCheck = ({ slide }: { slide: CheckSlide }): JSX.Element => {
 
         {revealed ? (
           <div
-            className="mt-4 rounded-r-lg border-l-[3px] border-violet-600 bg-violet-900/10 px-4 py-3 text-[0.95rem] leading-relaxed text-slate-200"
-            dangerouslySetInnerHTML={{ __html: slide.a }}
+            className="slide-body mt-5 rounded-2xl border border-violet-500/20 bg-violet-500/10 px-5 py-4 text-slate-100"
+            dangerouslySetInnerHTML={{ __html: decorateLessonHtml(slide.a) }}
           />
         ) : null}
       </div>
@@ -524,18 +638,32 @@ const SlideCheck = ({ slide }: { slide: CheckSlide }): JSX.Element => {
 };
 
 const SlideSummary = ({ slide }: { slide: SummarySlide }): JSX.Element => (
-  <div className="min-h-full rounded-2xl border border-emerald-700 bg-slate-900/60 px-7 py-8">
-    <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-400">Summary</p>
-    <h3 className="mt-3 text-lg font-semibold">{slide.title}</h3>
-    <ul className="mt-4 space-y-2">
+  <div className="min-h-full rounded-[1.75rem] border border-emerald-500/30 bg-slate-900/70 px-8 py-9 shadow-[0_24px_80px_rgba(6,78,59,0.16)] sm:px-10 sm:py-10">
+    <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-300">Summary</p>
+    <h3 className="mt-4 text-xl font-semibold text-slate-50">{slide.title}</h3>
+    <ul className="mt-6 space-y-3">
       {slide.points.map((point, index) => (
-        <li key={index} className="flex gap-2 text-sm leading-relaxed">
-          <span className="mt-0.5 shrink-0 font-bold text-emerald-400">&#10003;</span>
-          <span>{point}</span>
+        <li key={index} className="flex gap-3 text-base leading-8 text-slate-100">
+          <span className="mt-2 shrink-0 font-bold text-emerald-300">&#10003;</span>
+          <span>
+            {(() => {
+              const summaryLabel = splitSummaryLabel(point);
+              if (!summaryLabel) {
+                return point;
+              }
+
+              return (
+                <>
+                  <span className={getLessonHighlightClassName(summaryLabel.label)}>{summaryLabel.label}</span>{' '}
+                  {summaryLabel.body}
+                </>
+              );
+            })()}
+          </span>
         </li>
       ))}
     </ul>
-    <p className="mt-6 border-t border-slate-700 pt-5 text-sm text-slate-400">{slide.cta}</p>
+    <p className="mt-8 border-t border-slate-700/80 pt-6 text-base leading-8 text-slate-300">{slide.cta}</p>
   </div>
 );
 
@@ -669,8 +797,8 @@ const SlideDiagram = ({ slide, cropOverrideKey }: { slide: DiagramSlide; cropOve
 
   return (
     <div className={`${baseSlidePanelClass} flex h-full min-h-0 flex-col overflow-hidden`}>
-      <div className="shrink-0 border-b border-slate-700 bg-slate-800/60 px-6 py-3 text-sm font-bold tracking-wide text-amber-400">
-        Diagram — {slide.caption}
+      <div className={`${slideHeaderClass} shrink-0 text-amber-300`}>
+        Diagram - {slide.caption}
       </div>
       <div className="flex min-h-0 flex-1 flex-col px-4 py-5">
         <div ref={canvasStageRef} className="relative flex min-h-0 flex-1 items-center justify-center">
@@ -691,7 +819,7 @@ const SlideDiagram = ({ slide, cropOverrideKey }: { slide: DiagramSlide; cropOve
         </div>
         {status === 'ready' ? (
           <p className="mt-3 shrink-0 text-center text-xs text-slate-500">
-            {slide.caption} — cropped from source PDF p.{slide.page}
+            {slide.caption} - cropped from source PDF p.{slide.page}
           </p>
         ) : null}
       </div>
@@ -846,7 +974,7 @@ const LessonViewer = (): JSX.Element => {
   const cropOverrideKey = slide?.type === 'diagram' ? getDiagramStorageKey(lesson.id, slide) : undefined;
 
   return (
-    <section className="mx-auto grid h-full w-full max-w-5xl min-h-0 grid-rows-[auto_auto_minmax(0,7fr)_minmax(5.5rem,1fr)] gap-5 overflow-hidden">
+    <section className="mx-auto grid h-full w-full max-w-none min-h-0 grid-rows-[auto_auto_minmax(0,7fr)_minmax(5.5rem,1fr)] gap-6 overflow-hidden">
       <div className="flex items-center gap-3">
         <button
           type="button"
@@ -880,7 +1008,7 @@ const LessonViewer = (): JSX.Element => {
       <div
         ref={slideViewportRef}
         data-testid="lesson-slide-viewport"
-        className="min-h-0 overflow-y-auto px-2"
+        className="min-h-0 overflow-y-auto px-1 sm:px-2"
       >
         <div className="mx-auto h-full min-h-full w-full" key={`${lesson.id}-${current}`}>
           {slide ? <RenderSlide slide={slide} cropOverrideKey={cropOverrideKey} /> : null}
