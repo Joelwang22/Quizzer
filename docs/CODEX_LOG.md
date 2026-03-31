@@ -1,3 +1,80 @@
+### 2026-04-01 05:28 (local)
+**Summary:** Made cutscene speech bubbles widen dynamically when a narrow bubble would force too much vertical spill toward the sprites, while still clamping inside the scene bounds.
+**Changes:**
+- Added adaptive bubble-width logic to the shared lesson cutscene player so it starts from the normal width target, measures the available headroom above the active speaker, and expands the bubble horizontally up to the stage width limit when extra width is needed to reduce height (`src/pages/LessonViewer.tsx`).
+- Kept the existing left/right clamping logic in place so wider bubbles still stay inside the cutscene bounds rather than overflowing the scene container (`src/pages/LessonViewer.tsx`).
+- Re-ran the repo checks after the bubble-sizing change and confirmed the lesson viewer still builds, lints, and passes Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm exec vitest run`
+
+### 2026-04-01 05:25 (local)
+**Summary:** Removed the remaining `max-w-4xl` cap from check slides so quiz/reflection content can use the full card width.
+**Changes:**
+- Changed the story-backed check heading and body wrappers from `max-w-4xl` to full-width containers, allowing the compact cutscene, prompt, and answer UI to expand across the full lesson card instead of stopping early (`src/pages/LessonViewer.tsx`).
+- Left the compact cutscene internals unchanged; this pass only removed the parent width constraint that was making the quiz/reflection area look narrower than the card (`src/pages/LessonViewer.tsx`).
+- Re-ran the repo checks after the width change and confirmed the lesson viewer still builds, lints, and passes Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm exec vitest run`
+
+### 2026-04-01 05:21 (local)
+**Summary:** Increased the compact quiz/reflection cutscene stage height by 50% so longer speech bubbles have more room before colliding with the sprites.
+**Changes:**
+- Increased the compact check-scene stage minimum height from `11.5rem` to `17.25rem`, giving the speech-bubble overlay substantially more vertical headroom while keeping the full-size lesson cutscene layout unchanged (`src/pages/LessonViewer.tsx`).
+- Left the compact title row, replay placement, and story-backed check mechanics unchanged; this pass was only about allocating more scene space for dense dialogue (`src/pages/LessonViewer.tsx`).
+- Re-ran the repo checks after the stage-height change and confirmed the lesson viewer still builds, lints, and passes Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm exec vitest run`
+
+### 2026-04-01 05:19 (local)
+**Summary:** Removed the redundant `Multiple choice` check heading for story-backed MCQs and moved the compact cutscene replay control into the top-right title row.
+**Changes:**
+- Suppressed the `Multiple choice` label on story-backed multiple-choice check slides so the check now leads with the scenario cutscene and prompt instead of repeating the interaction type (`src/pages/LessonViewer.tsx`).
+- Moved the compact `Replay scene` action into the cutscene title row and removed its duplicate lower placement, freeing more vertical room for the staged dialogue area on quiz/reflection slides (`src/pages/LessonViewer.tsx`).
+- Re-ran the repo checks after the layout update and confirmed the lesson viewer still builds, lints, and passes Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm exec vitest run`
+
+### 2026-04-01 04:44 (local)
+**Summary:** Flattened the quiz/reflection cutscene chrome so the story setup now keeps only the scenario title and staged dialogue without extra nested cards.
+**Changes:**
+- Simplified the compact lesson cutscene variant to drop the extra outer shell, eyebrow, progress badge, and inner stage card when used on story-backed checks; quiz/reflection cutscenes now start with the scenario title and render directly in the slide (`src/pages/LessonViewer.tsx`).
+- Kept the compact check-scene controls and bubble-driven sprite staging intact, so the cutscene behavior remains the same while using less vertical space and less visual chrome (`src/pages/LessonViewer.tsx`).
+- Re-ran the repo checks after flattening the compact cutscene layout and confirmed the lesson viewer still builds, lints, and passes Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm exec vitest run`
+
+### 2026-04-01 03:58 (local)
+**Summary:** Turned the story-backed quiz/reflection preambles into compact cutscenes so check slides now stage the scene instead of showing a static script block.
+**Changes:**
+- Extended the shared lesson cutscene player with a compact variant that keeps the pre-question story area constrained while still supporting auto-play, `Next line`, `Skip to end`, and `Replay scene` (`src/pages/LessonViewer.tsx`).
+- Replaced the static `CheckStoryPrompt` transcript layout with the compact cutscene player so story-backed checks now use sprites and speech bubbles in the same space previously reserved for the quiz/reflection story script (`src/pages/LessonViewer.tsx`).
+- Re-ran the repo checks after the UI change and confirmed the updated lesson viewer still builds, lints, and passes Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm exec vitest run`
+
+### 2026-04-01 02:08 (local)
+**Summary:** Tightened the first 10 story-backed lesson checks so the quiz moments continue the surrounding Northwind scenes instead of feeling like separate examples.
+**Changes:**
+- Rewrote the first 10 `lessonCheckStories` titles, setup dialogue, post-reveal lines, and several question stems so each quiz now follows the specific lesson story beat already established in the cold open or callback (`src/data/lessonCheckStories.ts`).
+- Kept the grading behavior and lesson mechanics unchanged; this pass was limited to story continuity and wording so the existing check UI still renders and scores the same way (`src/pages/LessonViewer.tsx`).
+- Verified the repo checks after the content pass and confirmed the updated story-check data builds, lints, and passes the Vitest suite.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm exec vitest run`
+
 ### 2026-03-31 03:28 (local)
 **Summary:** Flattened the story-backed multiple-choice slide layout so the MCQ reads as one panel with only the check type and scene title.
 **Changes:**

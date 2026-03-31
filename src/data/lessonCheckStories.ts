@@ -19,72 +19,72 @@ export interface LessonCheckStory {
 
 const LESSON_CHECK_STORIES_BY_ID: Partial<Record<Lesson['id'], LessonCheckStory>> = {
   '1-1-security-controls': {
-    title: 'The Firewall Workaround',
+    title: 'The Server Room Stopgap',
     cast: ['priya-nair', 'marty-bell', 'noah-reed'],
     setupLines: [
       {
         speakerId: 'priya-nair',
-        text: 'Northwind cannot patch a legacy print-routing application today, so I blocked all external traffic to its port at the firewall.',
+        text: 'The vulnerable server-room badge controller cannot be patched until the vendor window on Friday, so I blocked its remote management port at the firewall for now.',
       },
       {
         speakerId: 'marty-bell',
-        text: 'Temporary solutions are my favorite kind because they sound inexpensive.',
+        text: 'So we are using a temporary safeguard while we wait for the proper fix.',
       },
       {
         speakerId: 'noah-reed',
-        text: 'So the firewall rule is standing in for the patch until the real fix can happen.',
+        text: 'Meaning the firewall rule is covering the gap because the preferred control is delayed.',
       },
     ],
     postRevealLine: {
       speakerId: 'priya-nair',
-      text: 'Exactly. The patch is the preferred control. The firewall rule is the temporary substitute.',
+      text: 'Exactly. The patch is the real fix. The firewall block is the compensating control that keeps the gap from staying open.',
     },
     questionOverride:
-      'Northwind cannot patch a critical legacy print-routing application immediately, so Priya blocks all external traffic to that application\'s port on the perimeter firewall. Which control type best describes this firewall rule?\n\n(A) Preventive\n(B) Corrective\n(C) Compensating\n(D) Directive',
+      'Northwind cannot patch the vulnerable server-room badge controller immediately, so Priya blocks all remote traffic to its management port on the firewall until the vendor window opens. Which control type best describes this firewall rule?\n\n(A) Preventive\n(B) Corrective\n(C) Compensating\n(D) Directive',
     answerOverride:
-      'C — Compensating. The firewall rule substitutes for the preferred control, which is patching the vulnerable application. It provides interim protection until the real fix can be applied. (A) Preventive would be the patch itself or another direct technical safeguard. (B) Corrective restores operations after an incident. (D) Directive tells people what to do but does not enforce the restriction technically.',
+      'C — Compensating. The firewall rule substitutes for the preferred control, which is patching the vulnerable badge controller. It provides interim protection until the real fix can be applied. (A) Preventive would be the patch itself or another direct technical safeguard. (B) Corrective restores operations after an incident. (D) Directive tells people what to do but does not enforce the restriction technically.',
   },
   '1-2-the-cia-triad': {
-    title: 'Denise Wants Proof',
+    title: 'Denise Locks Down Payroll Approvals',
     cast: ['denise-park', 'noah-reed', 'priya-nair'],
     setupLines: [
       {
         speakerId: 'denise-park',
-        text: 'If I send a digitally signed approval and then deny it later, I assume security has a problem with that.',
+        text: 'After this morning\'s payroll mess, I want every approval digitally signed so nobody can deny sending it later.',
       },
       {
         speakerId: 'noah-reed',
-        text: 'That sounds like one of those properties that sits next to integrity but is not exactly the same thing.',
+        text: 'So the spreadsheet tampering was an integrity problem, but denial of authorship is the accountability piece next to it.',
       },
       {
         speakerId: 'priya-nair',
-        text: 'Correct. The signature is there so the sender cannot walk the action back afterward.',
+        text: 'Right. The signature is there so the sender cannot walk the action back afterward.',
       },
     ],
     postRevealLine: {
       speakerId: 'priya-nair',
-      text: 'Digital signatures do more than protect the document. They tie the action back to the sender.',
+      text: 'Digital signatures do more than protect the document. They bind the approval to the person who sent it.',
     },
     questionOverride:
-      'Denise sends a digitally signed payment approval at Northwind and later claims she never sent it. Which security property prevents her from successfully making that claim?\n\n(A) Confidentiality\n(B) Integrity\n(C) Availability\n(D) Non-repudiation',
+      'After the payroll spreadsheet incident, Denise sends a digitally signed payroll approval at Northwind and later claims she never sent it. Which security property prevents her from successfully making that claim?\n\n(A) Confidentiality\n(B) Integrity\n(C) Availability\n(D) Non-repudiation',
     answerOverride:
       'D — Non-repudiation. A digital signature allows others to verify that the signed action came from Denise\'s private key, so she cannot credibly deny sending it. (A) Confidentiality protects against unauthorized disclosure, not denial. (B) Integrity shows the content was not altered but does not by itself address sender denial as specifically as non-repudiation. (C) Availability is unrelated.',
   },
   '1-2-non-repudiation': {
-    title: 'Prove Denise Wrote It',
+    title: 'Denise Sends The Corrected Guidance',
     cast: ['denise-park', 'noah-reed', 'priya-nair'],
     setupLines: [
       {
         speakerId: 'denise-park',
-        text: 'I need to send accounting guidance to a vendor and prove the message really came from me.',
+        text: 'I need to send the vendor corrected accounting guidance from the payment mess and prove the message really came from me.',
       },
       {
         speakerId: 'noah-reed',
-        text: 'Without encrypting the whole document?',
+        text: 'Without encrypting the whole document itself?',
       },
       {
         speakerId: 'priya-nair',
-        text: 'Right. You are proving authorship and integrity, not confidentiality.',
+        text: 'Right. You are proving authorship and integrity here, not confidentiality.',
       },
     ],
     postRevealLine: {
@@ -115,7 +115,7 @@ const LESSON_CHECK_STORIES_BY_ID: Partial<Record<Lesson['id'], LessonCheckStory>
     ],
     postRevealLine: {
       speakerId: 'noah-reed',
-      text: 'Authentication got him in. Authorization decided where he stopped.',
+      text: 'Authentication got Glen through the login screen. Authorization decided where he stopped.',
     },
     questionOverride:
       'Glen enters his username and password at Northwind, then the system checks whether he is allowed to access the finance file share. Which step of AAA is the system performing when it checks those file-share permissions?\n\n(A) Identification\n(B) Authentication\n(C) Authorization\n(D) Accounting',
@@ -123,46 +123,46 @@ const LESSON_CHECK_STORIES_BY_ID: Partial<Record<Lesson['id'], LessonCheckStory>
       'C — Authorization. Glen has already identified himself and authenticated with his password. The system is now deciding what resources that authenticated identity may access. (A) Identification is the username claim itself. (B) Authentication is the password verification. (D) Accounting would record what happened after access is granted or denied.',
   },
   '1-2-gap-analysis': {
-    title: 'The DoD Contract Problem',
-    cast: ['marty-bell', 'priya-nair', 'noah-reed'],
+    title: 'The Contract Packet Rosa Found',
+    cast: ['rosa-jimenez', 'marty-bell', 'noah-reed', 'priya-nair'],
     setupLines: [
       {
-        speakerId: 'marty-bell',
-        text: 'Northwind wants a Defense Department contract, which I assume means more paperwork than usual.',
+        speakerId: 'rosa-jimenez',
+        text: 'One of the old binders had a draft Defense Department contract packet tucked inside it.',
       },
       {
-        speakerId: 'priya-nair',
-        text: 'It also means proving we can protect Controlled Unclassified Information.',
+        speakerId: 'marty-bell',
+        text: 'Please tell me the packet did not also come with another DVD.',
       },
       {
         speakerId: 'noah-reed',
-        text: 'So the gap analysis needs to target the exact framework tied to CUI handling.',
+        text: 'If the deal involves Controlled Unclassified Information, the gap analysis has to target the exact CUI baseline.',
       },
     ],
     postRevealLine: {
       speakerId: 'priya-nair',
-      text: 'Right. If the requirement is CUI in non-federal systems, NIST SP 800-171 is the target, not a generic audit goal.',
+      text: 'Exactly. If the requirement is CUI in non-federal systems, NIST SP 800-171 is the target, not a generic audit goal.',
     },
     questionOverride:
-      'Northwind is pursuing a Department of Defense contract and must demonstrate that it protects Controlled Unclassified Information. Which framework should its gap analysis target?\n\n(A) ISO/IEC 27001\n(B) NIST SP 800-171\n(C) PCI DSS\n(D) SOC 2 Type II',
+      'Northwind finds a Department of Defense contract packet in its compliance materials and realizes it must demonstrate protection of Controlled Unclassified Information. Which framework should its gap analysis target?\n\n(A) ISO/IEC 27001\n(B) NIST SP 800-171\n(C) PCI DSS\n(D) SOC 2 Type II',
     answerOverride:
       'B — NIST SP 800-171. That publication specifically covers protection of Controlled Unclassified Information in non-federal systems, which is the exact requirement here. (A) ISO/IEC 27001 is a broad ISMS framework, not a CUI-specific control baseline. (C) PCI DSS applies to payment card environments. (D) SOC 2 Type II is an audit/reporting standard, not the required CUI protection framework.',
   },
   '1-2-zero-trust': {
-    title: 'Who Actually Makes The Decision?',
+    title: 'The VPN Still Does Not Trust Glen',
     cast: ['glen-foster', 'priya-nair', 'noah-reed'],
     setupLines: [
       {
         speakerId: 'glen-foster',
-        text: 'I get that Zero Trust checks device health and risk, but what actually decides yes or no?',
+        text: 'The VPN challenged me again when I tried to open the finance app from home.',
       },
       {
         speakerId: 'noah-reed',
-        text: 'The gate enforces it, but something still has to evaluate the request.',
+        text: 'So after the request comes in, something still has to weigh your identity, device state, and risk.',
       },
       {
         speakerId: 'priya-nair',
-        text: 'Exactly. One component makes the decision. Another enforces it.',
+        text: 'Exactly. One component makes the decision. Another one enforces it.',
       },
     ],
     postRevealLine: {
@@ -175,16 +175,16 @@ const LESSON_CHECK_STORIES_BY_ID: Partial<Record<Lesson['id'], LessonCheckStory>
       'B — Policy Engine. The Policy Engine is the decision-making component within the Policy Decision Point. It evaluates identity, device state, location, and resource sensitivity to return a grant, deny, or revoke decision. (A) The PEP enforces the decision but does not make it. (C) The data plane carries traffic. (D) Security zones segment networks but do not evaluate per-request policy decisions.',
   },
   '1-2-physical-security': {
-    title: 'Stop The Tailgating',
+    title: 'Fix The Deliveries Door',
     cast: ['ethan-cole', 'noah-reed', 'priya-nair'],
     setupLines: [
       {
         speakerId: 'ethan-cole',
-        text: 'People keep trying to follow each other through the server-room entrance on one badge tap.',
+        text: 'If we replace that deliveries-only wedge with a real checkpoint, I want something that stops one badge tap from pulling two people through.',
       },
       {
         speakerId: 'noah-reed',
-        text: 'So we need something that prevents two bodies from using one authorization event.',
+        text: 'So not just a camera. Something that controls the actual movement through the doorway.',
       },
       {
         speakerId: 'priya-nair',
@@ -196,51 +196,51 @@ const LESSON_CHECK_STORIES_BY_ID: Partial<Record<Lesson['id'], LessonCheckStory>
       text: 'A mantrap fixes the flow problem directly. Cameras and guards mostly catch it after the attempt has already happened.',
     },
     questionOverride:
-      'Northwind wants to stop multiple people from entering the server room during a single badge-access event. Which physical control best addresses that risk?\n\n(A) CCTV with facial recognition\n(B) Security guard at a reception desk\n(C) Access control vestibule\n(D) Infrared motion sensors along the perimeter',
+      'After the side door was found propped open, Northwind wants a replacement entrance control that stops multiple people from entering the server room during a single badge-access event. Which physical control best addresses that risk?\n\n(A) CCTV with facial recognition\n(B) Security guard at a reception desk\n(C) Access control vestibule\n(D) Infrared motion sensors along the perimeter',
     answerOverride:
       'C — Access control vestibule. A mantrap uses interlocking doors to allow only one authorized person through at a time, directly preventing tailgating. (A) CCTV may detect the problem afterward but does not physically stop it. (B) A guard can help but depends on constant human attention. (D) Infrared sensors detect movement but do not control entry flow.',
   },
   '1-2-deception-and-disruption': {
-    title: 'The Fake Credential File',
+    title: 'The Decoy Share',
     cast: ['priya-nair', 'noah-reed', 'glen-foster'],
     setupLines: [
       {
         speakerId: 'priya-nair',
-        text: 'I put fake API credentials in a config file that an intruder might steal.',
+        text: 'I hid fake API credentials in the decoy admin share on the fake server Glen keeps wanting to inspect.',
       },
       {
         speakerId: 'noah-reed',
-        text: 'And if someone tries to use them, the team gets notified.',
+        text: 'So if anyone steals and uses them, we know they found a resource no legitimate user should touch.',
       },
       {
         speakerId: 'glen-foster',
-        text: 'That is either smart or deeply passive-aggressive. Possibly both.',
+        text: 'I would like it noted that curiosity is now apparently a monitored event.',
       },
     ],
     postRevealLine: {
       speakerId: 'priya-nair',
-      text: 'The file is bait, but the fake credentials themselves are the thing that trips the alert.',
+      text: 'The fake server and share are bait, but the credentials themselves are the honeytoken that trips the alert.',
     },
     questionOverride:
-      'Priya creates fake API credentials and leaves them in a configuration file that an attacker might discover at Northwind. The credentials do not grant access, but they alert the team if anyone tries to use them. What type of deception technology is this?\n\n(A) Honeynet\n(B) Honeypot\n(C) Honeyfile\n(D) Honeytoken',
+      'Priya creates fake API credentials and leaves them in a decoy configuration file on a fake Northwind admin share. The credentials do not grant access, but they alert the team if anyone tries to use them. What type of deception technology is this?\n\n(A) Honeynet\n(B) Honeypot\n(C) Honeyfile\n(D) Honeytoken',
     answerOverride:
       'D — Honeytoken. The fake credentials are traceable decoy data that trigger an alert when used. They reveal that someone stole and attempted to use sensitive-looking information. (A) A honeynet is a network of decoy systems. (B) A honeypot is a decoy system or service. (C) A honeyfile is the bait file itself; the credentials inside it are the honeytoken.',
   },
   '1-3-change-management': {
-    title: 'Test It Somewhere Safe',
+    title: 'Before We Try That Again',
     cast: ['priya-nair', 'ethan-cole', 'noah-reed'],
     setupLines: [
       {
         speakerId: 'priya-nair',
-        text: 'Before we approve this database upgrade, I want it tested somewhere that cannot touch production.',
+        text: 'Before anyone reruns the change that broke payroll and remote access, I want it tested somewhere that cannot touch production.',
       },
       {
         speakerId: 'ethan-cole',
-        text: 'So if it detonates, it only ruins a pretend environment.',
+        text: 'So if it detonates again, it only ruins a lab copy.',
       },
       {
         speakerId: 'noah-reed',
-        text: 'You mean a fully isolated test space, not just a maintenance window.',
+        text: 'So this is about the environment, not the approval meeting or the maintenance window.',
       },
     ],
     postRevealLine: {
@@ -253,20 +253,20 @@ const LESSON_CHECK_STORIES_BY_ID: Partial<Record<Lesson['id'], LessonCheckStory>
       'C — Sandbox testing. A sandbox is an isolated environment with no connection to production systems, allowing the team to validate the change safely before approval. (A) A maintenance window describes when the change happens, not where it is tested. (B) A backout plan explains how to reverse the change if it fails. (D) CCB review is the approval stage that usually comes after testing evidence is available.',
   },
   '1-3-technical-change-management': {
-    title: 'One Upgrade Depends On The Other',
+    title: 'Redo The Firewall Upgrade Properly',
     cast: ['priya-nair', 'ethan-cole', 'noah-reed'],
     setupLines: [
       {
         speakerId: 'priya-nair',
-        text: 'The firewall firmware has to be upgraded before the management software, or the whole sequence fails.',
+        text: 'If we are going to redo Marty\'s firewall upgrade, the firmware has to land before the management software or we break the sequence again.',
       },
       {
         speakerId: 'ethan-cole',
-        text: 'So the second step depends on the first one landing cleanly.',
+        text: 'So the second step is blocked until the first one succeeds cleanly.',
       },
       {
         speakerId: 'noah-reed',
-        text: 'That is not scheduling. That is upgrade order with prerequisites.',
+        text: 'That is a dependency chain, not just a calendar issue.',
       },
     ],
     postRevealLine: {
