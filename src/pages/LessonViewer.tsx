@@ -13,8 +13,10 @@ import {
   type CheckSlide,
   type SummarySlide,
   type DiagramSlide,
+  type Lesson,
 } from '../data/securityPlusLessons';
 import { getLessonStory, type LessonStory } from '../data/lessonStories';
+import { getLessonCheckStory, type LessonCheckStory } from '../data/lessonCheckStories';
 import { getLessonDiagramCrop } from '../data/lessonDiagramCrops';
 import { STORY_CAST, type StoryCastMember } from '../data/storyCast';
 import { CastSprite } from '../components';
@@ -170,6 +172,27 @@ interface FillBlankData {
   correctKeys: string[];
 }
 
+const extractCheckAnswerKey = (
+  answerHtml: string,
+  mode: CheckSlideMode,
+): string | null => {
+  const trimmedAnswer = answerHtml.trim();
+
+  if (mode === 'binary') {
+    const binaryMatch = trimmedAnswer.match(/^(True|False)(?:\b|[\s—–-])/i);
+    return binaryMatch?.[1]
+      ? `${binaryMatch[1].charAt(0).toUpperCase()}${binaryMatch[1].slice(1).toLowerCase()}`
+      : null;
+  }
+
+  if (mode === 'multiple_choice') {
+    const optionMatch = trimmedAnswer.match(/^\(?([A-Z])\)?(?:\s|[—–.-])/);
+    return optionMatch?.[1]?.toUpperCase() ?? null;
+  }
+
+  return null;
+};
+
 const extractChoiceOptions = (question: string): ChoiceOption[] => {
   if (/Options:/i.test(question)) {
     const optionsSection = question.split(/Options:/i)[1] ?? '';
@@ -308,6 +331,20 @@ const extractFillBlankData = (question: string, answerHtml: string): FillBlankDa
   };
 };
 
+const stripChoiceOptionsFromQuestion = (question: string): string => {
+  const optionsSplit = question.split(/Options:/i);
+  if (optionsSplit[0] && optionsSplit.length > 1) {
+    return optionsSplit[0].trim();
+  }
+
+  const paragraphSplit = question.split(/\n\s*\n(?=\([A-Za-z]\))/);
+  if (paragraphSplit[0] && paragraphSplit.length > 1) {
+    return paragraphSplit[0].trim();
+  }
+
+  return question.trim();
+};
+
 const renderFillBlankPrompt = (
   prompt: string,
   assignedKeys: Array<string | null>,
@@ -396,6 +433,7 @@ const StoryConversationPlayer = ({
   const activeSpeakerId = activeLine?.speakerId;
   const progressLabel = `${clampedRevealedCount} / ${lines.length}`;
   const leftStageMember = cast.find((member) => member.id === STORY_USER_CHARACTER_ID);
+  const hasUserCharacter = Boolean(leftStageMember);
   const rightStageMembers = cast.filter((member) => member.id !== STORY_USER_CHARACTER_ID);
 
   useEffect(() => {
@@ -522,7 +560,14 @@ const StoryConversationPlayer = ({
       </div>
 
       <div className="mt-5 rounded-[1.5rem] border border-slate-700/80 bg-slate-950/50 px-4 py-5 sm:px-5 sm:py-6">
-        <div ref={stageRef} className="relative grid min-h-[21rem] grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] gap-4 sm:gap-6">
+        <div
+          ref={stageRef}
+          className={`relative min-h-[21rem] ${
+            hasUserCharacter
+              ? 'grid grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] gap-4 sm:gap-6'
+              : 'flex items-end justify-evenly gap-4 sm:gap-8'
+          }`}
+        >
           {activeLine ? (
             <div
               ref={activeBubbleRef}
@@ -544,61 +589,89 @@ const StoryConversationPlayer = ({
             </div>
           ) : null}
 
-          <div className="flex h-full justify-start">
-            {leftStageMember ? (
-              <div className="flex h-full w-full flex-col justify-end items-start text-left">
-                <div
-                  ref={leftStageMember.id === activeSpeakerId ? activeAnchorRef : null}
-                  className={`relative inline-flex flex-col items-center px-2 py-1 transition ${
-                    leftStageMember.id === activeSpeakerId
-                      ? 'translate-y-[-2px] brightness-110'
-                      : 'opacity-90'
-                  }`}
-                >
-                  <CastSprite
-                    spriteSheet={leftStageMember.spriteSheet}
-                    name={leftStageMember.name}
-                    size={96}
-                    unstyled
-                  />
-                  <p className={`mt-2 text-sm font-semibold ${leftStageMember.accentClassName}`}>{leftStageMember.name}</p>
-                  <p className="text-xs text-slate-500">{leftStageMember.title}</p>
-                </div>
-              </div>
-            ) : (
-              <div className="invisible w-full" aria-hidden="true" />
-            )}
-          </div>
-
-          <div className="flex h-full flex-wrap items-end justify-end gap-x-2 gap-y-4 sm:gap-x-4">
-            {rightStageMembers.map((member) => {
-              const isSpeaker = member.id === activeSpeakerId;
-
-              return (
-                <div key={member.id} className="flex flex-col items-end justify-end text-right">
-                  <div
-                    ref={isSpeaker ? activeAnchorRef : null}
-                    className={`relative inline-flex flex-col items-center px-2 py-1 transition ${
-                      isSpeaker
-                        ? 'translate-y-[-2px] brightness-110'
-                        : 'opacity-90'
-                    }`}
-                  >
-                    <div className="scale-x-[-1]">
+          {hasUserCharacter ? (
+            <>
+              <div className="flex h-full justify-start">
+                {leftStageMember ? (
+                  <div className="flex h-full w-full flex-col justify-end items-start text-left">
+                    <div
+                      ref={leftStageMember.id === activeSpeakerId ? activeAnchorRef : null}
+                      className={`relative inline-flex flex-col items-center px-2 py-1 transition ${
+                        leftStageMember.id === activeSpeakerId
+                          ? 'translate-y-[-2px] brightness-110'
+                          : 'opacity-90'
+                      }`}
+                    >
                       <CastSprite
-                        spriteSheet={member.spriteSheet}
-                        name={member.name}
+                        spriteSheet={leftStageMember.spriteSheet}
+                        name={leftStageMember.name}
                         size={96}
                         unstyled
                       />
+                      <p className={`mt-2 text-sm font-semibold ${leftStageMember.accentClassName}`}>{leftStageMember.name}</p>
+                      <p className="text-xs text-slate-500">{leftStageMember.title}</p>
                     </div>
+                  </div>
+                ) : (
+                  <div className="invisible w-full" aria-hidden="true" />
+                )}
+              </div>
+
+              <div className="flex h-full flex-wrap items-end justify-end gap-x-2 gap-y-4 sm:gap-x-4">
+                {rightStageMembers.map((member) => {
+                  const isSpeaker = member.id === activeSpeakerId;
+
+                  return (
+                    <div key={member.id} className="flex flex-col items-end justify-end text-right">
+                      <div
+                        ref={isSpeaker ? activeAnchorRef : null}
+                        className={`relative inline-flex flex-col items-center px-2 py-1 transition ${
+                          isSpeaker
+                            ? 'translate-y-[-2px] brightness-110'
+                            : 'opacity-90'
+                        }`}
+                      >
+                        <div className="scale-x-[-1]">
+                          <CastSprite
+                            spriteSheet={member.spriteSheet}
+                            name={member.name}
+                            size={96}
+                            unstyled
+                          />
+                        </div>
+                        <p className={`mt-2 text-sm font-semibold ${member.accentClassName}`}>{member.name}</p>
+                        <p className="text-xs text-slate-500">{member.title}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          ) : (
+            cast.map((member) => {
+              const isSpeaker = member.id === activeSpeakerId;
+
+              return (
+                <div key={member.id} className="flex h-full flex-col items-center justify-end text-center">
+                  <div
+                    ref={isSpeaker ? activeAnchorRef : null}
+                    className={`relative inline-flex flex-col items-center px-2 py-1 transition ${
+                      isSpeaker ? 'translate-y-[-2px] brightness-110' : 'opacity-90'
+                    }`}
+                  >
+                    <CastSprite
+                      spriteSheet={member.spriteSheet}
+                      name={member.name}
+                      size={96}
+                      unstyled
+                    />
                     <p className={`mt-2 text-sm font-semibold ${member.accentClassName}`}>{member.name}</p>
                     <p className="text-xs text-slate-500">{member.title}</p>
                   </div>
                 </div>
               );
-            })}
-          </div>
+            })
+          )}
         </div>
 
         <div className="mt-5 flex flex-wrap gap-3">
@@ -672,6 +745,46 @@ const StoryConversationPlayer = ({
           <p className="mt-2 text-sm leading-7 text-slate-200">{takeaway}</p>
         </div>
       ) : null}
+    </div>
+  );
+};
+
+const CheckStoryPrompt = ({ storyCheck }: { storyCheck: LessonCheckStory }): JSX.Element => {
+  const cast = getStoryCastMembers(storyCheck.cast);
+
+  return (
+    <div className="mb-7 border-b border-slate-800 pb-6">
+      <h4 className="text-lg font-semibold text-slate-50">{storyCheck.title}</h4>
+
+      <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+        {cast.map((member) => (
+          <div key={member.id} className="flex items-center gap-2">
+            <CastSprite
+              spriteSheet={member.spriteSheet}
+              name={member.name}
+              size={32}
+              unstyled
+            />
+            <p className={`text-sm font-semibold ${member.accentClassName}`}>{member.name}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-5 space-y-3 border-l-2 border-sky-400/25 pl-4">
+        {storyCheck.setupLines.map((line, index) => {
+          const speaker = storyCastById.get(line.speakerId);
+
+          return (
+            <div key={`${line.speakerId}-${index}`}>
+              <p className={`text-sm font-semibold ${speaker?.accentClassName ?? 'text-slate-200'}`}>
+                {speaker?.name ?? line.speakerId}
+              </p>
+              <p className="mt-1 text-sm leading-7 text-slate-200">{line.text}</p>
+            </div>
+          );
+        })}
+      </div>
+
     </div>
   );
 };
@@ -789,14 +902,26 @@ const SlideTerm = ({ slide }: { slide: TermSlide }): JSX.Element => (
   </div>
 );
 
-const SlideCheck = ({ slide }: { slide: CheckSlide }): JSX.Element => {
+const SlideCheck = ({
+  slide,
+  storyCheck,
+}: {
+  slide: CheckSlide;
+  storyCheck?: LessonCheckStory;
+}): JSX.Element => {
   const [revealed, setRevealed] = useState(false);
   const [selectedBinaryChoice, setSelectedBinaryChoice] = useState<'True' | 'False' | null>(null);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const presentation = getCheckSlidePresentation(slide.q);
-  const partLabels = presentation.mode === 'multi_part' ? extractPartLabels(slide.q) : [];
-  const choiceOptions = extractChoiceOptions(slide.q);
-  const fillBlankData = extractFillBlankData(slide.q, slide.a);
+  const [singleAnswerChecked, setSingleAnswerChecked] = useState<boolean | null>(null);
+  const displayQuestion = storyCheck?.questionOverride ?? slide.q;
+  const displayAnswer = storyCheck?.answerOverride ?? slide.a;
+  const presentation = getCheckSlidePresentation(displayQuestion);
+  const renderedPrompt =
+    presentation.mode === 'multiple_choice' ? stripChoiceOptionsFromQuestion(displayQuestion) : displayQuestion;
+  const partLabels = presentation.mode === 'multi_part' ? extractPartLabels(displayQuestion) : [];
+  const choiceOptions = extractChoiceOptions(displayQuestion);
+  const fillBlankData = extractFillBlankData(displayQuestion, displayAnswer);
+  const correctSingleAnswerKey = extractCheckAnswerKey(displayAnswer, presentation.mode);
   const [assignedBlankKeys, setAssignedBlankKeys] = useState<Array<string | null>>(
     fillBlankData ? Array.from({ length: fillBlankData.blankCount }, () => null) : [],
   );
@@ -807,9 +932,10 @@ const SlideCheck = ({ slide }: { slide: CheckSlide }): JSX.Element => {
     setRevealed(false);
     setSelectedBinaryChoice(null);
     setSelectedOption(null);
+    setSingleAnswerChecked(null);
     setFillBlankChecked(null);
     setAssignedBlankKeys(fillBlankData ? Array.from({ length: fillBlankData.blankCount }, () => null) : []);
-  }, [slide.q, slide.a, fillBlankData?.blankCount]);
+  }, [displayQuestion, displayAnswer, fillBlankData?.blankCount]);
 
   const handleDropOption = (blankIndex: number, optionKey: string): void => {
     setAssignedBlankKeys((current) => {
@@ -835,6 +961,31 @@ const SlideCheck = ({ slide }: { slide: CheckSlide }): JSX.Element => {
     setRevealed(true);
   };
 
+  const handleConfirmSingleAnswer = (): void => {
+    const submittedAnswer =
+      presentation.mode === 'binary'
+        ? selectedBinaryChoice
+        : presentation.mode === 'multiple_choice'
+          ? selectedOption
+          : null;
+
+    if (!submittedAnswer || !correctSingleAnswerKey) {
+      return;
+    }
+
+    setSingleAnswerChecked(submittedAnswer === correctSingleAnswerKey);
+    setRevealed(true);
+  };
+
+  const handleChoiceSelection = (optionKey: string): void => {
+    setSelectedOption(optionKey);
+
+    if (presentation.mode === 'multiple_choice' && correctSingleAnswerKey) {
+      setSingleAnswerChecked(optionKey === correctSingleAnswerKey);
+      setRevealed(true);
+    }
+  };
+
   const availableChoiceOptions =
     fillBlankData && fillBlankData.options.length > 0
       ? fillBlankData.options.filter((option) => !assignedBlankKeys.includes(option.key))
@@ -842,33 +993,50 @@ const SlideCheck = ({ slide }: { slide: CheckSlide }): JSX.Element => {
 
   return (
     <div className={`${baseSlidePanelClass} px-8 py-8 sm:px-10 sm:py-9`}>
-      <div className="max-w-4xl space-y-4">
-        <p className={`text-xs font-bold uppercase tracking-[0.14em] ${presentation.accentClass}`}>
-          {presentation.eyebrow}
-        </p>
-        <h3 className="text-2xl font-semibold text-slate-50 sm:text-[2rem]">{presentation.title}</h3>
-        <p className="max-w-3xl text-base leading-8 text-slate-300">{presentation.description}</p>
+      <div className="max-w-4xl space-y-2">
+        <h3 className={`text-2xl font-semibold sm:text-[2rem] ${presentation.accentClass}`}>{presentation.title}</h3>
       </div>
 
-      <div className="mt-8 rounded-[1.5rem] border border-slate-800/90 bg-slate-950/55 p-6 shadow-[inset_0_1px_0_rgba(148,163,184,0.04)] sm:p-7">
-        <p className="whitespace-pre-line text-base leading-8 text-slate-100 sm:text-[1.05rem]">{slide.q}</p>
+      <div className="mt-7 max-w-4xl">
+        {storyCheck ? <CheckStoryPrompt storyCheck={storyCheck} /> : null}
+
+        <p className="whitespace-pre-line text-base leading-8 text-slate-100 sm:text-[1.05rem]">{renderedPrompt}</p>
 
         {presentation.mode === 'binary' ? (
-          <div className="mt-5 flex gap-3">
-            {(['True', 'False'] as const).map((choice) => (
+          <div className="mt-5 space-y-4">
+            <div className="flex gap-3">
+              {(['True', 'False'] as const).map((choice) => (
+                <button
+                  key={choice}
+                  type="button"
+                  onClick={() => setSelectedBinaryChoice(choice)}
+                  className={`rounded-lg border px-4 py-2 text-sm font-semibold transition ${
+                    selectedBinaryChoice === choice
+                      ? 'border-slate-200 bg-slate-100 text-slate-950'
+                      : presentation.buttonClass
+                  }`}
+                >
+                  {choice}
+                </button>
+              ))}
+            </div>
+            <div className="flex items-center gap-3">
               <button
-                key={choice}
                 type="button"
-                onClick={() => setSelectedBinaryChoice(choice)}
-                className={`rounded-lg border px-4 py-2 text-sm font-semibold transition ${
-                  selectedBinaryChoice === choice
-                    ? 'border-slate-200 bg-slate-100 text-slate-950'
-                    : presentation.buttonClass
-                }`}
+                onClick={handleConfirmSingleAnswer}
+                disabled={!selectedBinaryChoice || !correctSingleAnswerKey}
+                className="rounded-lg border border-sky-500/60 bg-sky-500/10 px-5 py-2 text-sm font-semibold text-sky-100 transition hover:bg-sky-500/20 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                {choice}
+                Submit answer
               </button>
-            ))}
+              {singleAnswerChecked !== null ? (
+                <p className={`text-sm font-medium ${singleAnswerChecked ? 'text-emerald-300' : 'text-rose-300'}`}>
+                  {singleAnswerChecked
+                    ? 'Correct. Review why below.'
+                    : `Not quite. Correct answer: ${correctSingleAnswerKey}.`}
+                </p>
+              ) : null}
+            </div>
           </div>
         ) : null}
 
@@ -949,7 +1117,7 @@ const SlideCheck = ({ slide }: { slide: CheckSlide }): JSX.Element => {
                 <button
                   key={option.key}
                   type="button"
-                  onClick={() => setSelectedOption(option.key)}
+                  onClick={() => handleChoiceSelection(option.key)}
                   className={`rounded-lg border px-4 py-2 text-sm font-semibold transition ${
                     selectedOption === option.key
                       ? 'border-slate-200 bg-slate-100 text-slate-950'
@@ -961,6 +1129,13 @@ const SlideCheck = ({ slide }: { slide: CheckSlide }): JSX.Element => {
                 </button>
               ))}
             </div>
+            {presentation.mode === 'multiple_choice' && singleAnswerChecked !== null ? (
+              <p className={`text-sm font-medium ${singleAnswerChecked ? 'text-emerald-300' : 'text-rose-300'}`}>
+                {singleAnswerChecked
+                  ? 'Correct. Review why below.'
+                  : `Not quite. Correct answer: ${correctSingleAnswerKey}.`}
+              </p>
+            ) : null}
           </div>
         ) : null}
 
@@ -998,7 +1173,7 @@ const SlideCheck = ({ slide }: { slide: CheckSlide }): JSX.Element => {
           </div>
         ) : null}
 
-        {!fillBlankData ? (
+        {!fillBlankData && presentation.mode !== 'binary' && presentation.mode !== 'multiple_choice' ? (
           <div className="mt-5">
             <button
               type="button"
@@ -1011,10 +1186,25 @@ const SlideCheck = ({ slide }: { slide: CheckSlide }): JSX.Element => {
         ) : null}
 
         {revealed ? (
-          <div
-            className="slide-body mt-5 rounded-2xl border border-violet-500/20 bg-violet-500/10 px-5 py-4 text-slate-100"
-            dangerouslySetInnerHTML={{ __html: decorateLessonHtml(slide.a) }}
-          />
+          <>
+            <div
+              className="slide-body mt-5 rounded-2xl border border-violet-500/20 bg-violet-500/10 px-5 py-4 text-slate-100"
+              dangerouslySetInnerHTML={{ __html: decorateLessonHtml(displayAnswer) }}
+            />
+            {storyCheck ? (
+              <div className="mt-5 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-4">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-300">Back To The Scene</p>
+                <p
+                  className={`mt-2 text-sm font-semibold ${
+                    storyCastById.get(storyCheck.postRevealLine.speakerId)?.accentClassName ?? 'text-slate-100'
+                  }`}
+                >
+                  {storyCastById.get(storyCheck.postRevealLine.speakerId)?.name ?? storyCheck.postRevealLine.speakerId}
+                </p>
+                <p className="mt-1 text-sm leading-7 text-slate-200">{storyCheck.postRevealLine.text}</p>
+              </div>
+            ) : null}
+          </>
         ) : null}
       </div>
     </div>
@@ -1214,9 +1404,11 @@ const SlideDiagram = ({ slide, cropOverrideKey }: { slide: DiagramSlide; cropOve
 const RenderSlide = ({
   renderedSlide,
   cropOverrideKey,
+  lessonId,
 }: {
   renderedSlide: RenderedLessonSlide;
   cropOverrideKey?: string;
+  lessonId: Lesson['id'];
 }): JSX.Element => {
   if (renderedSlide.kind === 'story') {
     return <StoryCutsceneSlide story={renderedSlide.story} slideKey={renderedSlide.slideKey} />;
@@ -1234,7 +1426,7 @@ const RenderSlide = ({
     case 'term':
       return <SlideTerm slide={renderedSlide.slide} />;
     case 'check':
-      return <SlideCheck slide={renderedSlide.slide} />;
+      return <SlideCheck slide={renderedSlide.slide} storyCheck={getLessonCheckStory(lessonId)} />;
     case 'summary':
       return <SlideSummary slide={renderedSlide.slide} />;
     case 'diagram':
@@ -1410,7 +1602,7 @@ const LessonViewer = (): JSX.Element => {
         className="min-h-0 overflow-y-auto px-1 sm:px-2"
       >
         <div className="mx-auto h-full min-h-full w-full" key={`${lesson.id}-${current}`}>
-          {renderedSlide ? <RenderSlide renderedSlide={renderedSlide} cropOverrideKey={cropOverrideKey} /> : null}
+          {renderedSlide ? <RenderSlide renderedSlide={renderedSlide} cropOverrideKey={cropOverrideKey} lessonId={lesson.id} /> : null}
         </div>
       </div>
 

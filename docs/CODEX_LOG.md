@@ -1,3 +1,89 @@
+### 2026-03-31 03:28 (local)
+**Summary:** Flattened the story-backed multiple-choice slide layout so the MCQ reads as one panel with only the check type and scene title.
+**Changes:**
+- Removed the inner content card shell from `SlideCheck` so the question content now sits directly in the main slide panel instead of inside a second bordered container (`src/pages/LessonViewer.tsx`).
+- Simplified the check heading to just the mode label, and stripped the extra eyebrow/description copy plus the `Northwind Scenario` / `In Context` labels from the scene preamble; the scene now just shows the context title such as `Prove Denise Wrote It` (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 3 slide 9 to confirm the slide now shows `Multiple choice` plus `Prove Denise Wrote It` and none of the removed redundant labels.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/2?slide=9`
+
+### 2026-03-31 03:24 (local)
+**Summary:** Simplified story-backed multiple-choice slides so the prompt no longer duplicates the options and answers reveal immediately on button click.
+**Changes:**
+- Added prompt-only rendering for multiple-choice checks so the question stem is shown without the inline `(A)...(D)` option list while the answer choices remain exclusively on the interactive buttons (`src/pages/LessonViewer.tsx`).
+- Removed the extra scenario guidance line from the check preamble and changed multiple-choice buttons to auto-submit on click, immediately revealing correct/incorrect feedback and the explanation without a separate `Submit answer` step (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 3 slide 9 to confirm the prompt no longer contains inline options, no submit button remains, and clicking `B` immediately grades and opens the explanation.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/2?slide=9`
+
+### 2026-03-31 03:19 (local)
+**Summary:** Replaced the generic multiple-choice lesson checks with story-native Northwind prompts so the question itself, choices, grading, and explanation all live inside the same scenario.
+**Changes:**
+- Expanded `lessonCheckStories` so all first 10 story-backed lessons now provide full question and answer overrides, not just a scenario wrapper (`src/data/lessonCheckStories.ts`).
+- Updated `SlideCheck` to render and grade against the story override content when present, so the live check stem, answer key, extracted choices, and explanation all come from the Northwind version instead of the original generic lesson text (`src/pages/LessonViewer.tsx`).
+- Browser-checked all first 10 story-backed checks with an inline Playwright pass and confirmed each lesson now shows a story-native prompt; Lesson 3 slide 9 specifically now renders the Denise/vendor digital-signature question rather than the old generic Alice/Bob wording.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity sweep for the first 10 story-backed lesson checks
+
+### 2026-03-31 02:08 (local)
+**Summary:** Corrected the story-backed check prompts so they align with the actual question stems instead of only the broader lesson theme.
+**Changes:**
+- Rewrote the first batch of `lessonCheckStories` to match the real check-slide questions, including fixing Lesson 3 slide 9 so the scenario now supports the digital-signature/authorship prompt rather than an unrelated finance-approval scenario (`src/data/lessonCheckStories.ts`).
+- Kept the integrated single-panel check layout from the earlier pass, but changed the content so the story setup and the multiple-choice question now reinforce each other instead of reading like two separate ideas forced together.
+- Browser-checked Lesson 3 slide 9 after the rewrite to confirm the scenario and the actual Alice/Bob authorship question now align.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/2?slide=9`
+
+### 2026-03-31 01:47 (local)
+**Summary:** Fixed single-answer lesson check slides so multiple-choice and true/false interactions now actually submit and grade the selected answer.
+**Changes:**
+- Added answer-key parsing for single-answer `check` slides based on the explanation text, supporting both multiple-choice letter answers and true/false answers (`src/pages/LessonViewer.tsx`).
+- Updated `SlideCheck` so binary and multiple-choice lessons now require a selection, expose a `Submit answer` action, reveal correct/incorrect feedback, and then show the explanation plus any story-backed payoff line (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 4’s story-backed multiple-choice check to confirm selecting an option, submitting it, and rendering feedback now works end-to-end.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/3?slide=9`
+
+### 2026-03-30 23:29 (local)
+**Summary:** Integrated the Northwind story into the first set of in-lesson check slides so scenario context now frames the quiz itself.
+**Changes:**
+- Added a new lesson-check story metadata layer for five initial lessons (`Non-repudiation`, `AAA`, `Zero Trust`, `Change Management`, and `Technical Change Management`), including short setup lines plus a one-line in-character payoff after reveal (`src/data/lessonCheckStories.ts`).
+- Updated the lesson viewer so `check` slides can render a compact `Northwind Scenario` prompt above the existing quiz interaction and a `Back To The Scene` line after the explanation without changing the underlying question mechanics (`src/pages/LessonViewer.tsx`).
+- Browser-checked Lesson 4’s check slide to confirm the story prompt appears before the question and the in-character payoff only appears after the explanation is revealed.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/3?slide=9`
+
+### 2026-03-30 14:01 (local)
+**Summary:** Added a separate cutscene stage layout for scenes where Noah is absent so the cast spreads out evenly instead of inheriting the Noah-left composition.
+**Changes:**
+- Updated the cutscene player to detect whether Noah Reed is present in the scene and use a different stage layout when he is not: instead of reserving a left protagonist column, all visible speakers now sit in a single evenly spaced row across the stage (`src/pages/LessonViewer.tsx`).
+- Kept the active-speaker anchor, measured speech bubble overlay, and timing behavior unchanged so non-Noah scenes still use the same bubble system while looking less lopsided.
+- Browser-checked Lesson 2’s callback cutscene (Marty + Priya only) to confirm the two-character no-Noah scene now spreads more evenly across the stage.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- inline Vite + Playwright sanity check for `/lessons/1?slide=12`
+
+### 2026-03-30 13:54 (local)
+**Summary:** Revised the first 10 Northwind lesson scripts to sound more natural and less like direct exam exposition.
+**Changes:**
+- Rewrote the cold-open and callback dialogue beats across the first 10 story-backed lessons to use shorter, more conversational phrasing, lighter interruptions, and less overt concept narration while preserving the same teaching intent (`src/data/lessonStories.ts`).
+- Kept the titles, story structure, and concept/takeaway mapping intact so the narrative still anchors the same lesson objectives without sounding as scripted.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+
 ### 2026-03-30 13:36 (local)
 **Summary:** Slowed cutscene auto-play timing so speech bubbles stay on screen longer for longer lines.
 **Changes:**
