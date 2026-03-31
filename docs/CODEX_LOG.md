@@ -1,3 +1,113 @@
+### 2026-04-01 07:31 (local)
+**Summary:** Finished the remaining story integration across the rest of the generated Security+ lessons, extending Northwind cutscenes and story-backed checks through the Domain 5 policy, risk, vendor, compliance, audit, and awareness content.
+**Changes:**
+- Added new `lessonStories` cold opens and callbacks for the remaining generated lessons: `5-1-security-policies`, `5-1-security-standards-and-procedures`, `5-1-governance-and-considerations`, `5-2-risk-management`, `5-2-risk-analysis`, `5-2-risk-strategies`, `5-2-business-impact-analysis`, `5-3-third-party-risk-assessment`, `5-3-agreement-types`, `5-4-compliance-and-privacy`, `5-5-audits-and-penetration-tests`, `5-6-security-awareness`, and `5-6-user-training` (`src/data/lessonStories.ts`).
+- Added matching `lessonCheckStories` entries for those same remaining generated lessons so their in-lesson checks now use story-native setup dialogue, question stems, and post-reveal payoff lines instead of the generic lesson prompts (`src/data/lessonCheckStories.ts`).
+- Re-ran the repo checks after completing the remaining lessons and confirmed the full story-data expansion still builds, lints, and passes Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm test`
+
+### 2026-04-01 07:22 (local)
+**Summary:** Continued the next story batch through Lesson 100, extending Northwind cutscenes and story-backed checks across endpoint security, IAM, access controls, MFA, password security, automation, incident response, incident planning, digital forensics, and log analysis.
+**Changes:**
+- Added new `lessonStories` cold opens and callbacks for Lessons 91 through 100, covering endpoint security, identity and access management, access controls, multifactor authentication, password security, scripting and automation, incident response, incident planning, digital forensics, and log data (`src/data/lessonStories.ts`).
+- Added matching `lessonCheckStories` entries for the same Lessons 91 through 100 so those in-lesson checks now use story-native setup dialogue, question stems, and post-reveal payoff lines instead of the generic lesson prompts (`src/data/lessonCheckStories.ts`).
+- Re-ran the repo checks after the batch expansion and confirmed the story-data additions still build, lint, and pass Vitest. The first lint attempt hit a transient ESLint/Vite temp-file read error; the immediate rerun passed cleanly.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm test`
+
+### 2026-04-01 07:14 (local)
+**Summary:** Continued the next story batch through Lesson 90, extending Northwind cutscenes and story-backed checks across vulnerability management, threat intelligence, penetration testing, security monitoring, firewalls, web filtering, and email security.
+**Changes:**
+- Added new `lessonStories` cold opens and callbacks for Lessons 81 through 90, covering vulnerability scanning, threat intelligence, penetration testing, analyzing vulnerabilities, vulnerability remediation, security monitoring, security tools, firewalls, web filtering and OS security, and email security and data monitoring (`src/data/lessonStories.ts`).
+- Added matching `lessonCheckStories` entries for the same Lessons 81 through 90 so those in-lesson checks now use story-native setup dialogue, question stems, and post-reveal payoff lines instead of the generic lesson prompts (`src/data/lessonCheckStories.ts`).
+- Re-ran the repo checks after the batch expansion and confirmed the story-data additions still build, lint, and pass Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm test`
+
+### 2026-04-01 06:57 (local)
+**Summary:** Continued the next story batch through Lesson 80, extending Northwind cutscenes and story-backed checks across resiliency, recovery, secure baselines, hardening targets, wireless/mobile controls, application security, and asset management.
+**Changes:**
+- Added new `lessonStories` cold opens and callbacks for Lessons 71 through 80, covering resiliency, site resiliency, recovery testing and backups, power resiliency, secure baselines, hardening targets, securing wireless and mobile, wireless security settings, application security, and asset management (`src/data/lessonStories.ts`).
+- Added matching `lessonCheckStories` entries for the same Lessons 71 through 80 so those in-lesson checks now use story-native setup dialogue, question stems, and post-reveal payoff lines instead of the generic lesson prompts (`src/data/lessonCheckStories.ts`).
+- Re-ran the repo checks after the batch expansion and confirmed the story-data additions still build, lint, and pass Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm test`
+
+### 2026-04-01 06:47 (local)
+**Summary:** Continued the next story batch through Lesson 70, extending Northwind cutscenes and story-backed checks across infrastructure considerations, secure network design, network security controls, and the opening data-protection lessons in Domain 3.
+**Changes:**
+- Added new `lessonStories` cold opens and callbacks for Lessons 61 through 70, covering infrastructure considerations, secure infrastructures, intrusion prevention, network appliances, firewall types, port security and 802.1X, secure communication, data types and classifications, states of data, and protecting data (`src/data/lessonStories.ts`).
+- Added matching `lessonCheckStories` entries for the same Lessons 61 through 70 so those in-lesson checks now use story-native setup dialogue, question stems, and post-reveal payoff lines instead of the generic lesson prompts (`src/data/lessonCheckStories.ts`).
+- Re-ran the repo checks after the batch expansion and confirmed the story-data additions still build, lint, and pass Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm test`
+
+### 2026-04-01 06:38 (local)
+**Summary:** Continued the next story batch through Lesson 60, extending Northwind cutscenes and story-backed checks across password attacks, IoCs, Domain 2.5 controls, and the opening Domain 3.1 cloud and infrastructure lessons.
+**Changes:**
+- Added new `lessonStories` cold opens and callbacks for Lessons 51 through 60, covering password attacks, indicators of compromise, segmentation and access control, mitigation techniques, hardening techniques, endpoint hardening, cloud infrastructures, cloud architecture, network infrastructure, and specialized infrastructure (`src/data/lessonStories.ts`).
+- Added matching `lessonCheckStories` entries for the same Lessons 51 through 60 so those in-lesson checks now use story-native setup dialogue, question stems, and post-reveal payoff lines instead of the generic lesson prompts (`src/data/lessonCheckStories.ts`).
+- Re-ran the repo checks after the batch expansion and confirmed the story-data additions still build, lint, and pass Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm test`
+
+### 2026-04-01 06:24 (local)
+**Summary:** Continued the next story batch through Lesson 50, extending Northwind cutscenes and story-backed checks across the remaining 2.4 malware, physical, availability, DNS, wireless, on-path, replay, application, and cryptographic attack lessons.
+**Changes:**
+- Added new `lessonStories` cold opens and callbacks for Lessons 41 through 50, covering spyware and bloatware, other malware types, physical attacks, denial of service, DNS attacks, wireless attacks, on-path attacks, replay attacks, application attacks, and cryptographic attacks (`src/data/lessonStories.ts`).
+- Added matching `lessonCheckStories` entries for the same Lessons 41 through 50 so those in-lesson checks now use story-native setup dialogue, question stems, and post-reveal payoff lines instead of the generic lesson prompts (`src/data/lessonCheckStories.ts`).
+- Re-ran the repo checks after the batch expansion and confirmed the story-data additions still build, lint, and pass Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm test`
+
+### 2026-04-01 06:19 (local)
+**Summary:** Continued the next story batch through Lesson 40, extending Northwind cutscenes and story-backed checks across the XSS, platform, cloud, and malware lessons.
+**Changes:**
+- Added new `lessonStories` cold opens and callbacks for Lessons 31 through 40, covering cross-site scripting, hardware vulnerabilities, virtualization vulnerabilities, cloud-specific vulnerabilities, supply-chain vulnerabilities, misconfiguration vulnerabilities, mobile-device vulnerabilities, zero-day vulnerabilities, malware overview, and viruses/worms (`src/data/lessonStories.ts`).
+- Added matching `lessonCheckStories` entries for the same Lessons 31 through 40 so those in-lesson checks now use story-native setup dialogue, question stems, and post-reveal payoff lines instead of the generic lesson prompts (`src/data/lessonCheckStories.ts`).
+- Re-ran the repo checks after the batch expansion and confirmed the story-data additions still build, lint, and pass Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm test`
+
+### 2026-04-01 06:06 (local)
+**Summary:** Continued the next story batch through Lesson 30, extending Northwind cutscenes and story-backed checks across the phishing, social-engineering, and software-vulnerability lessons.
+**Changes:**
+- Added new `lessonStories` cold opens and callbacks for Lessons 21 through 30, covering phishing, impersonation, watering-hole attacks, other social-engineering attacks, memory injections, buffer overflows, race conditions, malicious updates, OS vulnerabilities, and SQL injection (`src/data/lessonStories.ts`).
+- Added matching `lessonCheckStories` entries for the same Lessons 21 through 30 so those in-lesson checks now use story-native setup dialogue, question stems, and post-reveal payoff lines instead of the generic lesson prompts (`src/data/lessonCheckStories.ts`).
+- Re-ran the repo checks after the batch expansion and confirmed the story-data additions still build, lint, and pass Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm exec vitest run`
+
+### 2026-04-01 05:40 (local)
+**Summary:** Propagated the story layer to the next batch of 10 lessons, extending Northwind cutscenes and story-backed checks through Lesson 20.
+**Changes:**
+- Added new `lessonStories` cold opens and callbacks for Lessons 11 through 20, covering PKI, encrypting data, key exchange, encryption technologies, obfuscation, hashing and digital signatures, blockchain, certificates, threat actors, and common threat vectors (`src/data/lessonStories.ts`).
+- Added matching `lessonCheckStories` entries for the same Lessons 11 through 20 so their in-lesson checks now use story-native setup dialogue, question stems, and post-reveal payoff lines instead of the generic lesson prompts (`src/data/lessonCheckStories.ts`).
+- Re-ran the repo checks after the batch expansion and confirmed the story-data additions still build, lint, and pass Vitest.
+**Commands run:**
+- `pnpm build`
+- `pnpm lint`
+- `pnpm exec vitest run`
+
 ### 2026-04-01 05:28 (local)
 **Summary:** Made cutscene speech bubbles widen dynamically when a narrow bubble would force too much vertical spill toward the sprites, while still clamping inside the scene bounds.
 **Changes:**
